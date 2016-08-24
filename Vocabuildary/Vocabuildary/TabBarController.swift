@@ -8,8 +8,6 @@
 
 import UIKit
 
-public let button = UIButton()
-
 class TabBarController: UITabBarController {
     
     var deckStore: DeckStore!

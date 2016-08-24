@@ -15,12 +15,12 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     var deck: Deck!
     var deckInDeckStore: Deck!
     var deckStore: DeckStore!
-    var cards = [0, 0, 0]
-    var extraCards = [0, 0]
+    var numberOfScheduledCardsTypes = [0, 0, 0]
+    var numberOfExtraCards = [0, 0]
     var newCardsLabel = UILabel()
     var repeatCardsLabel = UILabel()
-    var totalDeckTime: NSTimeInterval = 0
-    var averageTime: NSTimeInterval = 0
+    var totalTimeSpentInDeck: NSTimeInterval = 0
+    var averageTimeSpentPerDay: NSTimeInterval = 0
     var timeLabel: UILabel!
     
     //MARK: Outlets
@@ -36,28 +36,29 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     //MARK: Actions
     
     @IBAction func studyButton(sender: AnyObject) {
+        //If "Study" button was pressed when first tab was selected perform segue with already chosen cards
         if segmentedControl.selectedSegmentIndex == 0 {
             self.performSegueWithIdentifier("ShowLearnViewController", sender: self)
+        //Otherwise find requested number of new cards and repeats and fetch them to new View Controller
         } else {
-            guard extraCards[0] > 0 || extraCards[1] > 0 else {return}
-            deckInDeckStore.shuffle()
+            //If no extra cards were picked just return
+            guard numberOfExtraCards[0] > 0 || numberOfExtraCards[1] > 0 else {return}
+            //Shuffle a deck to randomize the cards
+            let deckCopy = deckInDeckStore
+            deckCopy.shuffle()
             deck = Deck(name: deckInDeckStore.name)
             var newCardsToLearn = 0
             var cardsToRepeat = 0
-            for card in deckInDeckStore.deck {
-                if newCardsToLearn < extraCards[0] {
-                    if card.n == 0 {
-                        deck.addCard(card)
-                        newCardsToLearn+=1
-                    }
+            for card in deckCopy.deck {
+                if newCardsToLearn < numberOfExtraCards[0] && card.n == 0{
+                    deck.addCard(card)
+                    newCardsToLearn+=1
+                } else if cardsToRepeat < numberOfExtraCards[1] && card.n != 0 {
+                    deck.addCard(card)
+                    cardsToRepeat+=1
                 }
-                if cardsToRepeat < extraCards[1] {
-                    if card.n != 0 {
-                        deck.addCard(card)
-                        cardsToRepeat+=1
-                    }
-                }
-                if newCardsToLearn == extraCards[0] && cardsToRepeat == extraCards[1] {
+                //If exact number of cards was found break the loop
+                if newCardsToLearn == numberOfExtraCards[0] && cardsToRepeat == numberOfExtraCards[1] {
                     break
                 }
             }
@@ -65,6 +66,7 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     @IBAction func segmentedControlUpdateView(sender: AnyObject) {
+        //Reload the data when tabs change
         tableView.reloadData()
         chartView.setNeedsDisplay()
     }
@@ -76,16 +78,16 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             switch indexPath.section {
             case 0:
                 let cell = tableView.dequeueReusableCellWithIdentifier("numberOfCardsCell", forIndexPath: indexPath) as! CardsNumberCell
-                cell.newCards.text = String(cards[0])
-                cell.repeatingCards.text = String(cards[1])
-                cell.problematicCards.text = String(cards[2])
+                cell.newCards.text = String(numberOfScheduledCardsTypes[0])
+                cell.repeatingCards.text = String(numberOfScheduledCardsTypes[1])
+                cell.problematicCards.text = String(numberOfScheduledCardsTypes[2])
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCellWithIdentifier("chartViewCell", forIndexPath: indexPath) as! ChartViewCell
                 cell.chartView.deck = deckInDeckStore
                 cell.chartView.chartType = .Learn
                 cell.chartView.numberOfLines = 7
-                cell.chartView.cardsToLearn = cards[0] + cards[1] + cards[2]
+                cell.chartView.cardsToLearn = numberOfScheduledCardsTypes[0] + numberOfScheduledCardsTypes[1] + numberOfScheduledCardsTypes[2]
                 chartView = cell.chartView
                 return cell
             default:
@@ -94,10 +96,10 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                     repeats+=history.numberOfCards
                 }
                 var expectedTime: NSTimeInterval = 0
-                if repeats == 0 || totalDeckTime == 0 {
-                    expectedTime = Double(cards[0]+cards[1]+cards[2])*10
+                if repeats == 0 || totalTimeSpentInDeck == 0 {
+                    expectedTime = Double(numberOfScheduledCardsTypes[0]+numberOfScheduledCardsTypes[1]+numberOfScheduledCardsTypes[2])*10
                 } else {
-                    expectedTime = totalDeckTime/Double(repeats)*Double(cards[0]+cards[1]+cards[2])
+                    expectedTime = totalTimeSpentInDeck/Double(repeats)*Double(numberOfScheduledCardsTypes[0]+numberOfScheduledCardsTypes[1]+numberOfScheduledCardsTypes[2])
                 }
                 let cell = tableView.dequeueReusableCellWithIdentifier("textCell", forIndexPath: indexPath)
                 switch indexPath.row {
@@ -110,13 +112,13 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                 case 1:
                     cell.textLabel?.text = "Average time for this deck"
                     cell.textLabel?.textColor = UIColor.whiteColor()
-                    cell.detailTextLabel?.text = timeFormatter(averageTime)
+                    cell.detailTextLabel?.text = timeFormatter(averageTimeSpentPerDay)
                     cell.detailTextLabel?.textColor = UIColor.lightTextColor()
                     return cell
                 default:
                     cell.textLabel?.text = "Total time for this deck"
                     cell.textLabel?.textColor = UIColor.whiteColor()
-                    cell.detailTextLabel?.text = timeFormatter(totalDeckTime)
+                    cell.detailTextLabel?.text = timeFormatter(totalTimeSpentInDeck)
                     cell.detailTextLabel?.textColor = UIColor.lightTextColor()
                     return cell
                 }
@@ -148,11 +150,11 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                         newCardsLabel.text = "0"
                     } else if new >= newCards {
                         cell.slider.value = Float(newCards)
-                        extraCards[0] = newCards
+                        numberOfExtraCards[0] = newCards
                         newCardsLabel.text = "\(newCards)"
                     } else {
                         cell.slider.value = Float(new)
-                        extraCards[0] = new
+                        numberOfExtraCards[0] = new
                         newCardsLabel.text = String(new)
                     }
                 } else {
@@ -169,11 +171,11 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                         repeatCardsLabel.text = "0"
                     } else if repeats >= 10 {
                         cell.slider.value = 10
-                        extraCards[1] = 10
+                        numberOfExtraCards[1] = 10
                         repeatCardsLabel.text = "10"
                     } else {
                         cell.slider.value = Float(repeats)
-                        extraCards[1] = repeats
+                        numberOfExtraCards[1] = repeats
                         repeatCardsLabel.text = String(repeats)
                     }
                 }
@@ -183,7 +185,7 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                 cell.chartView.deck = deckInDeckStore
                 cell.chartView.numberOfLines = 7
                 cell.chartView.chartType = .Learn
-                cell.chartView.cardsToLearn = extraCards[0] + extraCards[1]
+                cell.chartView.cardsToLearn = numberOfExtraCards[0] + numberOfExtraCards[1]
                 chartView = cell.chartView
                 return cell
             default:
@@ -192,10 +194,10 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                     repeats+=history.numberOfCards
                 }
                 var expectedTime: NSTimeInterval = 0
-                if repeats == 0 || totalDeckTime == 0 {
-                    expectedTime = Double(extraCards[0]+extraCards[1])*10
+                if repeats == 0 || totalTimeSpentInDeck == 0 {
+                    expectedTime = Double(numberOfExtraCards[0]+numberOfExtraCards[1])*10
                 } else {
-                    expectedTime = totalDeckTime/Double(repeats)*Double(extraCards[0]+extraCards[1])
+                    expectedTime = totalTimeSpentInDeck/Double(repeats)*Double(numberOfExtraCards[0]+numberOfExtraCards[1])
                 }
                 let cell = tableView.dequeueReusableCellWithIdentifier("textCell", forIndexPath: indexPath)
                 cell.textLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -210,11 +212,11 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
                     return cell
                 case 1:
                     cell.textLabel?.text = "Average time for this deck"
-                    cell.detailTextLabel?.text = timeFormatter(averageTime)
+                    cell.detailTextLabel?.text = timeFormatter(averageTimeSpentPerDay)
                     return cell
                 default:
                     cell.textLabel?.text = "Total time for this deck"
-                    cell.detailTextLabel?.text = timeFormatter(totalDeckTime)
+                    cell.detailTextLabel?.text = timeFormatter(totalTimeSpentInDeck)
                     return cell
                 }
             }
@@ -281,15 +283,15 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         if sender.tag == 1 {
             if newCardsLabel.text != String(Int(sender.value)) {
                 newCardsLabel.text = String(Int(sender.value))
-                extraCards[0] = Int(sender.value)
-                chartView.cardsToLearn = extraCards[0] + extraCards[1]
+                numberOfExtraCards[0] = Int(sender.value)
+                chartView.cardsToLearn = numberOfExtraCards[0] + numberOfExtraCards[1]
                 chartView.setNeedsDisplay()
             }
         } else if sender.tag == 2 {
             if repeatCardsLabel.text != String(Int(sender.value)) {
                 repeatCardsLabel.text = String(Int(sender.value))
-                extraCards[1] = Int(sender.value)
-                chartView.cardsToLearn = extraCards[0] + extraCards[1]
+                numberOfExtraCards[1] = Int(sender.value)
+                chartView.cardsToLearn = numberOfExtraCards[0] + numberOfExtraCards[1]
                 chartView.setNeedsDisplay()
             }
         }
@@ -298,10 +300,10 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             repeats+=history.numberOfCards
         }
         var expectedTime: NSTimeInterval = 0
-        if repeats == 0 || totalDeckTime == 0 {
-            expectedTime = Double(extraCards[0]+extraCards[1])*10
+        if repeats == 0 || totalTimeSpentInDeck == 0 {
+            expectedTime = Double(numberOfExtraCards[0]+numberOfExtraCards[1])*10
         } else {
-            expectedTime = totalDeckTime/Double(repeats)*Double(extraCards[0]+extraCards[1])
+            expectedTime = totalTimeSpentInDeck/Double(repeats)*Double(numberOfExtraCards[0]+numberOfExtraCards[1])
         }
         timeLabel.text = timeFormatter(expectedTime)
     }
@@ -343,11 +345,11 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         
         for card in deck.deck {
             if card.n == 0 {
-                cards[0]+=1
+                numberOfScheduledCardsTypes[0]+=1
             } else if card.Q < 1.5 {
-                cards[2]+=1
+                numberOfScheduledCardsTypes[2]+=1
             } else {
-                cards[1]+=1
+                numberOfScheduledCardsTypes[1]+=1
             }
         }
         
@@ -356,9 +358,9 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             segmentedControl.setEnabled(false, forSegmentAtIndex: 0)
             segmentedControl.selectedSegmentIndex = 1
         }
-        totalDeckTime = totalTime()
+        totalTimeSpentInDeck = totalTime()
         if deckInDeckStore.history.count != 0 {
-            averageTime = totalDeckTime/NSTimeInterval(deckInDeckStore.history.count)
+            averageTimeSpentPerDay = totalTimeSpentInDeck/NSTimeInterval(deckInDeckStore.history.count)
         }
         
         let normalBlue = UIColor(red: 0, green: 0.6, blue: 1, alpha: 1)
