@@ -1,0 +1,267 @@
+
+/* Class = "UIBarButtonItem"; title = "Add"; ObjectID = "072-qO-oQT"; */
+"072-qO-oQT.title" = "Dodaj";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "0Od-Wp-JjL"; */
+"0Od-Wp-JjL.title" = "Element";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "0Q9-JJ-jUj"; */
+"0Q9-JJ-jUj.text" = "Tytuł";
+
+/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "0sD-2a-9Da"; */
+"0sD-2a-9Da.title" = "Gotowe";
+
+/* Class = "UIButton"; normalTitle = "Show answer"; ObjectID = "1sl-SO-hJd"; */
+"1sl-SO-hJd.normalTitle" = "Pokaż odpowiedź";
+
+/* Class = "UIButton"; normalTitle = "Hard"; ObjectID = "2BT-rx-x0P"; */
+"2BT-rx-x0P.normalTitle" = "Trudne";
+
+/* Class = "UILabel"; text = "10"; ObjectID = "2Gv-to-if0"; */
+"2Gv-to-if0.text" = "10";
+
+/* Class = "UINavigationItem"; title = "Decks"; ObjectID = "3TN-pQ-VPl"; */
+"3TN-pQ-VPl.title" = "Talie";
+
+/* Class = "UILabel"; text = "All"; ObjectID = "3b4-tf-TpX"; */
+"3b4-tf-TpX.text" = "Wszystko";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "3e6-mG-nBd"; */
+"3e6-mG-nBd.text" = "Etykieta";
+
+/* Class = "UINavigationItem"; title = "Add"; ObjectID = "4Fp-iN-hlx"; */
+"4Fp-iN-hlx.title" = "Dodaj";
+
+/* Class = "UINavigationItem"; title = "New cards per deck"; ObjectID = "4f0-s1-Qvl"; */
+"4f0-s1-Qvl.title" = "Nowe karty w talii";
+
+/* Class = "UIBarButtonItem"; title = " "; ObjectID = "4rP-SL-oqR"; */
+"4rP-SL-oqR.title" = " ";
+
+/* Class = "UILabel"; text = "120"; ObjectID = "5iH-XF-skF"; */
+"5iH-XF-skF.text" = "120";
+
+/* Class = "UITableViewController"; title = "About"; ObjectID = "5rc-PR-G07"; */
+"5rc-PR-G07.title" = "O aplikacji";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "6Y5-gU-lvj"; */
+"6Y5-gU-lvj.text" = "Label";
+
+/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "6cv-lR-1Uo"; */
+"6cv-lR-1Uo.title" = "Edytuj";
+
+/* Class = "UILabel"; text = "New"; ObjectID = "6gY-9p-xd0"; */
+"6gY-9p-xd0.text" = "Nowe";
+
+/* Class = "UILabel"; text = "Repeats"; ObjectID = "76g-rh-f2v"; */
+"76g-rh-f2v.text" = "Powtórzenia";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "7DQ-tx-ylh"; */
+"7DQ-tx-ylh.text" = "0";
+
+/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "8DY-R1-vyD"; */
+"8DY-R1-vyD.title" = "Gotowe";
+
+/* Class = "UITextField"; placeholder = "Enter your card"; ObjectID = "8OZ-Uu-88I"; */
+"8OZ-Uu-88I.placeholder" = "Wprowadź kartę";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "8Xu-Qs-CKN"; */
+"8Xu-Qs-CKN.text" = "Szczegóły";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "8dg-jE-B1W"; */
+"8dg-jE-B1W.text" = "Label";
+
+/* Class = "UILabel"; text = "90"; ObjectID = "9FX-2T-QmK"; */
+"9FX-2T-QmK.text" = "90";
+
+/* Class = "UILabel"; text = "34"; ObjectID = "AtY-ue-5Cs"; */
+"AtY-ue-5Cs.text" = "34";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "B2r-Gv-fwY"; */
+"B2r-Gv-fwY.text" = "Tytuł";
+
+/* Class = "UILabel"; text = "5"; ObjectID = "BrE-b6-NB6"; */
+"BrE-b6-NB6.text" = "5";
+
+/* Class = "UILabel"; text = "Problematic"; ObjectID = "DOD-TH-p7c"; */
+"DOD-TH-p7c.text" = "Problemowe";
+
+/* Class = "UILabel"; text = "30"; ObjectID = "DnU-fb-VT6"; */
+"DnU-fb-VT6.text" = "30";
+
+/* Class = "UILabel"; text = "10"; ObjectID = "F6o-oT-DcZ"; */
+"F6o-oT-DcZ.text" = "10";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "FQF-uS-xfd"; */
+"FQF-uS-xfd.title" = "Ustawienia";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "FrP-nN-YRT"; */
+"FrP-nN-YRT.text" = "Label";
+
+/* Class = "UITableViewController"; title = "CardsInDeckViewController"; ObjectID = "Fui-NQ-zNE"; */
+"Fui-NQ-zNE.title" = "CardsInDeckViewController";
+
+/* Class = "UILabel"; text = "22"; ObjectID = "GZ2-Gf-7iD"; */
+"GZ2-Gf-7iD.text" = "22";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Gdf-Ze-Fdm"; */
+"Gdf-Ze-Fdm.text" = "Szczegóły";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "J15-N7-E9Z"; */
+"J15-N7-E9Z.title" = "Element";
+
+/* Class = "UILabel"; text = "dog"; ObjectID = "JI4-fZ-x8O"; */
+"JI4-fZ-x8O.text" = "dog";
+
+/* Class = "UINavigationItem"; title = "Statistics"; ObjectID = "LBK-de-TUo"; */
+"LBK-de-TUo.title" = "Statistics";
+
+/* Class = "UINavigationItem"; title = "Vocabuildary"; ObjectID = "Lm4-Za-o2h"; */
+"Lm4-Za-o2h.title" = "Vocabuildary";
+
+/* Class = "UILabel"; text = "el perro"; ObjectID = "Lwz-5R-DKw"; */
+"Lwz-5R-DKw.text" = "el perro";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "MWF-HK-AWA"; */
+"MWF-HK-AWA.title" = "Anuluj";
+
+/* Class = "UISegmentedControl"; Mhs-U6-4An.segmentTitles[0] = "Normal"; ObjectID = "Mhs-U6-4An"; */
+"Mhs-U6-4An.segmentTitles[0]" = "Normalne";
+
+/* Class = "UISegmentedControl"; Mhs-U6-4An.segmentTitles[1] = "Extra"; ObjectID = "Mhs-U6-4An"; */
+"Mhs-U6-4An.segmentTitles[1]" = "Extra";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "NGJ-3w-L15"; */
+"NGJ-3w-L15.text" = "Label";
+
+/* Class = "UILabel"; text = "15"; ObjectID = "NTW-ze-HzT"; */
+"NTW-ze-HzT.text" = "15";
+
+/* Class = "UILabel"; text = "30"; ObjectID = "OZl-PF-1am"; */
+"OZl-PF-1am.text" = "30";
+
+/* Class = "UILabel"; text = "Problematic"; ObjectID = "Omj-1q-11z"; */
+"Omj-1q-11z.text" = "Problemowe";
+
+/* Class = "UITabBarItem"; title = "Learn"; ObjectID = "OvI-G4-c4x"; */
+"OvI-G4-c4x.title" = "Nauka";
+
+/* Class = "UITextField"; placeholder = "Enter your card"; ObjectID = "P6J-f6-Dng"; */
+"P6J-f6-Dng.placeholder" = "Wprowadź kartę";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Pbr-2G-IIN"; */
+"Pbr-2G-IIN.text" = "Tytuł";
+
+/* Class = "UIBarButtonItem"; title = " "; ObjectID = "Py4-Sd-nDD"; */
+"Py4-Sd-nDD.title" = " ";
+
+/* Class = "UILabel"; text = "To study"; ObjectID = "QhR-Yx-N06"; */
+"QhR-Yx-N06.text" = "Do nauki";
+
+/* Class = "UISegmentedControl"; RAf-ta-XUD.segmentTitles[0] = "Week"; ObjectID = "RAf-ta-XUD"; */
+"RAf-ta-XUD.segmentTitles[0]" = "Tydzień";
+
+/* Class = "UISegmentedControl"; RAf-ta-XUD.segmentTitles[1] = "Month"; ObjectID = "RAf-ta-XUD"; */
+"RAf-ta-XUD.segmentTitles[1]" = "Miesiąc";
+
+/* Class = "UISegmentedControl"; RAf-ta-XUD.segmentTitles[2] = "Year"; ObjectID = "RAf-ta-XUD"; */
+"RAf-ta-XUD.segmentTitles[2]" = "Rok";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Sas-4x-2ok"; */
+"Sas-4x-2ok.text" = "Szczegóły";
+
+/* Class = "UILabel"; text = "Learned"; ObjectID = "ShN-Rf-4l1"; */
+"ShN-Rf-4l1.text" = "Nauczone";
+
+/* Class = "UIBarButtonItem"; title = "All decks"; ObjectID = "Spg-br-bJ5"; */
+"Spg-br-bJ5.title" = "Wszystkie talie";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "VhB-D6-9pD"; */
+"VhB-D6-9pD.title" = "Anuluj";
+
+/* Class = "UILabel"; text = "10"; ObjectID = "VhZ-E7-Maj"; */
+"VhZ-E7-Maj.text" = "10";
+
+/* Class = "UINavigationItem"; title = "Vocabuildary"; ObjectID = "X9T-U8-U7b"; */
+"X9T-U8-U7b.title" = "Vocabuildary";
+
+/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "aRT-hS-gZv"; */
+"aRT-hS-gZv.title" = "Edytuj";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "abd-ks-D4n"; */
+"abd-ks-D4n.text" = "0";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "al6-TX-Az8"; */
+"al6-TX-Az8.text" = "Szczegóły";
+
+/* Class = "UILabel"; text = "Repeats"; ObjectID = "bRz-ek-dMP"; */
+"bRz-ek-dMP.text" = "Powtórzenia";
+
+/* Class = "UILabel"; text = "5"; ObjectID = "dYy-wL-S6P"; */
+"dYy-wL-S6P.text" = "5";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "dod-Ci-eOX"; */
+"dod-Ci-eOX.text" = "Label";
+
+/* Class = "UISegmentedControl"; eZg-kE-hDd.segmentTitles[0] = "Cards"; ObjectID = "eZg-kE-hDd"; */
+"eZg-kE-hDd.segmentTitles[0]" = "Karty";
+
+/* Class = "UISegmentedControl"; eZg-kE-hDd.segmentTitles[1] = "Decks"; ObjectID = "eZg-kE-hDd"; */
+"eZg-kE-hDd.segmentTitles[1]" = "Talie";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "epf-NY-ihT"; */
+"epf-NY-ihT.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Repeat"; ObjectID = "eyH-MQ-5Vg"; */
+"eyH-MQ-5Vg.normalTitle" = "Powtórz";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "fJZ-2r-mzn"; */
+"fJZ-2r-mzn.text" = "Title";
+
+/* Class = "UILabel"; text = "90"; ObjectID = "jFK-Uz-AjE"; */
+"jFK-Uz-AjE.text" = "90";
+
+/* Class = "UILabel"; text = "120"; ObjectID = "jOA-7U-zqQ"; */
+"jOA-7U-zqQ.text" = "120";
+
+/* Class = "UILabel"; text = "15"; ObjectID = "kec-xm-x0C"; */
+"kec-xm-x0C.text" = "15";
+
+/* Class = "UITextField"; placeholder = "Enter your card"; ObjectID = "mpK-oS-1JE"; */
+"mpK-oS-1JE.placeholder" = "Wprowadź kartę";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "naI-lK-HTn"; */
+"naI-lK-HTn.title" = "Ustawienia";
+
+/* Class = "UINavigationItem"; title = "Vocabuildary"; ObjectID = "ol5-xP-kk1"; */
+"ol5-xP-kk1.title" = "Vocabuildary";
+
+/* Class = "UILabel"; text = "5"; ObjectID = "rdv-Fy-MAd"; */
+"rdv-Fy-MAd.text" = "5";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "sLv-op-cBX"; */
+"sLv-op-cBX.text" = "Tytuł";
+
+/* Class = "UILabel"; text = "New"; ObjectID = "tza-S6-FeU"; */
+"tza-S6-FeU.text" = "Nowe";
+
+/* Class = "UITabBarItem"; title = "Decks"; ObjectID = "ukv-ov-9CS"; */
+"ukv-ov-9CS.title" = "Talie";
+
+/* Class = "UILabel"; text = "15"; ObjectID = "vNj-b2-g2v"; */
+"vNj-b2-g2v.text" = "15";
+
+/* Class = "UIButton"; normalTitle = "Easy"; ObjectID = "vsH-6Y-KuJ"; */
+"vsH-6Y-KuJ.normalTitle" = "Łatwe";
+
+/* Class = "UIButton"; normalTitle = "Study"; ObjectID = "x97-pG-KnD"; */
+"x97-pG-KnD.normalTitle" = "Ucz się";
+
+/* Class = "UITextField"; placeholder = "Enter your card"; ObjectID = "xd6-BR-C7x"; */
+"xd6-BR-C7x.placeholder" = "Wprowadź kartę";
+
+/* Class = "UINavigationItem"; title = "About"; ObjectID = "xt5-zM-5bV"; */
+"xt5-zM-5bV.title" = "O aplikacji";
+
+/* Class = "UILabel"; text = "Not shown"; ObjectID = "yh6-Zf-RT5"; */
+"yh6-Zf-RT5.text" = "Nie pokazane";
