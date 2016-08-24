@@ -15,4 +15,5 @@ class SliderCell: UITableViewCell {
     @IBOutlet var slider: UISlider!
     
     //aga
+    //Testing branches
 }
