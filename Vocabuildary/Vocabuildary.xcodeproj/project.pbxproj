@@ -7,105 +7,101 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5404E36E1D65A36700DE9F2D /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5404E36D1D65A36700DE9F2D /* GlobalVariables.swift */; };
 		54054FA81D060A8000DDCE31 /* SettingsAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54054FA71D060A8000DDCE31 /* SettingsAboutViewController.swift */; };
 		54054FAA1D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54054FA91D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift */; };
-		541CFCF51CD29F07002DC8FE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541CFCF41CD29F07002DC8FE /* Card.swift */; };
-		541CFCF71CD2A088002DC8FE /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541CFCF61CD2A088002DC8FE /* Deck.swift */; };
-		541CFCF91CD4D908002DC8FE /* DeckStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541CFCF81CD4D908002DC8FE /* DeckStore.swift */; };
-		541CFCFB1CD6794C002DC8FE /* EnterCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541CFCFA1CD6794C002DC8FE /* EnterCardCell.swift */; };
 		5420A7311C84B6F600E44523 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A7301C84B6F600E44523 /* AppDelegate.swift */; };
 		5420A7381C84B6F600E44523 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5420A7371C84B6F600E44523 /* Assets.xcassets */; };
 		5429A09B1C95B3FD00A832D6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5429A09A1C95B3FD00A832D6 /* SettingsViewController.swift */; };
-		54307EA11CEB025600CA14F3 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54307EA01CEB025600CA14F3 /* SwitchCell.swift */; };
 		5431631B1C95F6D5004D9D18 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5431631A1C95F6D5004D9D18 /* DecksViewController.swift */; };
 		5432AFDB1D6C46B7007600E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5432AFDD1D6C46B7007600E0 /* Main.storyboard */; };
 		546BC9FB1C8A2FB900B2C1AE /* LearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546BC9FA1C8A2FB900B2C1AE /* LearnViewController.swift */; };
 		547DA1D61C9717FD00E68B12 /* AddDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DA1D51C9717FD00E68B12 /* AddDeckViewController.swift */; };
 		547DA1D81C9719C700E68B12 /* AddCardsDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DA1D71C9719C700E68B12 /* AddCardsDeckViewController.swift */; };
-		547DA1E21C972D9400E68B12 /* tabBarIconSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1E11C972D9400E68B12 /* tabBarIconSettings@2x.png */; };
-		547DA1E41C972E7100E68B12 /* tabBarIconSettingsFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1E31C972E7100E68B12 /* tabBarIconSettingsFilled@2x.png */; };
-		547DA1E61C972FD400E68B12 /* tabBarIconTodayFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1E51C972FD400E68B12 /* tabBarIconTodayFilled@2x.png */; };
-		547DA1E81C972FDD00E68B12 /* tabBarIconToday@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1E71C972FDD00E68B12 /* tabBarIconToday@2x.png */; };
-		547DA1EA1C97301100E68B12 /* tabBarIconToday@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1E91C97301100E68B12 /* tabBarIconToday@3x.png */; };
-		547DA1EC1C97307A00E68B12 /* tabBarIconTodayFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1EB1C97307A00E68B12 /* tabBarIconTodayFilled@3x.png */; };
-		547DA1EE1C97312200E68B12 /* tabBarIconSettingsFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1ED1C97312200E68B12 /* tabBarIconSettingsFilled@3x.png */; };
-		547DA1F01C97312B00E68B12 /* tabBarIconSettings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1EF1C97312B00E68B12 /* tabBarIconSettings@3x.png */; };
-		547DA1F61C9731FB00E68B12 /* tabBarIconDecksFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1F21C9731FB00E68B12 /* tabBarIconDecksFilled@2x.png */; };
-		547DA1F71C9731FB00E68B12 /* tabBarIconDecksFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1F31C9731FB00E68B12 /* tabBarIconDecksFilled@3x.png */; };
-		547DA1F81C9731FB00E68B12 /* tabBarIconDecks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1F41C9731FB00E68B12 /* tabBarIconDecks@2x.png */; };
-		547DA1F91C9731FB00E68B12 /* tabBarIconDecks@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547DA1F51C9731FB00E68B12 /* tabBarIconDecks@3x.png */; };
 		547DA20E1C974D7200E68B12 /* CardsInDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DA20D1C974D7200E68B12 /* CardsInDeckViewController.swift */; };
-		548C7DA71C88A1C50018C32E /* TodayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C7DA61C88A1C50018C32E /* TodayTableViewController.swift */; };
-		548C7DAB1C88BBE60018C32E /* BeforeLearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C7DAA1C88BBE60018C32E /* BeforeLearningViewController.swift */; };
 		54A473EE1CB7819A00A90429 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A473ED1CB7819A00A90429 /* StatisticsViewController.swift */; };
 		54A473F01CB7822400A90429 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A473EF1CB7822400A90429 /* ChartView.swift */; };
 		54A473F21CB78EB100A90429 /* StatisticsDeckViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A473F11CB78EB100A90429 /* StatisticsDeckViewContoller.swift */; };
 		54A6F74A1CA4018F00D3629B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A6F7491CA4018F00D3629B /* TabBarController.swift */; };
-		54A7B7881CEE40E3004B07B7 /* SliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A7B7871CEE40E3004B07B7 /* SliderCell.swift */; };
-		54A7B78A1CEEF826004B07B7 /* CardsNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A7B7891CEEF826004B07B7 /* CardsNumberCell.swift */; };
-		54A7B78C1CF36E8F004B07B7 /* DeckHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A7B78B1CF36E8F004B07B7 /* DeckHistory.swift */; };
-		54A7B78E1CF38744004B07B7 /* ChartViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A7B78D1CF38744004B07B7 /* ChartViewCell.swift */; };
 		54B277AC1CA982FC0028725E /* addButton128@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B277AB1CA982FC0028725E /* addButton128@2x.png */; };
 		54B277AE1CA9A8510028725E /* addButton128Dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B277AD1CA9A8510028725E /* addButton128Dark@2x.png */; };
-		54ED89631D181AC200E6CA10 /* Icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54ED89621D181AC200E6CA10 /* Icon@3x.png */; };
-		54ED89651D18845300E6CA10 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 54ED89641D18845300E6CA10 /* test.png */; };
+		54D1A13F1D6DA4E300C46F29 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A13E1D6DA4E300C46F29 /* GlobalVariables.swift */; };
+		54D1A1471D6DA53000C46F29 /* CardsNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1411D6DA53000C46F29 /* CardsNumberCell.swift */; };
+		54D1A1481D6DA53000C46F29 /* ChartViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1421D6DA53000C46F29 /* ChartViewCell.swift */; };
+		54D1A1491D6DA53000C46F29 /* EnterCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1431D6DA53000C46F29 /* EnterCardCell.swift */; };
+		54D1A14A1D6DA53000C46F29 /* SliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1441D6DA53000C46F29 /* SliderCell.swift */; };
+		54D1A14B1D6DA53000C46F29 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1451D6DA53000C46F29 /* SwitchCell.swift */; };
+		54D1A14C1D6DA53000C46F29 /* TodayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1461D6DA53000C46F29 /* TodayCell.swift */; };
+		54D1A1521D6DA55100C46F29 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A14E1D6DA55100C46F29 /* Card.swift */; };
+		54D1A1531D6DA55100C46F29 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A14F1D6DA55100C46F29 /* Deck.swift */; };
+		54D1A1541D6DA55100C46F29 /* DeckHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1501D6DA55100C46F29 /* DeckHistory.swift */; };
+		54D1A1551D6DA55100C46F29 /* DeckStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1511D6DA55100C46F29 /* DeckStore.swift */; };
+		54D1A1581D6DA56A00C46F29 /* BeforeLearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */; };
+		54D1A1591D6DA56A00C46F29 /* TodayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1571D6DA56A00C46F29 /* TodayTableViewController.swift */; };
+		54D1A1671D6DA59000C46F29 /* tabBarIconDecks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A15B1D6DA59000C46F29 /* tabBarIconDecks@2x.png */; };
+		54D1A1681D6DA59000C46F29 /* tabBarIconDecks@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A15C1D6DA59000C46F29 /* tabBarIconDecks@3x.png */; };
+		54D1A1691D6DA59000C46F29 /* tabBarIconDecksFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A15D1D6DA59000C46F29 /* tabBarIconDecksFilled@2x.png */; };
+		54D1A16A1D6DA59000C46F29 /* tabBarIconDecksFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A15E1D6DA59000C46F29 /* tabBarIconDecksFilled@3x.png */; };
+		54D1A16B1D6DA59000C46F29 /* tabBarIconSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A15F1D6DA59000C46F29 /* tabBarIconSettings@2x.png */; };
+		54D1A16C1D6DA59000C46F29 /* tabBarIconSettings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1601D6DA59000C46F29 /* tabBarIconSettings@3x.png */; };
+		54D1A16D1D6DA59000C46F29 /* tabBarIconSettingsFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1611D6DA59000C46F29 /* tabBarIconSettingsFilled@2x.png */; };
+		54D1A16E1D6DA59000C46F29 /* tabBarIconSettingsFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1621D6DA59000C46F29 /* tabBarIconSettingsFilled@3x.png */; };
+		54D1A16F1D6DA59000C46F29 /* tabBarIconToday@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1631D6DA59000C46F29 /* tabBarIconToday@2x.png */; };
+		54D1A1701D6DA59000C46F29 /* tabBarIconToday@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1641D6DA59000C46F29 /* tabBarIconToday@3x.png */; };
+		54D1A1711D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1651D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png */; };
+		54D1A1721D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1661D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png */; };
 		54ED89671D1FEB6200E6CA10 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED89661D1FEB6200E6CA10 /* Extensions.swift */; };
 		54F9DE5B1CDA3740005EBB3A /* ChangeDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F9DE5A1CDA3740005EBB3A /* ChangeDeckViewController.swift */; };
 		54F9DE5D1CDA6B19005EBB3A /* ChangeCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F9DE5C1CDA6B19005EBB3A /* ChangeCardViewController.swift */; };
-		54F9DE941CE500D4005EBB3A /* TodayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F9DE931CE500D4005EBB3A /* TodayCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5404E36D1D65A36700DE9F2D /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalVariables.swift; path = ../GlobalVariables.swift; sourceTree = "<group>"; };
 		54054FA71D060A8000DDCE31 /* SettingsAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsAboutViewController.swift; sourceTree = "<group>"; };
 		54054FA91D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewCardsPerDeckViewController.swift; sourceTree = "<group>"; };
-		541CFCF41CD29F07002DC8FE /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Card.swift; path = ../Card.swift; sourceTree = "<group>"; };
-		541CFCF61CD2A088002DC8FE /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Deck.swift; path = ../Deck.swift; sourceTree = "<group>"; };
-		541CFCF81CD4D908002DC8FE /* DeckStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckStore.swift; sourceTree = "<group>"; };
-		541CFCFA1CD6794C002DC8FE /* EnterCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCardCell.swift; sourceTree = "<group>"; };
 		5420A72D1C84B6F600E44523 /* Vocabuildary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocabuildary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5420A7301C84B6F600E44523 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5420A7371C84B6F600E44523 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5420A73C1C84B6F600E44523 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5429A09A1C95B3FD00A832D6 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		54307EA01CEB025600CA14F3 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		5431631A1C95F6D5004D9D18 /* DecksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
 		5432AFEF1D6C4FB7007600E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		546BC9FA1C8A2FB900B2C1AE /* LearnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnViewController.swift; sourceTree = "<group>"; };
 		547DA1D51C9717FD00E68B12 /* AddDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDeckViewController.swift; sourceTree = "<group>"; };
 		547DA1D71C9719C700E68B12 /* AddCardsDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardsDeckViewController.swift; sourceTree = "<group>"; };
-		547DA1E11C972D9400E68B12 /* tabBarIconSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettings@2x.png"; sourceTree = "<group>"; };
-		547DA1E31C972E7100E68B12 /* tabBarIconSettingsFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettingsFilled@2x.png"; sourceTree = "<group>"; };
-		547DA1E51C972FD400E68B12 /* tabBarIconTodayFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconTodayFilled@2x.png"; sourceTree = "<group>"; };
-		547DA1E71C972FDD00E68B12 /* tabBarIconToday@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconToday@2x.png"; sourceTree = "<group>"; };
-		547DA1E91C97301100E68B12 /* tabBarIconToday@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconToday@3x.png"; sourceTree = "<group>"; };
-		547DA1EB1C97307A00E68B12 /* tabBarIconTodayFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconTodayFilled@3x.png"; sourceTree = "<group>"; };
-		547DA1ED1C97312200E68B12 /* tabBarIconSettingsFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettingsFilled@3x.png"; sourceTree = "<group>"; };
-		547DA1EF1C97312B00E68B12 /* tabBarIconSettings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettings@3x.png"; sourceTree = "<group>"; };
-		547DA1F21C9731FB00E68B12 /* tabBarIconDecksFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecksFilled@2x.png"; sourceTree = "<group>"; };
-		547DA1F31C9731FB00E68B12 /* tabBarIconDecksFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecksFilled@3x.png"; sourceTree = "<group>"; };
-		547DA1F41C9731FB00E68B12 /* tabBarIconDecks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecks@2x.png"; sourceTree = "<group>"; };
-		547DA1F51C9731FB00E68B12 /* tabBarIconDecks@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecks@3x.png"; sourceTree = "<group>"; };
 		547DA20D1C974D7200E68B12 /* CardsInDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsInDeckViewController.swift; sourceTree = "<group>"; };
-		548C7DA61C88A1C50018C32E /* TodayTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodayTableViewController.swift; path = ../TodayTableViewController.swift; sourceTree = "<group>"; };
-		548C7DAA1C88BBE60018C32E /* BeforeLearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeforeLearningViewController.swift; path = ../BeforeLearningViewController.swift; sourceTree = "<group>"; };
 		54A473ED1CB7819A00A90429 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		54A473EF1CB7822400A90429 /* ChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		54A473F11CB78EB100A90429 /* StatisticsDeckViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsDeckViewContoller.swift; sourceTree = "<group>"; };
 		54A6F7491CA4018F00D3629B /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		54A7B7871CEE40E3004B07B7 /* SliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderCell.swift; sourceTree = "<group>"; };
-		54A7B7891CEEF826004B07B7 /* CardsNumberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsNumberCell.swift; sourceTree = "<group>"; };
-		54A7B78B1CF36E8F004B07B7 /* DeckHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckHistory.swift; sourceTree = "<group>"; };
-		54A7B78D1CF38744004B07B7 /* ChartViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewCell.swift; sourceTree = "<group>"; };
 		54B277AB1CA982FC0028725E /* addButton128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addButton128@2x.png"; sourceTree = "<group>"; };
 		54B277AD1CA9A8510028725E /* addButton128Dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addButton128Dark@2x.png"; sourceTree = "<group>"; };
-		54ED89621D181AC200E6CA10 /* Icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@3x.png"; path = "../../../../Downloads/Icon@3x.png"; sourceTree = "<group>"; };
-		54ED89641D18845300E6CA10 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = ../../../../Desktop/test.png; sourceTree = "<group>"; };
+		54D1A13E1D6DA4E300C46F29 /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		54D1A1411D6DA53000C46F29 /* CardsNumberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsNumberCell.swift; sourceTree = "<group>"; };
+		54D1A1421D6DA53000C46F29 /* ChartViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewCell.swift; sourceTree = "<group>"; };
+		54D1A1431D6DA53000C46F29 /* EnterCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterCardCell.swift; sourceTree = "<group>"; };
+		54D1A1441D6DA53000C46F29 /* SliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderCell.swift; sourceTree = "<group>"; };
+		54D1A1451D6DA53000C46F29 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
+		54D1A1461D6DA53000C46F29 /* TodayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayCell.swift; sourceTree = "<group>"; };
+		54D1A14E1D6DA55100C46F29 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		54D1A14F1D6DA55100C46F29 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		54D1A1501D6DA55100C46F29 /* DeckHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckHistory.swift; sourceTree = "<group>"; };
+		54D1A1511D6DA55100C46F29 /* DeckStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckStore.swift; sourceTree = "<group>"; };
+		54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeforeLearningViewController.swift; sourceTree = "<group>"; };
+		54D1A1571D6DA56A00C46F29 /* TodayTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayTableViewController.swift; sourceTree = "<group>"; };
+		54D1A15B1D6DA59000C46F29 /* tabBarIconDecks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecks@2x.png"; sourceTree = "<group>"; };
+		54D1A15C1D6DA59000C46F29 /* tabBarIconDecks@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecks@3x.png"; sourceTree = "<group>"; };
+		54D1A15D1D6DA59000C46F29 /* tabBarIconDecksFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecksFilled@2x.png"; sourceTree = "<group>"; };
+		54D1A15E1D6DA59000C46F29 /* tabBarIconDecksFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconDecksFilled@3x.png"; sourceTree = "<group>"; };
+		54D1A15F1D6DA59000C46F29 /* tabBarIconSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettings@2x.png"; sourceTree = "<group>"; };
+		54D1A1601D6DA59000C46F29 /* tabBarIconSettings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettings@3x.png"; sourceTree = "<group>"; };
+		54D1A1611D6DA59000C46F29 /* tabBarIconSettingsFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettingsFilled@2x.png"; sourceTree = "<group>"; };
+		54D1A1621D6DA59000C46F29 /* tabBarIconSettingsFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconSettingsFilled@3x.png"; sourceTree = "<group>"; };
+		54D1A1631D6DA59000C46F29 /* tabBarIconToday@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconToday@2x.png"; sourceTree = "<group>"; };
+		54D1A1641D6DA59000C46F29 /* tabBarIconToday@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconToday@3x.png"; sourceTree = "<group>"; };
+		54D1A1651D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconTodayFilled@2x.png"; sourceTree = "<group>"; };
+		54D1A1661D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconTodayFilled@3x.png"; sourceTree = "<group>"; };
 		54ED89661D1FEB6200E6CA10 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		54F9DE5A1CDA3740005EBB3A /* ChangeDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeDeckViewController.swift; sourceTree = "<group>"; };
 		54F9DE5C1CDA6B19005EBB3A /* ChangeCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCardViewController.swift; sourceTree = "<group>"; };
-		54F9DE931CE500D4005EBB3A /* TodayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,17 +135,9 @@
 			isa = PBXGroup;
 			children = (
 				54ED89661D1FEB6200E6CA10 /* Extensions.swift */,
-				5404E36D1D65A36700DE9F2D /* GlobalVariables.swift */,
-				541CFCF81CD4D908002DC8FE /* DeckStore.swift */,
-				541CFCF61CD2A088002DC8FE /* Deck.swift */,
-				541CFCF41CD29F07002DC8FE /* Card.swift */,
-				54A7B78B1CF36E8F004B07B7 /* DeckHistory.swift */,
-				541CFCFA1CD6794C002DC8FE /* EnterCardCell.swift */,
-				54307EA01CEB025600CA14F3 /* SwitchCell.swift */,
-				54F9DE931CE500D4005EBB3A /* TodayCell.swift */,
-				54A7B78D1CF38744004B07B7 /* ChartViewCell.swift */,
-				54A7B7871CEE40E3004B07B7 /* SliderCell.swift */,
-				54A7B7891CEEF826004B07B7 /* CardsNumberCell.swift */,
+				54D1A13E1D6DA4E300C46F29 /* GlobalVariables.swift */,
+				54D1A14D1D6DA55100C46F29 /* Model */,
+				54D1A1401D6DA53000C46F29 /* Cells */,
 				5420A7301C84B6F600E44523 /* AppDelegate.swift */,
 				54A6F7491CA4018F00D3629B /* TabBarController.swift */,
 				54A473EF1CB7822400A90429 /* ChartView.swift */,
@@ -160,8 +148,7 @@
 				545DEF071CC4BBF30072494E /* Settings */,
 				5432AFDD1D6C46B7007600E0 /* Main.storyboard */,
 				5420A7371C84B6F600E44523 /* Assets.xcassets */,
-				54ED89641D18845300E6CA10 /* test.png */,
-				54ED89621D181AC200E6CA10 /* Icon@3x.png */,
+				54D1A15A1D6DA59000C46F29 /* Icons */,
 				547DA1F11C97315A00E68B12 /* tabBarIcons */,
 				5420A73C1C84B6F600E44523 /* Info.plist */,
 			);
@@ -180,8 +167,8 @@
 		545DEF061CC4BBE10072494E /* Today */ = {
 			isa = PBXGroup;
 			children = (
-				548C7DA61C88A1C50018C32E /* TodayTableViewController.swift */,
-				548C7DAA1C88BBE60018C32E /* BeforeLearningViewController.swift */,
+				54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */,
+				54D1A1571D6DA56A00C46F29 /* TodayTableViewController.swift */,
 				546BC9FA1C8A2FB900B2C1AE /* LearnViewController.swift */,
 			);
 			name = Today;
@@ -220,22 +207,53 @@
 		547DA1F11C97315A00E68B12 /* tabBarIcons */ = {
 			isa = PBXGroup;
 			children = (
-				547DA1E11C972D9400E68B12 /* tabBarIconSettings@2x.png */,
-				547DA1EF1C97312B00E68B12 /* tabBarIconSettings@3x.png */,
-				547DA1E31C972E7100E68B12 /* tabBarIconSettingsFilled@2x.png */,
-				547DA1ED1C97312200E68B12 /* tabBarIconSettingsFilled@3x.png */,
-				547DA1E71C972FDD00E68B12 /* tabBarIconToday@2x.png */,
-				547DA1E91C97301100E68B12 /* tabBarIconToday@3x.png */,
-				547DA1E51C972FD400E68B12 /* tabBarIconTodayFilled@2x.png */,
-				547DA1EB1C97307A00E68B12 /* tabBarIconTodayFilled@3x.png */,
-				547DA1F21C9731FB00E68B12 /* tabBarIconDecksFilled@2x.png */,
-				547DA1F31C9731FB00E68B12 /* tabBarIconDecksFilled@3x.png */,
-				547DA1F41C9731FB00E68B12 /* tabBarIconDecks@2x.png */,
-				547DA1F51C9731FB00E68B12 /* tabBarIconDecks@3x.png */,
 				54B277AB1CA982FC0028725E /* addButton128@2x.png */,
 				54B277AD1CA9A8510028725E /* addButton128Dark@2x.png */,
 			);
 			name = tabBarIcons;
+			sourceTree = "<group>";
+		};
+		54D1A1401D6DA53000C46F29 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				54D1A1411D6DA53000C46F29 /* CardsNumberCell.swift */,
+				54D1A1421D6DA53000C46F29 /* ChartViewCell.swift */,
+				54D1A1431D6DA53000C46F29 /* EnterCardCell.swift */,
+				54D1A1441D6DA53000C46F29 /* SliderCell.swift */,
+				54D1A1451D6DA53000C46F29 /* SwitchCell.swift */,
+				54D1A1461D6DA53000C46F29 /* TodayCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		54D1A14D1D6DA55100C46F29 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				54D1A14E1D6DA55100C46F29 /* Card.swift */,
+				54D1A14F1D6DA55100C46F29 /* Deck.swift */,
+				54D1A1501D6DA55100C46F29 /* DeckHistory.swift */,
+				54D1A1511D6DA55100C46F29 /* DeckStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		54D1A15A1D6DA59000C46F29 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				54D1A15B1D6DA59000C46F29 /* tabBarIconDecks@2x.png */,
+				54D1A15C1D6DA59000C46F29 /* tabBarIconDecks@3x.png */,
+				54D1A15D1D6DA59000C46F29 /* tabBarIconDecksFilled@2x.png */,
+				54D1A15E1D6DA59000C46F29 /* tabBarIconDecksFilled@3x.png */,
+				54D1A15F1D6DA59000C46F29 /* tabBarIconSettings@2x.png */,
+				54D1A1601D6DA59000C46F29 /* tabBarIconSettings@3x.png */,
+				54D1A1611D6DA59000C46F29 /* tabBarIconSettingsFilled@2x.png */,
+				54D1A1621D6DA59000C46F29 /* tabBarIconSettingsFilled@3x.png */,
+				54D1A1631D6DA59000C46F29 /* tabBarIconToday@2x.png */,
+				54D1A1641D6DA59000C46F29 /* tabBarIconToday@3x.png */,
+				54D1A1651D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png */,
+				54D1A1661D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,24 +316,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54ED89631D181AC200E6CA10 /* Icon@3x.png in Resources */,
-				547DA1F71C9731FB00E68B12 /* tabBarIconDecksFilled@3x.png in Resources */,
-				547DA1EE1C97312200E68B12 /* tabBarIconSettingsFilled@3x.png in Resources */,
-				547DA1EA1C97301100E68B12 /* tabBarIconToday@3x.png in Resources */,
+				54D1A1721D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png in Resources */,
+				54D1A1691D6DA59000C46F29 /* tabBarIconDecksFilled@2x.png in Resources */,
+				54D1A16B1D6DA59000C46F29 /* tabBarIconSettings@2x.png in Resources */,
+				54D1A16D1D6DA59000C46F29 /* tabBarIconSettingsFilled@2x.png in Resources */,
+				54D1A1701D6DA59000C46F29 /* tabBarIconToday@3x.png in Resources */,
+				54D1A16C1D6DA59000C46F29 /* tabBarIconSettings@3x.png in Resources */,
+				54D1A16F1D6DA59000C46F29 /* tabBarIconToday@2x.png in Resources */,
 				54B277AE1CA9A8510028725E /* addButton128Dark@2x.png in Resources */,
 				54B277AC1CA982FC0028725E /* addButton128@2x.png in Resources */,
 				5420A7381C84B6F600E44523 /* Assets.xcassets in Resources */,
-				547DA1F01C97312B00E68B12 /* tabBarIconSettings@3x.png in Resources */,
-				547DA1E81C972FDD00E68B12 /* tabBarIconToday@2x.png in Resources */,
+				54D1A1681D6DA59000C46F29 /* tabBarIconDecks@3x.png in Resources */,
+				54D1A1671D6DA59000C46F29 /* tabBarIconDecks@2x.png in Resources */,
 				5432AFDB1D6C46B7007600E0 /* Main.storyboard in Resources */,
-				547DA1F91C9731FB00E68B12 /* tabBarIconDecks@3x.png in Resources */,
-				54ED89651D18845300E6CA10 /* test.png in Resources */,
-				547DA1EC1C97307A00E68B12 /* tabBarIconTodayFilled@3x.png in Resources */,
-				547DA1E41C972E7100E68B12 /* tabBarIconSettingsFilled@2x.png in Resources */,
-				547DA1E21C972D9400E68B12 /* tabBarIconSettings@2x.png in Resources */,
-				547DA1F81C9731FB00E68B12 /* tabBarIconDecks@2x.png in Resources */,
-				547DA1F61C9731FB00E68B12 /* tabBarIconDecksFilled@2x.png in Resources */,
-				547DA1E61C972FD400E68B12 /* tabBarIconTodayFilled@2x.png in Resources */,
+				54D1A1711D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png in Resources */,
+				54D1A16E1D6DA59000C46F29 /* tabBarIconSettingsFilled@3x.png in Resources */,
+				54D1A16A1D6DA59000C46F29 /* tabBarIconDecksFilled@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,30 +342,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54F9DE941CE500D4005EBB3A /* TodayCell.swift in Sources */,
-				541CFCF71CD2A088002DC8FE /* Deck.swift in Sources */,
-				548C7DA71C88A1C50018C32E /* TodayTableViewController.swift in Sources */,
+				54D1A14C1D6DA53000C46F29 /* TodayCell.swift in Sources */,
 				5420A7311C84B6F600E44523 /* AppDelegate.swift in Sources */,
+				54D1A1581D6DA56A00C46F29 /* BeforeLearningViewController.swift in Sources */,
 				54A6F74A1CA4018F00D3629B /* TabBarController.swift in Sources */,
-				5404E36E1D65A36700DE9F2D /* GlobalVariables.swift in Sources */,
-				54307EA11CEB025600CA14F3 /* SwitchCell.swift in Sources */,
-				54A7B78A1CEEF826004B07B7 /* CardsNumberCell.swift in Sources */,
+				54D1A1491D6DA53000C46F29 /* EnterCardCell.swift in Sources */,
 				54F9DE5B1CDA3740005EBB3A /* ChangeDeckViewController.swift in Sources */,
+				54D1A1521D6DA55100C46F29 /* Card.swift in Sources */,
 				54A473F01CB7822400A90429 /* ChartView.swift in Sources */,
 				54054FA81D060A8000DDCE31 /* SettingsAboutViewController.swift in Sources */,
+				54D1A1531D6DA55100C46F29 /* Deck.swift in Sources */,
 				546BC9FB1C8A2FB900B2C1AE /* LearnViewController.swift in Sources */,
-				54A7B78C1CF36E8F004B07B7 /* DeckHistory.swift in Sources */,
-				541CFCF51CD29F07002DC8FE /* Card.swift in Sources */,
-				548C7DAB1C88BBE60018C32E /* BeforeLearningViewController.swift in Sources */,
-				541CFCFB1CD6794C002DC8FE /* EnterCardCell.swift in Sources */,
+				54D1A1551D6DA55100C46F29 /* DeckStore.swift in Sources */,
+				54D1A14B1D6DA53000C46F29 /* SwitchCell.swift in Sources */,
 				547DA1D61C9717FD00E68B12 /* AddDeckViewController.swift in Sources */,
-				54A7B7881CEE40E3004B07B7 /* SliderCell.swift in Sources */,
 				54F9DE5D1CDA6B19005EBB3A /* ChangeCardViewController.swift in Sources */,
 				54A473F21CB78EB100A90429 /* StatisticsDeckViewContoller.swift in Sources */,
+				54D1A1591D6DA56A00C46F29 /* TodayTableViewController.swift in Sources */,
+				54D1A1481D6DA53000C46F29 /* ChartViewCell.swift in Sources */,
 				547DA1D81C9719C700E68B12 /* AddCardsDeckViewController.swift in Sources */,
+				54D1A1541D6DA55100C46F29 /* DeckHistory.swift in Sources */,
+				54D1A14A1D6DA53000C46F29 /* SliderCell.swift in Sources */,
 				5429A09B1C95B3FD00A832D6 /* SettingsViewController.swift in Sources */,
-				54A7B78E1CF38744004B07B7 /* ChartViewCell.swift in Sources */,
-				541CFCF91CD4D908002DC8FE /* DeckStore.swift in Sources */,
+				54D1A1471D6DA53000C46F29 /* CardsNumberCell.swift in Sources */,
+				54D1A13F1D6DA4E300C46F29 /* GlobalVariables.swift in Sources */,
 				547DA20E1C974D7200E68B12 /* CardsInDeckViewController.swift in Sources */,
 				5431631B1C95F6D5004D9D18 /* DecksViewController.swift in Sources */,
 				54A473EE1CB7819A00A90429 /* StatisticsViewController.swift in Sources */,

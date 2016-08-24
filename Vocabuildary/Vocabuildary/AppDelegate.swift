@@ -28,7 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).tintColor = blueThemeColor()
         UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.whiteColor()], forState: .Normal)
         
-        
         let tabController = window!.rootViewController as! TabBarController
         tabController.deckStore = deckStore
         
