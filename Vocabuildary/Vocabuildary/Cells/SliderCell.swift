@@ -14,4 +14,5 @@ class SliderCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var slider: UISlider!
     
+    //aga
 }
