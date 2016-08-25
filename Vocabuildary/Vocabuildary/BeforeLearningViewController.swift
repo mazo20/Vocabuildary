@@ -38,6 +38,19 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     var totalNumberOfExtraCards: Int {
         return numberOfExtraCards[0] + numberOfExtraCards[1]
     }
+    
+    //MARK: Outlets
+    
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var segmentedControl: UISegmentedControl!
+    @IBOutlet var problematicCards: UILabel!
+    @IBOutlet var repeatingCards: UILabel!
+    @IBOutlet var newCards: UILabel!
+    @IBOutlet var chartView: ChartView!
+    @IBOutlet var studyButton: UIButton!
+    
+    //MARK: Time counting
+    
     var totalTimeSpentInDeck: NSTimeInterval {
         var time = NSTimeInterval()
         for history in deckInDeckStore.history {
@@ -51,16 +64,19 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         }
         return 0
     }
+    func expectedTime() -> NSTimeInterval {
+        var numberOfCards: Int {
+            if segmentedControl.selectedSegmentIndex == 0 {
+                return totalNumberOfScheduledCards
+            }
+            return totalNumberOfExtraCards
+        }
+        if deckInDeckStore.numberOfRepeats == 0 || totalTimeSpentInDeck == 0 {
+            return Double(numberOfCards)*10
+        }
+        return totalTimeSpentInDeck/Double(deckInDeckStore.numberOfRepeats)*Double(numberOfCards)
+    }
     
-    //MARK: Outlets
-    
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var segmentedControl: UISegmentedControl!
-    @IBOutlet var problematicCards: UILabel!
-    @IBOutlet var repeatingCards: UILabel!
-    @IBOutlet var newCards: UILabel!
-    @IBOutlet var chartView: ChartView!
-    @IBOutlet var studyButton: UIButton!
     
     //MARK: Actions
     
@@ -113,19 +129,6 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     //MARK: - TableView methods
-    
-    func expectedTime() -> NSTimeInterval {
-        var numberOfCards: Int {
-            if segmentedControl.selectedSegmentIndex == 0 {
-                return totalNumberOfScheduledCards
-            }
-            return totalNumberOfExtraCards
-        }
-        if deckInDeckStore.numberOfRepeats == 0 || totalTimeSpentInDeck == 0 {
-            return Double(numberOfCards)*10
-        }
-        return totalTimeSpentInDeck/Double(deckInDeckStore.numberOfRepeats)*Double(numberOfCards)
-    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {

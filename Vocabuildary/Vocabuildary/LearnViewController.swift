@@ -294,10 +294,7 @@ class LearnViewController: UIViewController {
         }
     }
     override func viewDidLoad() {
-        for card in deck.deck {
-            whatCard(card)
-        }
-        dump(deck)
+        cards = deck.whatCards
         
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(LearnViewController.timerDidEnd(_:)), userInfo: nil, repeats: true)
         newCards.text = String(cards[0])
@@ -317,14 +314,5 @@ class LearnViewController: UIViewController {
     }
     func timerDidEnd(timer: NSTimer) {
         deckHistory.time+=1
-    }
-    func whatCard(card: Card) {
-        if card.n == 0 {
-            cards[0]+=1
-        } else if card.Q < 1.5 {
-            cards[2]+=1
-        } else {
-            cards[1]+=1
-        }
     }
 }

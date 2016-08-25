@@ -33,6 +33,19 @@ class Deck: NSObject, NSCoding {
         }
         return nil
     }
+    var whatCards: [Int] {
+        var cards = [0,0,0]
+        for card in deck {
+            if card.n == 0 {
+                cards[0]+=1
+            } else if card.Q < 1.5 {
+                cards[2]+=1
+            } else {
+                cards[1]+=1
+            }
+        }
+        return cards
+    }
     
     func addCard(card: Card) {
         deck.append(card)

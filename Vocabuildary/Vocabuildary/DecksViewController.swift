@@ -15,6 +15,13 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     var deckToEdit = 0
     let searchController = UISearchController(searchResultsController: nil)
     
+    func whatDeck(index: Int) -> Deck {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredDecks[index]
+        }
+        return deckStore.deckStore[index]
+    }
+    
     @IBOutlet var editButtonOutlet: UIBarButtonItem!
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -25,24 +32,10 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("DeckCell", forIndexPath: indexPath) as! TodayCell
-        let deck: Deck
-        if searchController.active && searchController.searchBar.text != "" {
-            deck = filteredDecks[indexPath.row]
-        } else {
-            deck = deckStore.deckStore[indexPath.row]
-        }
+        let deck = whatDeck(indexPath.row)
         cell.deckName.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         cell.deckName.text = deck.name
-        var cards = [0,0,0]
-        for card in deck.deck {
-            if card.n == 0 {
-                cards[0]+=1
-            } else if card.Q < 1.5 {
-                cards[2]+=1
-            } else {
-                cards[1]+=1
-            }
-        }
+        let cards = deck.whatCards
         cell.newCards.text = String(cards[0])
         cell.repeatingCards.text = String(cards[1])
         cell.problematicCards.text = String(cards[2])
@@ -65,12 +58,7 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         //If the table view is asking to commit a delete command...
         if editingStyle == .Delete {
-            let deck: Deck
-            if searchController.active && searchController.searchBar.text != "" {
-                deck = filteredDecks[indexPath.row]
-            } else {
-                deck = deckStore.deckStore[indexPath.row]
-            }
+            let deck = whatDeck(indexPath.row)
             let alertTitle = "Delete '\(deck.name)'?"
             let alertMessage = "Are you sure you want to delete this deck and all its cards?"
             let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .ActionSheet)
@@ -91,15 +79,13 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
         }
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if tableView.editing {
-            dispatch_async(dispatch_get_main_queue(),{
+        dispatch_async(dispatch_get_main_queue(),{
+            if tableView.editing {
                 self.performSegueWithIdentifier("ChangeDeck", sender: self)
-            })
-        } else {
-            dispatch_async(dispatch_get_main_queue(),{
+            } else {
                 self.performSegueWithIdentifier("CardsInDeckViewController", sender: self)
-            })
-        }
+            }
+        })
     }
     @IBAction func editButton(sender: AnyObject) {
         if tableView.editing == true {
@@ -112,33 +98,21 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ChangeDeck" {
-            var index = 0
-            if let row = tableView.indexPathForSelectedRow?.row {
-                index = row
-            } else {
-                index = deckToEdit
-            }
-            let deck: Deck
-            if searchController.active && searchController.searchBar.text != "" {
-                deck = filteredDecks[index]
-            } else {
-                deck = deckStore.deckStore[index]
+            var index: Int {
+                if let row = tableView.indexPathForSelectedRow?.row {
+                    return row
+                }
+                return deckToEdit
             }
             let navController = segue.destinationViewController as! UINavigationController
             let changeDeckViewController = navController.topViewController as! ChangeDeckViewController
-            changeDeckViewController.deck = deck
+            changeDeckViewController.deck = whatDeck(index)
             changeDeckViewController.deckStore = deckStore
         } else {
             if let row = tableView.indexPathForSelectedRow?.row {
                 //Get the item associated with this row and pass it along
-                let deck: Deck
-                if searchController.active && searchController.searchBar.text != "" {
-                    deck = filteredDecks[row]
-                } else {
-                    deck = deckStore.deckStore[row]
-                }
                 let cardsInDeckViewController = segue.destinationViewController as! CardsInDeckViewController
-                cardsInDeckViewController.deck = deck
+                cardsInDeckViewController.deck = whatDeck(row)
                 cardsInDeckViewController.deckStore = deckStore
             }
         }
@@ -152,13 +126,7 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {return nil}
         
         guard let cardsInDeckViewController = storyboard?.instantiateViewControllerWithIdentifier("CardsInDeckViewController") as? CardsInDeckViewController else {return nil}
-        let deck: Deck
-        if searchController.active && searchController.searchBar.text != "" {
-            deck = filteredDecks[indexPath.row]
-        } else {
-            deck = deckStore.deckStore[indexPath.row]
-        }
-        cardsInDeckViewController.deck = deck
+        cardsInDeckViewController.deck = whatDeck(indexPath.row)
         cardsInDeckViewController.deckStore = deckStore
         previewingContext.sourceRect = cell.frame
         deckToEdit = indexPath.row
@@ -179,6 +147,18 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
         })
     }
     
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredDecks = deckStore.deckStore.filter { deck in
+            return deck.name.lowercaseString.containsString(searchText.lowercaseString)
+        }
+        tableView.reloadData()
+    }
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    //MARK: - View customization
+    
     override func viewDidLoad() {
         if( traitCollection.forceTouchCapability == .Available){
             registerForPreviewingWithDelegate(self, sourceView: view)
@@ -195,12 +175,12 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
         searchController.searchBar.translucent = false
         searchController.loadView()
         
+        searchController.searchBar.layer.borderWidth = 1;
+        searchController.searchBar.layer.borderColor = blueThemeColor().CGColor
+        
         let lineView = UIView(frame: CGRectMake(0,(self.navigationController?.navigationBar.frame.size.height)!,self.view.frame.size.width,1))
         lineView.backgroundColor = blueThemeColor()
         self.navigationController?.navigationBar.addSubview(lineView)
-        
-        searchController.searchBar.layer.borderWidth = 1;
-        searchController.searchBar.layer.borderColor = blueThemeColor().CGColor
         
         let blueView = UIView()
         let blueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
@@ -208,15 +188,6 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
         blueView.center = CGPointMake(self.view.frame.size.width/2,-self.view.frame.size.height/2)
         blueView.backgroundColor = blueThemeColor()
         self.view.addSubview(blueView)
-    }
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredDecks = deckStore.deckStore.filter { deck in
-            return deck.name.lowercaseString.containsString(searchText.lowercaseString)
-        }
-        tableView.reloadData()
-    }
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
     }
     override func viewDidAppear(animated: Bool) {
         tableView.reloadData()

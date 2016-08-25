@@ -313,7 +313,6 @@ import UIKit
             let day = NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date).day
             if day > lastDay {
                 dateLabel = dateComponentFormatter(day)
-                
                 newLastDay = day
             } else {
                 if countryCode == "US" {
@@ -332,12 +331,6 @@ import UIKit
             }
         }
         return (dateLabel, newLastDay)
-    }
-    func dateComponentFormatter(component: Int) -> String {
-        if component >= 10 {
-            return "\(component)"
-        }
-        return "0\(component)"
     }
     func scaleLabels(max: Int) {
         let scaleLabel1 = UILabel(frame: CGRectMake(self.bounds.size.width/13*12-35, self.bounds.origin.y+50, 50, 20))

@@ -17,20 +17,20 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
     var otherDecks = [Deck]()
     var newCardsToShow: Int!
     var today = NSDate().today
-    var cards: [Int] {
-        var arr = [0, 0, 0]
+    var numberOfCards: [Int] {
+        var array = [0, 0, 0]
         for deck in decks {
             for card in deck.deck {
                 if card.n == 0 {
-                    arr[0]+=1
+                    array[0]+=1
                 } else if card.Q < 1.5 {
-                    arr[2]+=1
+                    array[2]+=1
                 } else {
-                    arr[1]+=1
+                    array[1]+=1
                 }
             }
         }
-        return arr
+        return array
     }
     //MARK: Outlets
     @IBOutlet var informationView: UIView!
@@ -112,22 +112,11 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
         let cell = tableView.dequeueReusableCellWithIdentifier("TodayCell", forIndexPath: indexPath) as! TodayCell
         cell.deckName.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         cell.deckName.text = decks[indexPath.row].name
-        var newCards = 0
-        var repeatingCards = 0
-        var problematicCards = 0
-        for card in decks[indexPath.row].deck {
-            if card.n == 0 {
-                newCards+=1
-            } else if card.Q < 1.5 {
-                problematicCards+=1
-            } else {
-                repeatingCards+=1
-            }
-        }
-        cell.newCards.text = String(newCards)
-        cell.repeatingCards.text = String(repeatingCards)
-        cell.problematicCards.text = String(problematicCards)
-        if newCards == 0 && repeatingCards == 0 && problematicCards == 0 {
+        let cardsInDeck = decks[indexPath.row].whatCards
+        cell.newCards.text = String(cardsInDeck[0])
+        cell.repeatingCards.text = String(cardsInDeck[1])
+        cell.problematicCards.text = String(cardsInDeck[2])
+        if cardsInDeck == [0, 0, 0] {
             cell.newCards.textColor = UIColor.grayColor()
             cell.repeatingCards.textColor = UIColor.grayColor()
             cell.problematicCards.textColor = UIColor.grayColor()
@@ -180,9 +169,9 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
         let tabBar = self.tabBarController as! TabBarController
         self.deckStore = tabBar.deckStore
         
-        newCards.text = String(cards[0])
-        repeatingCards.text = String(cards[1])
-        problematicCards.text = String(cards[2])
+        newCards.text = String(numberOfCards[0])
+        repeatingCards.text = String(numberOfCards[1])
+        problematicCards.text = String(numberOfCards[2])
         allCards.text = String(deckStore.cards[0])
         toStudy.text = String(deckStore.cards[1])
         notShown.text = String(deckStore.cards[2])
@@ -228,9 +217,9 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
     override func viewDidAppear(animated: Bool) {
         searchForCards()
         tableView.reloadData()
-        newCards.text = String(cards[0])
-        repeatingCards.text = String(cards[1])
-        problematicCards.text = String(cards[2])
+        newCards.text = String(numberOfCards[0])
+        repeatingCards.text = String(numberOfCards[1])
+        problematicCards.text = String(numberOfCards[2])
         allCards.text = String(deckStore.cards[0])
         toStudy.text = String(deckStore.cards[1])
         notShown.text = String(deckStore.cards[2])
