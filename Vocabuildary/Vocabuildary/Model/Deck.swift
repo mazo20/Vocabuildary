@@ -15,6 +15,13 @@ class Deck: NSObject, NSCoding {
     var history = [DeckHistory]()
     var newCardsToday = 0
     var priority = 0
+    var numberOfRepeats: Int {
+        var repeats = 0
+        for history in self.history {
+            repeats+=history.numberOfCards
+        }
+        return repeats
+    }
     
     func historyForDate(date: String) -> DeckHistory? {
         if history.count == 0 {return nil}
