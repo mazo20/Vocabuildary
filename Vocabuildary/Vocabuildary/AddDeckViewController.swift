@@ -88,11 +88,7 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                             return
                         }
                     }
-                    if prioritySwitch.on {
-                        deck.priority = 1
-                    } else {
-                        deck.priority = 0
-                    }
+                    deck.priority = prioritySwitch.on ? 1 : 0
                     deck.name = deckName
                     deckStore.addDeck(deck)
                     deck = Deck(name: "")
@@ -109,23 +105,13 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     func cellInSection(section: Int) -> EnterCardCell {
         let indexPath = NSIndexPath(forRow: 0, inSection: section)
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! EnterCardCell
-        return cell
+        return tableView.cellForRowAtIndexPath(indexPath) as! EnterCardCell
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if segmentedControl.selectedSegmentIndex == 1 {
-            return 1
-        }
-        if section == 3 {
-            return 1
-        }
         return 1
     }
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if segmentedControl.selectedSegmentIndex == 1 {
-            return 2
-        }
-        return 4
+        return segmentedControl.selectedSegmentIndex == 0 ? 4 : 2
     }
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return heightForFooterInSection

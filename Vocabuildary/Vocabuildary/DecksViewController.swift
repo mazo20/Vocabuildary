@@ -15,14 +15,14 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     var deckToEdit = 0
     let searchController = UISearchController(searchResultsController: nil)
     
+    @IBOutlet var editButtonOutlet: UIBarButtonItem!
+    
     func whatDeck(index: Int) -> Deck {
         if searchController.active && searchController.searchBar.text != "" {
             return filteredDecks[index]
         }
         return deckStore.deckStore[index]
     }
-    
-    @IBOutlet var editButtonOutlet: UIBarButtonItem!
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active && searchController.searchBar.text != "" {
@@ -137,7 +137,9 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
         showViewController(viewControllerToCommit, sender: self)
     }
+    
     //MARK: 3DTouch preview actions
+    
     func reloadTable() {
         tableView.reloadData()
     }
@@ -146,7 +148,6 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
             self.performSegueWithIdentifier("ChangeDeck", sender: self)
         })
     }
-    
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredDecks = deckStore.deckStore.filter { deck in
             return deck.name.lowercaseString.containsString(searchText.lowercaseString)
@@ -160,7 +161,7 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     //MARK: - View customization
     
     override func viewDidLoad() {
-        if( traitCollection.forceTouchCapability == .Available){
+        if traitCollection.forceTouchCapability == .Available {
             registerForPreviewingWithDelegate(self, sourceView: view)
         }
         tableView.allowsSelectionDuringEditing = true

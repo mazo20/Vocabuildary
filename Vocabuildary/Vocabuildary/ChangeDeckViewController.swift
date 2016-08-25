@@ -20,19 +20,13 @@ class ChangeDeckViewController: UITableViewController, UITextFieldDelegate {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     @IBAction func doneBarButton(sender: AnyObject) {
-        print(deck.priority)
-        print(prioritySwitch.on)
         if let text = deckTextField.text {
             if text == "" {
                 cellInSection(0).bottomLine.backgroundColor = UIColor.redColor()
             } else {
                 if text.caseInsensitiveCompare(deck.name) == .OrderedSame {
                     deck.name = text
-                    if prioritySwitch.on {
-                        deck.priority = 1
-                    } else {
-                        deck.priority = 0
-                    }
+                    deck.priority = prioritySwitch.on ? 1 : 0
                     self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
                     UIView.animateWithDuration(0.3, animations: {
                         self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
@@ -48,11 +42,7 @@ class ChangeDeckViewController: UITableViewController, UITextFieldDelegate {
                     }
                 }
                 deck.name = text
-                if prioritySwitch.on {
-                    deck.priority == 1
-                } else {
-                    deck.priority == 0
-                }
+                deck.priority = prioritySwitch.on ? 1 : 0
                 self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
                 UIView.animateWithDuration(0.3, animations: {
                     self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
