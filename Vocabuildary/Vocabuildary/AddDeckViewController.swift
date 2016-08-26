@@ -32,8 +32,9 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
         if segmentedControl.selectedSegmentIndex == 0 {
             if let front = frontCardTextField.text {
                 if let back = backCardTextField.text {
-                    card.backCard = back
-                    card.frontCard = front
+                    cellInSection(0).bottomLine.backgroundColor = front == "" ? UIColor.redColor() : UIColor.clearColor()
+                    cellInSection(1).bottomLine.backgroundColor = back == "" ? UIColor.redColor() : UIColor.clearColor()
+                    if front == "" || back == "" { return }
                     if deckToAddCardsTo != -1 {
                         for card in deckStore.deckStore[deckToAddCardsTo].deck {
                             if frontCardTextField.text?.caseInsensitiveCompare(card.frontCard) == .OrderedSame {
@@ -41,65 +42,46 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 return
                             }
                         }
-                    }
-                    if front == "" {
-                        print("No cards to add")
-                        cellInSection(0).bottomLine.backgroundColor = UIColor.redColor()
-                        if back == "" {
-                            cellInSection(1).bottomLine.backgroundColor = UIColor.redColor()
-                        } else {
-                            cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
-                        }
-                    } else if back == "" {
-                        print("No cards to add")
-                        cellInSection(1).bottomLine.backgroundColor = UIColor.redColor()
-                        cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                    } else if deckStore.deckStore.count >= deckToAddCardsTo && deckToAddCardsTo != -1{
-                        card.isReversed = reversedSwitchCard.on
-                        print(card.isReversed)
-                        deckStore.deckAtIndex(deckToAddCardsTo).addCard(card)
-                        card = Card(frontCard: "", backCard: "")
-                        frontCardTextField.text = nil
-                        backCardTextField.text = nil
-                        frontCardTextField.becomeFirstResponder()
-                        cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                        cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
-                        cellInSection(2).bottomLine.backgroundColor = UIColor.clearColor()
-                        self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
-                        self.cellInSection(1).bottomLine.backgroundColor = UIColor.greenColor()
-                        UIView.animateWithDuration(0.7, animations: {
-                            self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                            self.cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
-                            }, completion: nil)
                     } else {
-                        print("No deck to add cards to")
-                        cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                        cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
                         cellInSection(2).bottomLine.backgroundColor = UIColor.redColor()
+                        return
                     }
+                    self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
+                    self.cellInSection(1).bottomLine.backgroundColor = UIColor.greenColor()
+                    UIView.animateWithDuration(0.7, animations: {
+                        self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
+                        self.cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
+                        }, completion: nil)
+                    card.backCard = back
+                    card.frontCard = front
+                    card.isReversed = reversedSwitchCard.on
+                    deckStore.deckAtIndex(deckToAddCardsTo).addCard(card)
+                    card = Card(frontCard: "", backCard: "")
+                    frontCardTextField.text = nil
+                    backCardTextField.text = nil
+                    frontCardTextField.becomeFirstResponder()
                 }
             }
         } else {
             if let deckName = deckTextField.text {
-                if deckName != "" {
-                    for deck in deckStore.deckStore {
-                        if deckName.caseInsensitiveCompare(deck.name) == .OrderedSame {
-                            cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
-                            return
-                        }
+                cellInSection(0).bottomLine.backgroundColor = deckName == "" ? UIColor.redColor() : UIColor.clearColor()
+                if deckName == "" { return }
+                for deck in deckStore.deckStore {
+                    if deckName.caseInsensitiveCompare(deck.name) == .OrderedSame {
+                        cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
+                        return
                     }
-                    deck.priority = prioritySwitch.on ? 1 : 0
-                    deck.name = deckName
-                    deckStore.addDeck(deck)
-                    deck = Deck(name: "")
-                    deckTextField.text = nil
-                    self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
-                    UIView.animateWithDuration(0.7, animations: {
-                        self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                        }, completion: nil)
-                } else {
-                    cellInSection(0).bottomLine.backgroundColor = UIColor.redColor()
                 }
+                self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
+                UIView.animateWithDuration(0.7, animations: {
+                    self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
+                    }, completion: nil)
+                deck.priority = prioritySwitch.on ? 1 : 0
+                deck.name = deckName
+                deckStore.addDeck(deck)
+                deck = Deck(name: "")
+                deckTextField.text = nil
+                deckTextField.becomeFirstResponder()
             }
         }
     }
@@ -125,12 +107,12 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let cell = tableView.dequeueReusableCellWithIdentifier("AddDecksTextCell", forIndexPath: indexPath) as! EnterCardCell
                 cell.textField.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
                 cell.textField.delegate = self
-                if cell.textField.tag != 3 {
+                if cell.textField.tag != 2 {
                     dispatch_async(dispatch_get_main_queue(),{
                         cell.textField.becomeFirstResponder()
+                        cell.textField.tag = 2
                     })
                 }
-                cell.textField.tag = 3
                 deckTextField = cell.textField
                 return cell
             } else {
@@ -142,24 +124,24 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return cell
             }
         }
-        if indexPath.section == 0 || indexPath.section == 1{
+        if indexPath.section == 0 || indexPath.section == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("AddCardsTextCell", forIndexPath: indexPath) as! EnterCardCell
             cell.textField.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
             cell.textField.delegate = self
             if indexPath.section == 0 {
-                if cell.textField.tag != 1 {
+                if cell.textField.tag != 0 {
                     dispatch_async(dispatch_get_main_queue(),{
                         cell.textField.becomeFirstResponder()
                     })
                 }
-                cell.textField.tag = 1
+                cell.textField.tag = 0
                 frontCardTextField = cell.textField
             } else {
-                cell.textField.tag = 2
+                cell.textField.tag = 1
                 backCardTextField = cell.textField
             }
             return cell
-        } else if indexPath.section == 2{
+        } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("AddCardsTextCell", forIndexPath: indexPath) as! EnterCardCell
             cell.textField.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
             cell.textField.hidden = true
@@ -202,22 +184,28 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
         return "Card settings"
     }
     func textFieldDidEndEditing(textField: UITextField) {
-        if textField.tag == 1 && deckToAddCardsTo != -1 {
-            for card in deckStore.deckStore[deckToAddCardsTo].deck {
-                if textField.text?.caseInsensitiveCompare(card.frontCard) == .OrderedSame {
-                    cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
-                    return
+        if textField.tag == 0 {
+            if deckToAddCardsTo != -1 {
+                for card in deckStore.deckStore[deckToAddCardsTo].deck {
+                    if textField.text?.caseInsensitiveCompare(card.frontCard) == .OrderedSame {
+                        cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
+                        return
+                    }
                 }
             }
-            cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-        } else if textField.tag == 3 {
+            cellInSection(0).bottomLine.backgroundColor = textField.text == "" ? UIColor.redColor() : UIColor.clearColor()
+        } else if textField.tag == 1 {
+            cellInSection(1).bottomLine.backgroundColor = textField.text == "" ? UIColor.redColor() : UIColor.clearColor()
+        } else if textField.tag == 2 {
             for deck in deckStore.deckStore {
                 if textField.text?.caseInsensitiveCompare(deck.name) == .OrderedSame {
                     cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
                     return
                 }
             }
+            cellInSection(0).bottomLine.backgroundColor = textField.text == "" ? UIColor.redColor() : UIColor.clearColor()
         }
+        
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 2 && segmentedControl.selectedSegmentIndex == 0{
