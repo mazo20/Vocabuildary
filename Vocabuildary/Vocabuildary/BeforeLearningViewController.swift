@@ -19,17 +19,7 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     var repeatCardsLabel = UILabel()
     var timeLabel: UILabel!
     var numberOfScheduledCardsTypes: [Int] {
-        var array = [0, 0, 0]
-        for card in deck.deck {
-            if card.n == 0 {
-                array[0]+=1
-            } else if card.Q < 1.5 {
-                array[2]+=1
-            } else {
-                array[1]+=1
-            }
-        }
-        return array
+        return deck.whatCards
     }
     var totalNumberOfScheduledCards: Int {
         return deck.deck.count
@@ -95,10 +85,10 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             var newCardsToLearn = 0
             var cardsToRepeat = 0
             for card in deckCopy.deck {
-                if newCardsToLearn < numberOfExtraCards[0] && card.n == 0{
+                if newCardsToLearn < numberOfExtraCards[0] && card.numberOfViews == 0{
                     deck.addCard(card)
                     newCardsToLearn+=1
-                } else if cardsToRepeat < numberOfExtraCards[1] && card.n != 0 {
+                } else if cardsToRepeat < numberOfExtraCards[1] && card.numberOfViews != 0 {
                     deck.addCard(card)
                     cardsToRepeat+=1
                 }
@@ -142,7 +132,7 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             } else {
                 var new = 0
                 for card in deckInDeckStore.deck {
-                    if card.n == 0 {
+                    if card.numberOfViews == 0 {
                         new+=1
                     }
                 }

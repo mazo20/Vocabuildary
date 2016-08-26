@@ -20,15 +20,9 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
     var numberOfCards: [Int] {
         var array = [0, 0, 0]
         for deck in decks {
-            for card in deck.deck {
-                if card.n == 0 {
-                    array[0]+=1
-                } else if card.Q < 1.5 {
-                    array[2]+=1
-                } else {
-                    array[1]+=1
-                }
-            }
+            array[0]+=deck.whatCards[0]
+            array[1]+=deck.whatCards[1]
+            array[2]+=deck.whatCards[2]
         }
         return array
     }
@@ -72,14 +66,14 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
             let userDefaultsNewCards = NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int
             if newCardsToShow != userDefaultsNewCards {
                 for card in d.deck {
-                    if card.n == 0 {
+                    if card.numberOfViews == 0 {
                         card.date = NSDate().today
                     }
                 }
             }
             for card in d.deck {
                 if NSDate().compare(card.date) != .OrderedAscending {
-                    if card.n == 0 {
+                    if card.numberOfViews == 0 {
                         if d.newCardsToday < NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int {
                             newDeck.addCard(card)
                             d.newCardsToday+=1
@@ -88,7 +82,7 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
                         newDeck.addCard(card)
                     }
                 } else {
-                    if card.n == 0 {
+                    if card.numberOfViews == 0 {
                         let nextDate = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: 1, toDate: NSDate().today, options: NSCalendarOptions.init(rawValue: 0))
                         card.date = nextDate!
                     }

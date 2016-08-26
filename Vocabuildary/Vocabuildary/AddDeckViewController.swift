@@ -55,8 +55,8 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                         cellInSection(1).bottomLine.backgroundColor = UIColor.redColor()
                         cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
                     } else if deckStore.deckStore.count >= deckToAddCardsTo && deckToAddCardsTo != -1{
-                        card.reversed = reversedSwitchCard.on
-                        print(card.reversed)
+                        card.isReversed = reversedSwitchCard.on
+                        print(card.isReversed)
                         deckStore.deckAtIndex(deckToAddCardsTo).addCard(card)
                         card = Card(frontCard: "", backCard: "")
                         frontCardTextField.text = nil

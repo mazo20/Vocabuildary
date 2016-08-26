@@ -94,7 +94,7 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
         for card in deck.deck {
             let d = card.days.count
             cards+=1
-            if card.n == 0 {
+            if card.numberOfViews == 0 {
                 notShown+=1
             }
             if d>1 {

@@ -36,7 +36,7 @@ class Deck: NSObject, NSCoding {
     var whatCards: [Int] {
         var cards = [0,0,0]
         for card in deck {
-            if card.n == 0 {
+            if card.numberOfViews == 0 {
                 cards[0]+=1
             } else if card.Q < 1.5 {
                 cards[2]+=1
