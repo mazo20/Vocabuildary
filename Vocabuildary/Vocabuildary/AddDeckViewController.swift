@@ -110,8 +110,8 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if cell.textField.tag != 2 {
                     dispatch_async(dispatch_get_main_queue(),{
                         cell.textField.becomeFirstResponder()
-                        cell.textField.tag = 2
                     })
+                    cell.textField.tag = 2
                 }
                 deckTextField = cell.textField
                 return cell
@@ -133,8 +133,9 @@ class AddDeckViewController: UIViewController, UITableViewDelegate, UITableViewD
                     dispatch_async(dispatch_get_main_queue(),{
                         cell.textField.becomeFirstResponder()
                     })
+                    cell.textField.tag = 0
                 }
-                cell.textField.tag = 0
+                
                 frontCardTextField = cell.textField
             } else {
                 cell.textField.tag = 1

@@ -219,5 +219,4 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
         notShown.text = String(deckStore.cards[2])
         learned.text = String(deckStore.cards[3])
     }
-    
 }

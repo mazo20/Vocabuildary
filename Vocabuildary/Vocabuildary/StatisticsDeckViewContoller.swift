@@ -22,21 +22,19 @@ class StatisticsDeckViewController: UITableViewController {
     }
     @IBAction func showAllDecks(sender: AnyObject) {
         self.delegate.sendData(-1)
-        dispatch_async(dispatch_get_main_queue(),{
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
+        dismissViewController()
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.delegate.sendData(indexPath.row)
-        dispatch_async(dispatch_get_main_queue(),{
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
+        dismissViewController()
     }
     @IBAction func cancelBarButton(sender: AnyObject) {
+        dismissViewController()
+    }
+    func dismissViewController() {
         dispatch_async(dispatch_get_main_queue(),{
             self.dismissViewControllerAnimated(true, completion: nil)
         })
-
     }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Choose deck to show statistics"
