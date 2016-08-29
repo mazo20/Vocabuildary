@@ -41,7 +41,6 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
     */
     func searchForCards() {
         if NSUserDefaults.standardUserDefaults().objectForKey("today") as! NSDate != NSDate().today {
-            print(NSUserDefaults.standardUserDefaults().objectForKey("today"))
             NSUserDefaults.standardUserDefaults().setObject(NSDate().today, forKey: "today")
             for deck in deckStore.deckStore {
                 deck.newCardsToday = 0

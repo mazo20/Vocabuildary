@@ -99,7 +99,7 @@ class LearnViewController: UIViewController {
         }
         
         let a = Double(2-answer)
-        if deck.priority == 0 {
+        if deckInDeckStore.priority == 0 {
             card.Q += (0.1 - a * (0.3 + a * 0.1))
             if card.Q < 1.3 {
                 card.Q = 1.3

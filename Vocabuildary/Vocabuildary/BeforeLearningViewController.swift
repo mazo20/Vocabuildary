@@ -79,12 +79,14 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             //If no extra cards were picked just return
             guard numberOfExtraCards[0] > 0 || numberOfExtraCards[1] > 0 else {return}
             //Shuffle a deck to randomize the cards
-            let deckCopy = deckInDeckStore
-            deckCopy.shuffle()
             deck = Deck(name: deckInDeckStore.name)
+            for card in deckInDeckStore.deck {
+                deck.addCard(card)
+            }
+            deck.shuffle()
             var newCardsToLearn = 0
             var cardsToRepeat = 0
-            for card in deckCopy.deck {
+            for card in deckInDeckStore.deck {
                 if newCardsToLearn < numberOfExtraCards[0] && card.numberOfViews == 0{
                     deck.addCard(card)
                     newCardsToLearn+=1
