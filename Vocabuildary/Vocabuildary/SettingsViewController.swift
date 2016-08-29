@@ -12,9 +12,7 @@ import MessageUI
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else if section == 1 {
+        if section == 1 {
             return 3
         } else {
             return 1

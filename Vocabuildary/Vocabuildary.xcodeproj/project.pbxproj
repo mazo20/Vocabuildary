@@ -167,8 +167,8 @@
 		545DEF061CC4BBE10072494E /* Today */ = {
 			isa = PBXGroup;
 			children = (
-				54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */,
 				54D1A1571D6DA56A00C46F29 /* TodayTableViewController.swift */,
+				54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */,
 				546BC9FA1C8A2FB900B2C1AE /* LearnViewController.swift */,
 			);
 			name = Today;

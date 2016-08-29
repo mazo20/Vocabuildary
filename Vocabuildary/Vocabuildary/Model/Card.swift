@@ -12,20 +12,20 @@ class Card: NSObject, NSCoding {
     var frontCard: String = ""
     var backCard: String = ""
     var Q = 2.0
-    var n = 0
+    var numberOfViews = 0
     var date: NSDate
     var days = [Int]()
-    var reversed: Bool
+    var isReversed: Bool
     
     init(frontCard: String, backCard: String) {
         
         self.frontCard = frontCard
         self.backCard = backCard
         self.date = NSDate()
-        self.n = 0
+        self.numberOfViews = 0
         self.Q = 2.0
         self.days = [Int]()
-        self.reversed = true
+        self.isReversed = true
         
         super.init()
     }
@@ -34,9 +34,9 @@ class Card: NSObject, NSCoding {
         aCoder.encodeObject(backCard, forKey: "backCard")
         aCoder.encodeObject(date, forKey: "date")
         aCoder.encodeDouble(Q, forKey: "Q")
-        aCoder.encodeInteger(n, forKey: "n")
-        aCoder.encodeBool(reversed, forKey: "reversed")
-        for i in 0..<n {
+        aCoder.encodeInteger(numberOfViews, forKey: "numberOfViews")
+        aCoder.encodeBool(isReversed, forKey: "isReversed")
+        for i in 0..<numberOfViews {
             aCoder.encodeInteger(days[i], forKey: "int\(i)")
         }
     }
@@ -45,12 +45,12 @@ class Card: NSObject, NSCoding {
         backCard = aDecoder.decodeObjectForKey("backCard") as! String
         date = aDecoder.decodeObjectForKey("date") as! NSDate
         Q = aDecoder.decodeDoubleForKey("Q")
-        n = aDecoder.decodeIntegerForKey("n")
-        reversed = aDecoder.decodeBoolForKey("reversed")
+        numberOfViews = aDecoder.decodeIntegerForKey("numberOfViews")
+        isReversed = aDecoder.decodeBoolForKey("isReversed")
         
-        for i in 0..<n {
+        for i in 0..<numberOfViews {
             days.append(aDecoder.decodeIntegerForKey("int\(i)"))
         }
-        n = days.count
+        numberOfViews = days.count
     }
 }

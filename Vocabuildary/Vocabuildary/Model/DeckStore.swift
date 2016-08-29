@@ -23,7 +23,7 @@ class DeckStore: NSObject{
             for card in deck.deck {
                 let d = card.days.count
                 cards+=1
-                if card.n == 0 {
+                if card.numberOfViews == 0 {
                     notShown+=1
                 }
                 if d > 1 {
@@ -52,18 +52,18 @@ class DeckStore: NSObject{
             let onboardingCard2 = Card(frontCard: "Based on your answer the app will  show the card again just when you will about to forget it.", backCard: "The algorithm will adjust itself to maximize the learning efficiency!")
             let onboardingCard3 = Card(frontCard: "Come back everyday to study new cards and repeat previous ones", backCard: "You can change the number of new daily cards in the settings")
             let onboardingCard4 = Card(frontCard: "Add your cards to begin studying", backCard: "You can group them in decks")
-            onboardingCard1.n+=1
-            onboardingCard2.n+=1
-            onboardingCard3.n+=1
-            onboardingCard4.n+=1
+            onboardingCard1.numberOfViews+=1
+            onboardingCard2.numberOfViews+=1
+            onboardingCard3.numberOfViews+=1
+            onboardingCard4.numberOfViews+=1
             onboardingCard2.days.append(1)
             onboardingCard3.days.append(1)
             onboardingCard4.days.append(1)
             onboardingCard1.days.append(1)
-            onboardingCard1.reversed = false
-            onboardingCard2.reversed = false
-            onboardingCard3.reversed = false
-            onboardingCard4.reversed = false
+            onboardingCard1.isReversed = false
+            onboardingCard2.isReversed = false
+            onboardingCard3.isReversed = false
+            onboardingCard4.isReversed = false
             onboardingDeck.deck.append(onboardingCard1)
             onboardingDeck.deck.append(onboardingCard2)
             onboardingDeck.deck.append(onboardingCard3)

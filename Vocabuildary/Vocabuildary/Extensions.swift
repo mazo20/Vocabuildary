@@ -34,14 +34,13 @@ public func stringFromDate(date: NSDate) -> String {
     let day = NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date).day
     let month = NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: date).month
     let year = NSCalendar.currentCalendar().components(NSCalendarUnit.Year, fromDate: date).year
-    if month < 10 && day > 10 {
-        return "\(year)-0\(month)-\(day)"
-    } else if month > 10 && day < 10 {
-        return "\(year)-\(month)-0\(day)"
-    } else if month < 10 && day < 10 {
-        return "\(year)-0\(month)-0\(day)"
+    return "\(year)-\(dateComponentFormatter(month))-\(dateComponentFormatter(day))"
+}
+public func dateComponentFormatter(component: Int) -> String {
+    if component >= 10 {
+        return "\(component)"
     }
-    return "\(year)-\(month)-\(day)"
+    return "0\(component)"
 }
 extension NSDate {
     var today: NSDate {

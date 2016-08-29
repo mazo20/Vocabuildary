@@ -18,23 +18,9 @@ class NewCardsPerDeckViewController: UITableViewController {
         cell.accessoryType = .None
         switch indexPath.row {
         case 0:
-            cell.textLabel?.text = "1 card"
-        case 1:
-            cell.textLabel?.text = "3 cards"
-        case 2:
-            cell.textLabel?.text = "5 cards"
-        case 3:
-            cell.textLabel?.text = "10 cards"
-        case 4:
-            cell.textLabel?.text = "15 cards"
-        case 5:
-            cell.textLabel?.text = "20 cards"
-        case 6:
-            cell.textLabel?.text = "30 cards"
-        case 7:
-            cell.textLabel?.text = "50 cards"
+            cell.textLabel?.text = "\(cards[indexPath.row]) card"
         default:
-            cell.textLabel?.text = "100 cards"
+            cell.textLabel?.text = "\(cards[indexPath.row]) cards"
         }
         if indexPath.row == cards.indexOf(newCards) {
             cell.accessoryType = .Checkmark
@@ -51,7 +37,7 @@ class NewCardsPerDeckViewController: UITableViewController {
         tableView.reloadData()
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return cards.count
     }
     override func viewDidLoad() {
         newCards = NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int

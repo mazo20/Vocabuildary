@@ -18,20 +18,19 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
     @IBOutlet var editButtonOutlet: UIBarButtonItem!
     @IBOutlet var searchButton: UIBarButtonItem!
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func whatDeck() -> Deck {
         if searchController.active && searchController.searchBar.text != "" {
-            return filteredCards.deck.count
+            return filteredCards
         }
-        return deck.deck.count
+        return self.deck
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return whatDeck().deck.count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("CardsInDeckCell", forIndexPath: indexPath)
-        let deck: Deck
-        if searchController.active && searchController.searchBar.text != "" {
-            deck = filteredCards
-        } else {
-            deck = self.deck
-        }
+        let deck = whatDeck()
         cell.accessoryType = .DisclosureIndicator
         cell.textLabel?.text = deck.deck[indexPath.row].frontCard + " - " + deck.deck[indexPath.row].backCard
         return cell
@@ -40,21 +39,11 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
         return 36
     }
     override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        if searchController.active && searchController.searchBar.text != "" {
-            deck.moveDeckAtIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
-        } else {
-            filteredCards.moveDeckAtIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
-        }
+        whatDeck().moveDeckAtIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            let deck: Deck
-            if searchController.active && searchController.searchBar.text != "" {
-                deck = filteredCards
-            } else {
-                deck = self.deck
-            }
-            let card = deck.deck[indexPath.row]
+            let card = whatDeck().deck[indexPath.row]
             
             let alertTitle = "Delete '\(card.frontCard) - \(card.backCard)'?"
             let alertMessage = "Are you sure you want to delete this card?"
@@ -105,7 +94,7 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
         for card in deck.deck {
             let d = card.days.count
             cards+=1
-            if card.n == 0 {
+            if card.numberOfViews == 0 {
                 notShown+=1
             }
             if d>1 {
@@ -126,12 +115,7 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
             if let row = tableView.indexPathForSelectedRow?.row {
                 let navController = segue.destinationViewController as! UINavigationController
                 let changeCardViewController = navController.topViewController as! ChangeCardViewController
-                let deck: Deck
-                if searchController.active && searchController.searchBar.text != "" {
-                    deck = filteredCards
-                } else {
-                    deck = self.deck
-                }
+                let deck = whatDeck()
                 changeCardViewController.deck = deck
                 changeCardViewController.card = deck.deck[row]
             }

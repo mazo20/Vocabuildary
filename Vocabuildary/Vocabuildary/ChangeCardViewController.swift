@@ -28,7 +28,7 @@ class ChangeCardViewController: UITableViewController, UITextFieldDelegate {
                 if front.caseInsensitiveCompare(card.frontCard) == .OrderedSame && back.caseInsensitiveCompare(card.backCard) == .OrderedSame{
                     self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
                     self.cellInSection(1).bottomLine.backgroundColor = UIColor.greenColor()
-                    card.reversed = reversedSwitchCard.on
+                    card.isReversed = reversedSwitchCard.on
                     UIView.animateWithDuration(0.3, animations: {
                         self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
                         self.cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
@@ -46,7 +46,7 @@ class ChangeCardViewController: UITableViewController, UITextFieldDelegate {
                     }
                     card.frontCard = frontCardTextField.text!
                     card.backCard = backCardTextField.text!
-                    card.reversed = reversedSwitchCard.on
+                    card.isReversed = reversedSwitchCard.on
                     self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
                     UIView.animateWithDuration(0.3, animations: {
                         self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
@@ -117,7 +117,7 @@ class ChangeCardViewController: UITableViewController, UITextFieldDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
             cell.settingsLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
             if indexPath.row == 0 {
-                cell.switchButton.on = card.reversed
+                cell.switchButton.on = card.isReversed
                 reversedSwitchCard = cell.switchButton
                 cell.settingsLabel.text = "Normal and reversed"
             } else {
