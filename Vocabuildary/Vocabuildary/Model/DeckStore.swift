@@ -47,6 +47,10 @@ class DeckStore: NSObject{
         if let archivedDecks = NSKeyedUnarchiver.unarchiveObjectWithFile(decksArchiveURL.path!) as? [Deck] {
             deckStore += archivedDecks
         } else {
+            // TIP: onboardingCar1, onboardingCard2? No way!
+            // A co jak w przyszlosci dojdzie wiecej kard?
+            // Najlepiej zadeklaruj stringi jako stala array i wtedy zrob forke ktora stworzy ci model kard
+            
             let onboardingDeck = Deck(name: "Welcome to Vocabuildary!")
             let onboardingCard1 = Card(frontCard: "Tap „Show answer” to flip the card", backCard: "Rate how well did you know the answer")
             let onboardingCard2 = Card(frontCard: "Based on your answer the app will  show the card again just when you will about to forget it.", backCard: "The algorithm will adjust itself to maximize the learning efficiency!")
