@@ -37,6 +37,11 @@ class Card: NSObject, NSCoding {
         aCoder.encodeDouble(Q, forKey: "Q")
         aCoder.encodeInteger(numberOfViews, forKey: "numberOfViews")
         aCoder.encodeBool(isReversed, forKey: "isReversed")
+        
+        // TIP: Czemu nie zakodowac calego obiektu jako array?
+        // Ale wtedy prawdopodobnie bedziesz musial zmienic typ ze swiftowego array na NSArray / NSMutable array z Foundation. Obczaj sobie to np:
+        // http://stackoverflow.com/questions/28889705/in-swift-difference-between-array-vs-nsarray-vs-anyobject
+        
         for i in 0..<numberOfViews {
             aCoder.encodeInteger(days[i], forKey: "int\(i)")
         }
