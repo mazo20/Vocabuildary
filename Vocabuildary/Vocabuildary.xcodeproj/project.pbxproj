@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E6997151D76DEFE0073C4CB /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6997141D76DEFE0073C4CB /* UIColor+AppColors.swift */; };
 		54054FA81D060A8000DDCE31 /* SettingsAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54054FA71D060A8000DDCE31 /* SettingsAboutViewController.swift */; };
 		54054FAA1D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54054FA91D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift */; };
 		5420A7311C84B6F600E44523 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A7301C84B6F600E44523 /* AppDelegate.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E6997141D76DEFE0073C4CB /* UIColor+AppColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+AppColors.swift"; path = "Extensions/UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		54054FA71D060A8000DDCE31 /* SettingsAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsAboutViewController.swift; sourceTree = "<group>"; };
 		54054FA91D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewCardsPerDeckViewController.swift; sourceTree = "<group>"; };
 		5420A72D1C84B6F600E44523 /* Vocabuildary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocabuildary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E6997131D76DEB60073C4CB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4E6997141D76DEFE0073C4CB /* UIColor+AppColors.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		5420A7241C84B6F600E44523 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +144,7 @@
 		5420A72F1C84B6F600E44523 /* Vocabuildary */ = {
 			isa = PBXGroup;
 			children = (
+				4E6997131D76DEB60073C4CB /* Extensions */,
 				54ED89661D1FEB6200E6CA10 /* Extensions.swift */,
 				54D1A13E1D6DA4E300C46F29 /* GlobalVariables.swift */,
 				54D1A14D1D6DA55100C46F29 /* Model */,
@@ -353,6 +364,7 @@
 				54054FA81D060A8000DDCE31 /* SettingsAboutViewController.swift in Sources */,
 				54D1A1531D6DA55100C46F29 /* Deck.swift in Sources */,
 				546BC9FB1C8A2FB900B2C1AE /* LearnViewController.swift in Sources */,
+				4E6997151D76DEFE0073C4CB /* UIColor+AppColors.swift in Sources */,
 				54D1A1551D6DA55100C46F29 /* DeckStore.swift in Sources */,
 				54D1A14B1D6DA53000C46F29 /* SwitchCell.swift in Sources */,
 				547DA1D61C9717FD00E68B12 /* AddDeckViewController.swift in Sources */,
