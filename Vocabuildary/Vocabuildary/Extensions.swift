@@ -27,7 +27,7 @@ public func timeFormatter(time: NSTimeInterval) -> String {
 }
 
 public func printD(date: NSDate) {
-    // Formatowanie
+    // TIP: Formatowanie
     let formatter           = NSDateFormatter()
     formatter.dateFormat    = "yyyy-MM-dd HH:mm:ss ZZZ"
     let defaultTimeZoneStr  = formatter.stringFromDate(date)
