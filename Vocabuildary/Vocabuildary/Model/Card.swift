@@ -9,8 +9,9 @@
 import Foundation
 
 class Card: NSObject, NSCoding {
-    var frontCard: String = ""
-    var backCard: String = ""
+    // TIP: Swift jest jezykiem "type inferred", nie musisz deklarowac kazdego typu, bo w wiekosci Swift sam sie o nim domysli
+    var frontCard = ""
+    var backCard = ""
     var Q = 2.0
     var numberOfViews = 0
     var date: NSDate
