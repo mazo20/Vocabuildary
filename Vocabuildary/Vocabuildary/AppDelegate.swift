@@ -46,6 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleShortcut(shortcutItem:UIApplicationShortcutItem) -> Bool {
         var succeeded = false
         let tabBar = window?.rootViewController as! TabBarController
+        
+        // TIP: Lepiej jakbys zrobil z tych stringow Constanty, 
+        // np jako struct ShortcutItemType { static let AddCardsOrDecks, itd.. }
         if shortcutItem.type == "addCardsOrDecks" {
             if !tabBar.isBeingPresented() {
                 tabBar.dismissViewControllerAnimated(true, completion: nil)
