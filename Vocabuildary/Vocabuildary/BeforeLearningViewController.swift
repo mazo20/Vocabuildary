@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class BeforeLearningViewController: UIViewController {
     
     //MARK: Properties
     
@@ -120,8 +120,67 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         timeLabel.text = timeFormatter(expectedTime())
     }
     
-    //MARK: - TableView methods
+    //MARK: Segues
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowLearnViewController" {
+            let learnViewController = segue.destinationViewController as! LearnViewController
+            learnViewController.deck = deck
+            learnViewController.deckInDeckStore = deckInDeckStore
+        }
+    }
+    
+    //MARK: - View customization
+    
+    override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.tabBar.hidden = true
+        UIView.animateWithDuration(0.2, animations: {
+            var center = button.center
+            center.y += 100
+            button.center = center
+            button.alpha = 0
+        })
+    }
+    override func viewWillDisappear(animated: Bool) {
+        //Reseting the navigation controller when leaving this view
+        self.tabBarController?.tabBar.hidden = false
+        UIView.animateWithDuration(0.2, animations: {
+            var center = button.center
+            center.y -= 100
+            button.center = center
+            button.alpha = 1
+        })
+    }
+    override func viewDidLoad() {
+        tableView.backgroundColor = UIColor.clearColor()
+        self.title = deck.name
+        
+        //If there are no more cards scheduled for today show only second tab in segmentedControl
+        if  deck.deck.count == 0 {
+            segmentedControl.setEnabled(false, forSegmentAtIndex: 0)
+            segmentedControl.selectedSegmentIndex = 1
+        }
+        
+        let normalBlue = UIColor(red: 0, green: 0.6, blue: 1, alpha: 1)
+        let lighterBlue = UIColor(red: 0, green: 0.8, blue: 1, alpha: 1)
+        let gradient = CAGradientLayer()
+        gradient.colors = [normalBlue.CGColor, lighterBlue.CGColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 0.0, y: 0.95)
+        gradient.frame = self.view.bounds
+        self.view.layer.insertSublayer(gradient, atIndex: 0)
+        studyButton.layer.cornerRadius = 5
+    }
+}
+
+// MARK: TableView delegate & dataSource
+
+// TIP: Mozesz sobie poprzez extension rozdzielic kod VC od kodu implementujacego dany protokol
+extension BeforeLearningViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // TIP: Zbyt potezna funkcja, sprobuj zrobic ja mniejsza
+    // Np mozesz zrobic metode w UITableViewCell -configureCell(_:) i podac model w oparciu o ktory skonfigurujesz cellke
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -216,6 +275,7 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             return cell
         }
     }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -226,12 +286,15 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             return 3
         }
     }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.0000001
     }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -241,58 +304,5 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         default:
             return 44
         }
-    }
-    
-    //MARK: Segues
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowLearnViewController" {
-            let learnViewController = segue.destinationViewController as! LearnViewController
-            learnViewController.deck = deck
-            learnViewController.deckInDeckStore = deckInDeckStore
-        }
-    }
-    
-    //MARK: - View customization
-    
-    override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = true
-        UIView.animateWithDuration(0.2, animations: {
-            var center = button.center
-            center.y += 100
-            button.center = center
-            button.alpha = 0
-        })
-    }
-    override func viewWillDisappear(animated: Bool) {
-        //Reseting the navigation controller when leaving this view
-        self.tabBarController?.tabBar.hidden = false
-        UIView.animateWithDuration(0.2, animations: {
-            var center = button.center
-            center.y -= 100
-            button.center = center
-            button.alpha = 1
-        })
-    }
-    override func viewDidLoad() {
-        tableView.backgroundColor = UIColor.clearColor()
-        self.title = deck.name
-        
-        //If there are no more cards scheduled for today show only second tab in segmentedControl
-        if  deck.deck.count == 0 {
-            segmentedControl.setEnabled(false, forSegmentAtIndex: 0)
-            segmentedControl.selectedSegmentIndex = 1
-        }
-        
-        let normalBlue = UIColor(red: 0, green: 0.6, blue: 1, alpha: 1)
-        let lighterBlue = UIColor(red: 0, green: 0.8, blue: 1, alpha: 1)
-        let gradient = CAGradientLayer()
-        gradient.colors = [normalBlue.CGColor, lighterBlue.CGColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 0.0, y: 0.95)
-        gradient.frame = self.view.bounds
-        self.view.layer.insertSublayer(gradient, atIndex: 0)
-        studyButton.layer.cornerRadius = 5
     }
 }
