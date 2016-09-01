@@ -34,6 +34,8 @@ public func printD(date: NSDate) {
     print(defaultTimeZoneStr)
 }
 
+// TIP: Poczytaj o dateFormats, klasy NSDateFormatter i sprobuj to zrobic za pomoca tego :)
+// Zrob extension na NSDate ktora bedzie zwracala dateString
 public func stringFromDate(date: NSDate) -> String {
     let day = NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date).day
     let month = NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: date).month
