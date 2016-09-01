@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4E6997151D76DEFE0073C4CB /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6997141D76DEFE0073C4CB /* UIColor+AppColors.swift */; };
+		4E6997171D785C960073C4CB /* UITableViewCell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6997161D785C960073C4CB /* UITableViewCell+Identifier.swift */; };
 		54054FA81D060A8000DDCE31 /* SettingsAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54054FA71D060A8000DDCE31 /* SettingsAboutViewController.swift */; };
 		54054FAA1D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54054FA91D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift */; };
 		5420A7311C84B6F600E44523 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5420A7301C84B6F600E44523 /* AppDelegate.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		4E6997141D76DEFE0073C4CB /* UIColor+AppColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+AppColors.swift"; path = "Extensions/UIColor+AppColors.swift"; sourceTree = "<group>"; };
+		4E6997161D785C960073C4CB /* UITableViewCell+Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableViewCell+Identifier.swift"; path = "Extensions/UITableViewCell+Identifier.swift"; sourceTree = "<group>"; };
 		54054FA71D060A8000DDCE31 /* SettingsAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsAboutViewController.swift; sourceTree = "<group>"; };
 		54054FA91D0722CE00DDCE31 /* NewCardsPerDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewCardsPerDeckViewController.swift; sourceTree = "<group>"; };
 		5420A72D1C84B6F600E44523 /* Vocabuildary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocabuildary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				4E6997141D76DEFE0073C4CB /* UIColor+AppColors.swift */,
+				4E6997161D785C960073C4CB /* UITableViewCell+Identifier.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				54D1A1591D6DA56A00C46F29 /* TodayTableViewController.swift in Sources */,
 				54D1A1481D6DA53000C46F29 /* ChartViewCell.swift in Sources */,
 				547DA1D81C9719C700E68B12 /* AddCardsDeckViewController.swift in Sources */,
+				4E6997171D785C960073C4CB /* UITableViewCell+Identifier.swift in Sources */,
 				54D1A1541D6DA55100C46F29 /* DeckHistory.swift in Sources */,
 				54D1A14A1D6DA53000C46F29 /* SliderCell.swift in Sources */,
 				5429A09B1C95B3FD00A832D6 /* SettingsViewController.swift in Sources */,
