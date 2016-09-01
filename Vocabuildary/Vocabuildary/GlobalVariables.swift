@@ -14,3 +14,9 @@ public let heightForFooterInSection: CGFloat = 0.000001
 public let locale = NSLocale.currentLocale()
 
 public let button = UIButton()
+
+// TIP: Constanty raczej dzieli sie na struktury, np:
+
+public struct TableViewDimensions {
+    static let HeightForHeaderInSection: CGFloat = 35.0
+}

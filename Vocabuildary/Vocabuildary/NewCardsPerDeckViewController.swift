@@ -14,6 +14,7 @@ class NewCardsPerDeckViewController: UITableViewController {
     private let cards = [1, 3, 5, 10, 15, 20, 30, 50, 100]
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // TIP: Zamiast magic stringow mozesz tutaj uzyc extension, ktore stworzylem: UITableViewCell+Identifier, obczaj sobie jak ono dziala
         let cell = tableView.dequeueReusableCellWithIdentifier("NewCards", forIndexPath: indexPath)
         cell.accessoryType = .None
         switch indexPath.row {

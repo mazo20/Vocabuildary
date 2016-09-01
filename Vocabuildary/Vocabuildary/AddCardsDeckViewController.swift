@@ -13,7 +13,9 @@ protocol SendDataDelegate {
 }
 
 class AddCardsDeckViewController: UITableViewController {
-    var delegate: SendDataDelegate!
+    // TIP: delegate powinien byc zadeklarowany jako weak i byc optionalem, bo inaczej doprowadzisz do retain cycle
+    // Poczytaj o retain cycles / ARC w iOS
+    var delegate: SendDataDelegate!             // weak var delegate: SendDataDelegate?
     var deckStore: DeckStore!
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
