@@ -23,6 +23,8 @@ import UIKit
     var chartType: type!
     var numberOfLines: Int!
     
+    // TIP: Zdecydowanie za dluga funkcja
+    // Rozbij na pare mniejszych
     override func drawRect(rect: CGRect) {
         clearView()
         self.clipsToBounds = true
@@ -31,6 +33,7 @@ import UIKit
         let color2 = UIColor(red: 0, green: 0.8, blue: 1, alpha: 1)
         let darkYellow = UIColor(red: 1, green: 0.737, blue: 0, alpha: 1)
         
+        // TIP: Ten gradient mozna przeniesc do osobnej funkcji
         let gradient = CAGradientLayer()
         gradient.colors = [color2.CGColor, color1.CGColor]
         gradient.locations = [0.0 , 1.0]
@@ -51,6 +54,7 @@ import UIKit
         layer.lineCap = kCALineCapRound
         layer.lineJoin = kCALineJoinBevel
         self.layer.insertSublayer(layer, atIndex: 1)
+        // TIP: path1, layer1, jezeli juz musisz uzywac jakiejkolwiek numeracji to lepsze bedzie np layerOne, layerA
         let path1 = UIBezierPath()
         path1.moveToPoint(CGPointMake(self.bounds.size.width/13-15, self.bounds.origin.y+50))
         path1.addLineToPoint(CGPointMake(self.bounds.size.width/13*12+15, self.bounds.origin.y+50))
@@ -66,6 +70,7 @@ import UIKit
         lines()
         scaleLabels(maxValue)
         
+        // TIP: labelki do osobnej funkcji
         let nameLabel = UILabel(frame: CGRectMake(self.bounds.size.width/13-15, self.bounds.origin.y+10, 200, 20))
         nameLabel.font = UIFont.systemFontOfSize(20, weight: UIFontWeightLight)
         nameLabel.textColor = UIColor.whiteColor()
@@ -85,6 +90,7 @@ import UIKit
         }
         let average = all/numberOfLines
         
+        // TIP: Serio if? Zrob to na switchu jak masz enuma :D
         if chartType == .Cards {
             nameLabel.text = "Reviews"
             valueLabel.text = "\(all) reviews"
@@ -126,7 +132,9 @@ import UIKit
             lineHeights.append(0)
         }
         var date = NSDate()
+        // TIP: Magic numbers!!! Zamien na stale
         if numberOfLines == 12 {
+            // TIP: Raczej unikaj force unwrapping optionali, lepiej zawsze uzyc if let, kod jest wtedy mniej podatny na crashe
             date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Month, value: -12, toDate: NSDate(), options: NSCalendarOptions.init(rawValue: 0))!
             for i in 0...11 {
                 date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Month, value: 1, toDate: date, options: NSCalendarOptions.init(rawValue: 0))!
@@ -184,6 +192,7 @@ import UIKit
             lineHeights[2]+=history.answers[2]
         }
     }
+    // TIP: Zbyt dluga funkcja, rozbij na mniejsze, switch zamiast if
     func lines() {
         lineHeightsData()
         if chartType == .Answers {
