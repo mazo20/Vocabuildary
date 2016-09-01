@@ -20,7 +20,7 @@ class SettingsAboutViewController: UITableViewController {
             cell.detailTextLabel?.text = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String
         case 1:
             cell.textLabel?.text = "Build"
-            cell.detailTextLabel?.text = "341.0"
+            cell.detailTextLabel?.text = "341.0" // TIP: NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as? String
         default:
             cell.textLabel?.text = "Developed by"
             cell.detailTextLabel?.text = "Maciej Kowalski"
