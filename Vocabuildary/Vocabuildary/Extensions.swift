@@ -48,6 +48,8 @@ public func dateComponentFormatter(component: Int) -> String {
     return "0\(component)"
 }
 
+
+// TIP: To mozna przeniesc do NSDate+Days.swift czy jakkolwiek chcesz to nazwac
 extension NSDate {
     var today: NSDate {
         let date = NSDate()
