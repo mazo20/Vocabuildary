@@ -13,10 +13,12 @@ class TabBarController: UITabBarController {
     var deckStore: DeckStore!
     
     override func viewWillAppear(animated: Bool) {
+        // TIP: struct Image
         let image = UIImage(imageLiteral: "addButton128Dark")
         button.bounds = CGRectMake(0, 0, image.size.width, image.size.height)
         button.setImage(image, forState: .Normal)
         var center = self.tabBar.center
+        // TIP: struct Dimension.DeckCenterOffset czy jakos tak
         center.y -= 8
         button.center = center
         button.addTarget(self, action: #selector(TabBarController.addButton(_:)), forControlEvents: .TouchUpInside)
@@ -29,14 +31,18 @@ class TabBarController: UITabBarController {
         self.tabBar.addSubview(tabBarVisualEffect)
         self.tabBar.sendSubviewToBack(tabBarVisualEffect)
     }
+    
     func addButton(sender: AnyObject) {
         self.selectedViewController?.loadViewIfNeeded()
         self.performSegueWithIdentifier("addCardsOrDecks", sender: nil)
     }
+    
     override func viewWillLayoutSubviews() {
         view.bringSubviewToFront(button)
     }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //TIP: Tutaj to samo, zamien magic string na struct SegueIdentifier, mozesz zrobic jeden plik w ktorym bedziesz mial zdefiniowane wszystkie struktury globalne, tak jak masz w np GlobalVariables.swift
         if segue.identifier == "addCardsOrDecks" {
             let navController = segue.destinationViewController as! UINavigationController
             let viewController = navController.topViewController as! AddDeckViewController
