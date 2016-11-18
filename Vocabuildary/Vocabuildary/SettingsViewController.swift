@@ -11,37 +11,37 @@ import MessageUI
 
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
             return 3
         } else {
             return 1
         }
     }
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("SettingsCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath)
         cell.detailTextLabel?.text = nil
-        cell.detailTextLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        cell.textLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
         case 0:
-            switch indexPath.row {
+            switch (indexPath as NSIndexPath).row {
             case 0:
                 cell.textLabel?.text = "New cards per deck"
-                cell.detailTextLabel?.text = "\(NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int)"
-                cell.accessoryType = .DisclosureIndicator
+                cell.detailTextLabel?.text = "\(UserDefaults.standard.object(forKey: "newCards") as! Int)"
+                cell.accessoryType = .disclosureIndicator
             case 1:
                 cell.textLabel?.text = "New cards"
             default:
                 cell.textLabel?.text = "Default behaviour"
             }
         case 1:
-            switch indexPath.row {
+            switch (indexPath as NSIndexPath).row {
             case 0:
                 cell.textLabel?.text = "Rate Vocabuildary"
             case 1:
@@ -49,14 +49,14 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             default:
                 cell.textLabel?.text = "Report a bug"
             }
-            cell.accessoryType = .DisclosureIndicator
+            cell.accessoryType = .disclosureIndicator
         default:
-            cell.accessoryType = .DisclosureIndicator
+            cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "About the app"
         }
         return cell
     }
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "Learning performance"
         } else if section == 1{
@@ -65,7 +65,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             return nil
         }
     }
-    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
             return "Customize the learning frequency and typical behavior"
         } else if section == 1 {
@@ -74,49 +74,51 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             return nil
         }
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
-            dispatch_async(dispatch_get_main_queue(),{
-                self.performSegueWithIdentifier("NewCards", sender: self)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 {
+            DispatchQueue.main.async(execute: {
+                self.performSegue(withIdentifier: "NewCards", sender: self)
             })
-        } else if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                UIApplication.sharedApplication().openURL(NSURL(string : "https://itunes.apple.com/bh/app/facebook/id284882215?mt=8")!)
+        } else if (indexPath as NSIndexPath).section == 1 {
+            if (indexPath as NSIndexPath).row == 0 {
+                UIApplication.shared.openURL(URL(string : "https://itunes.apple.com/bh/app/facebook/id284882215?mt=8")!)
             } else {
-                var systemInfo = [UInt8](count: sizeof(utsname), repeatedValue: 0)
-                let model = systemInfo.withUnsafeMutableBufferPointer { (inout body: UnsafeMutableBufferPointer<UInt8>) -> String? in
+                /*
+                var systemInfo = [UInt8](repeating: 0, count: MemoryLayout<utsname>.size)
+                let model = systemInfo.withUnsafeMutableBufferPointer { (body: inout UnsafeMutableBufferPointer<UInt8>) -> String? in
                     if uname(UnsafeMutablePointer(body.baseAddress)) != 0 {
                         return nil
                     }
-                    return String.fromCString(UnsafePointer(body.baseAddress.advancedBy(Int(_SYS_NAMELEN * 4))))
+                    return String(cString: UnsafePointer((body.baseAddress?.advanced(by: Int(_SYS_NAMELEN * 4)))!))
                 }
+                 */
                 let email = MFMailComposeViewController()
                 email.mailComposeDelegate = self
-                email.setMessageBody("\n\n\n-----------------\nApp version: \(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString")!)\niOS version: \(UIDevice.currentDevice().systemVersion)\nDevice Model: \(model!)", isHTML: false)
-                if indexPath.row == 1 {
+                email.setMessageBody("\n\n\n-----------------\nApp version: \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")!)\niOS version: \(UIDevice.current.systemVersion)\nDevice Model: ", isHTML: false)
+                if (indexPath as NSIndexPath).row == 1 {
                     email.setSubject("New function")
                 } else {
                     email.setSubject("Bug report")
                 }
                 email.setToRecipients(["maciek.kowalski.nsz@gmail.com"]) // the recipient email address
-                email.preferredStatusBarStyle()
+                //email.preferredStatusBarStyle
                 
                 if MFMailComposeViewController.canSendMail() {
-                    dispatch_async(dispatch_get_main_queue(),{
-                        self.presentViewController(email, animated: true, completion: nil)
+                    DispatchQueue.main.async(execute: {
+                        self.present(email, animated: true, completion: nil)
                     })
                 }
             }
-        } else if indexPath.section == 2 {
-            dispatch_async(dispatch_get_main_queue(),{
-                self.performSegueWithIdentifier("About", sender: self)
+        } else if (indexPath as NSIndexPath).section == 2 {
+            DispatchQueue.main.async(execute: {
+                self.performSegue(withIdentifier: "About", sender: self)
             })
         }
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
 }

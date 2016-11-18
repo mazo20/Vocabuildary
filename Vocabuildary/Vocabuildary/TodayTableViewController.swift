@@ -7,22 +7,21 @@
 //
 
 import UIKit
+//import CloudKit
 
 class TodayTableViewController: UITableViewController, UIViewControllerPreviewingDelegate {
     
     //MARK: Properties
     
     var deckStore: DeckStore!
-    var decks = [Deck]()
-    var otherDecks = [Deck]()
-    var newCardsToShow: Int!
-    var today = NSDate().today
+    var decksForToday = [Deck]()
     var numberOfCards: [Int] {
         var array = [0, 0, 0]
-        for deck in decks {
-            array[0]+=deck.whatCards[0]
-            array[1]+=deck.whatCards[1]
-            array[2]+=deck.whatCards[2]
+        for deck in decksForToday {
+            let whatCards = deck.whatCards(deck.cardsForToday)
+            for i in 0...2 {
+                array[i]+=whatCards[i]
+            }
         }
         return array
     }
@@ -35,84 +34,26 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
     @IBOutlet var toStudy: UILabel!
     @IBOutlet var notShown: UILabel!
     @IBOutlet var learned: UILabel!
-    //MARK: - Cards to show algorithm
-    /**
-     Algorithm that chooses cards to show for today
-    */
-    func searchForCards() {
-        if NSUserDefaults.standardUserDefaults().objectForKey("today") as! NSDate != NSDate().today {
-            NSUserDefaults.standardUserDefaults().setObject(NSDate().today, forKey: "today")
-            for deck in deckStore.deckStore {
-                deck.newCardsToday = 0
-            }
-        }
-        var decks = [Deck]()
-        var otherDecks = [Deck]()
-        for deck in deckStore.deckStore {
-            if deck.deck.count == 0 {
-                continue
-            }
-            let newDeck = Deck(name: deck.name)
-            newDeck.time = deck.time
-            let d = Deck(name: deck.name)
-            d.newCardsToday = deck.newCardsToday
-            for card in deck.deck {
-                d.addCard(card)
-            }
-            if d.name != "Welcome to Vocabuildary!" {
-                d.shuffle()
-            }
-            let userDefaultsNewCards = NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int
-            if newCardsToShow != userDefaultsNewCards {
-                for card in d.deck {
-                    if card.numberOfViews == 0 {
-                        card.date = NSDate().today
-                    }
-                }
-            }
-            for card in d.deck {
-                if NSDate().compare(card.date) != .OrderedAscending {
-                    if card.numberOfViews == 0 {
-                        if d.newCardsToday < NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int {
-                            newDeck.addCard(card)
-                            d.newCardsToday+=1
-                        }
-                    } else {
-                        newDeck.addCard(card)
-                    }
-                } else {
-                    if card.numberOfViews == 0 {
-                        let nextDate = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: 1, toDate: NSDate().today, options: NSCalendarOptions.init(rawValue: 0))
-                        card.date = nextDate!
-                    }
-                }
-            }
-            if newDeck.deck.count > 0 {
-                decks.append(newDeck)
-            } else {
-                otherDecks.append(newDeck)
-            }
-        }
-        self.decks = decks+otherDecks
-    }
     
     //MARK: TableView methods
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return decks.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return decksForToday.count
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TodayCell", forIndexPath: indexPath) as! TodayCell
-        cell.deckName.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        cell.deckName.text = decks[indexPath.row].name
-        let cardsInDeck = decks[indexPath.row].whatCards
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodayCell", for: indexPath) as! TodayCell
+        cell.deckName.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        let deck = decksForToday[indexPath.row]
+        cell.deckName.text = deck.name
+        let cardsInDeck = deck.whatCards(deck.cardsForToday)
         cell.newCards.text = String(cardsInDeck[0])
         cell.repeatingCards.text = String(cardsInDeck[1])
         cell.problematicCards.text = String(cardsInDeck[2])
         if cardsInDeck == [0, 0, 0] {
-            cell.newCards.textColor = UIColor.grayColor()
-            cell.repeatingCards.textColor = UIColor.grayColor()
-            cell.problematicCards.textColor = UIColor.grayColor()
+            cell.newCards.textColor = UIColor.gray
+            cell.repeatingCards.textColor = UIColor.gray
+            cell.problematicCards.textColor = UIColor.gray
         } else {
             cell.newCards.textColor = UIColor(red: 0.2, green: 0.6, blue: 0, alpha: 1)
             cell.repeatingCards.textColor = blueThemeColor()
@@ -123,41 +64,37 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
     
     //MARK: Segues and 3D Touch
     
-    @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
+    @IBAction func prepareForUnwind(_ segue: UIStoryboardSegue) {
         //self.performSegueWithIdentifier("exit", sender: self)
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let row = tableView.indexPathForSelectedRow?.row {
-            //Get the item associated with this row and pass it along
-            let deck = decks[row]
-            let beforeLearningViewController = segue.destinationViewController as! BeforeLearningViewController
-            beforeLearningViewController.deck = deck
-            beforeLearningViewController.deckInDeckStore = deckStore.deckWithName(deck.name)
-            beforeLearningViewController.deckStore = deckStore
+            let beforeLearningViewController = segue.destination as! BeforeLearningViewController
+            beforeLearningViewController.deck = decksForToday[row]
         }
     }
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = tableView.indexPathForRowAtPoint(location) else {return nil}
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {return nil}
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location) else {return nil}
+        guard let cell = tableView.cellForRow(at: indexPath) else {return nil}
+        guard let beforeLearningViewController = storyboard?.instantiateViewController(withIdentifier: "BeforeLearningViewController") as? BeforeLearningViewController else {return nil}
         
-        guard let beforeLearningViewController = storyboard?.instantiateViewControllerWithIdentifier("BeforeLearningViewController") as? BeforeLearningViewController else {return nil}
-        beforeLearningViewController.deck = decks[indexPath.row]
-        beforeLearningViewController.deckInDeckStore = deckStore.deckWithName(decks[indexPath.row].name)
-        beforeLearningViewController.deckStore = deckStore
+        beforeLearningViewController.deck = decksForToday[(indexPath as NSIndexPath).row]
         previewingContext.sourceRect = cell.frame
         
         return beforeLearningViewController
     }
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-        showViewController(viewControllerToCommit, sender: self)
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
     
     //MARK: - View customization
     
     override func viewDidLoad() {
-        newCardsToShow = NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int
-        if( traitCollection.forceTouchCapability == .Available){
-            registerForPreviewingWithDelegate(self, sourceView: view)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: view)
         }
         let tabBar = self.tabBarController as! TabBarController
         self.deckStore = tabBar.deckStore
@@ -170,45 +107,53 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
         notShown.text = String(deckStore.cards[2])
         learned.text = String(deckStore.cards[3])
         
-        searchForCards()
         
         navigationController?.navigationItem.backBarButtonItem?.title = "Back"
         navigationItem.backBarButtonItem?.title = ""
         
         let blueView = UIView()
-        let blueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        let blueRect = CGRect(x: 0, y: 0, width: self.view.frame.size.width*3, height: self.view.frame.size.height)
         blueView.frame = blueRect
-        blueView.center = CGPointMake(self.view.frame.size.width/2,-self.view.frame.size.height/2)
+        blueView.center = CGPoint(x: self.view.frame.size.width/2,y: -self.view.frame.size.height/2)
         blueView.backgroundColor = blueThemeColor()
         self.view.addSubview(blueView)
         
-        let lineView = UIView(frame: CGRectMake(0,self.navigationController!.navigationBar.frame.size.height,self.view.frame.size.width,1))
-        lineView.backgroundColor = blueThemeColor()
-        self.navigationController?.navigationBar.addSubview(lineView)
-        
         let bounds = informationView.bounds as CGRect!
         let infoView = UIView()
-        infoView.frame = bounds
-        infoView.backgroundColor = blueThemeColor()
+        infoView.frame = bounds!
+        infoView.backgroundColor = UIColor.blueThemeColor()
         informationView.addSubview(infoView)
-        informationView.sendSubviewToBack(infoView)
+        informationView.sendSubview(toBack: infoView)
         let lineView1 = UIView()
-        lineView1.frame = CGRectMake((self.view.frame.size.width-16)/3+8, infoView.frame.size.height/6+3, 0.5, infoView.frame.size.height*3/6)
-        lineView1.backgroundColor = UIColor.whiteColor()
+        lineView1.frame = CGRect(x: (self.view.frame.size.width-16)/3+8, y: infoView.frame.size.height/6+3, width: 0.5, height: infoView.frame.size.height*3/6)
+        lineView1.backgroundColor = UIColor.white
         informationView.addSubview(lineView1)
         let lineView2 = UIView()
-        lineView2.frame = CGRectMake((self.view.frame.size.width-16)/3*2+8, infoView.frame.size.height/6+3, 0.5, infoView.frame.size.height*3/6)
-        lineView2.backgroundColor = UIColor.whiteColor()
+        lineView2.frame = CGRect(x: (self.view.frame.size.width-16)/3*2+8, y: infoView.frame.size.height/6+3, width: 0.5, height: infoView.frame.size.height*3/6)
+        lineView2.backgroundColor = UIColor.white
         informationView.addSubview(lineView2)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TodayTableViewController.appBecomeActive), name: UIApplicationWillEnterForegroundNotification, object: nil )
+        NotificationCenter.default.addObserver(self, selector: #selector(TodayTableViewController.appBecomeActive), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil )
     }
+    
     func appBecomeActive() {
-        //call viewDidAppear when the app becomes active
         viewDidAppear(true)
     }
-    override func viewDidAppear(animated: Bool) {
-        searchForCards()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
+        decksForToday = [Deck]()
+        var emptyDecks = [Deck]()
+        for deck in deckStore.decks {
+            deck.cardsInDeckForToday()
+            if deck.cardsForToday.count > 0 {
+                decksForToday.append(deck)
+            } else {
+                emptyDecks.append(deck)
+            }
+        }
+        decksForToday = decksForToday + emptyDecks
         tableView.reloadData()
         newCards.text = String(numberOfCards[0])
         repeatingCards.text = String(numberOfCards[1])
@@ -217,5 +162,6 @@ class TodayTableViewController: UITableViewController, UIViewControllerPreviewin
         toStudy.text = String(deckStore.cards[1])
         notShown.text = String(deckStore.cards[2])
         learned.text = String(deckStore.cards[3])
+        
     }
 }

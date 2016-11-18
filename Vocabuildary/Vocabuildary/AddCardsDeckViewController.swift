@@ -8,34 +8,38 @@
 
 import UIKit
 
-protocol SendDataDelegate {
-    func sendData(data: Int)
+protocol SendDeckDelegate {
+    func sendDeck(_ deck: Deck?)
 }
 
 class AddCardsDeckViewController: UITableViewController {
-    var delegate: SendDataDelegate!
+    var delegate: SendDeckDelegate!
     var deckStore: DeckStore!
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return deckStore.deckStore.count
-    }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("DeckCell", forIndexPath: indexPath)
-        cell.textLabel?.text = deckStore.deckStore[indexPath.row].name
-        return cell
-    }
-    @IBAction func cancelBarButton(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(),{
-            self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelBarButton(_ sender: AnyObject) {
+        DispatchQueue.main.async(execute: {
+            self.dismiss(animated: true, completion: nil)
         })
     }
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return deckStore.decks.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DeckCell", for: indexPath)
+        cell.textLabel?.text = deckStore.decks[(indexPath as NSIndexPath).row].name
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Choose deck to add cards to"
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate.sendData(indexPath.row)
-        dispatch_async(dispatch_get_main_queue(),{
-            self.dismissViewControllerAnimated(true, completion: nil)
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.delegate.sendDeck(deckStore.decks[indexPath.row])
+        DispatchQueue.main.async(execute: {
+            self.dismiss(animated: true, completion: nil)
         })
     }
 }

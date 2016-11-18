@@ -8,23 +8,17 @@
 
 import UIKit
 
-class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TimeFormatable {
     
     //MARK: Properties
     
     var deck: Deck!
-    var deckInDeckStore: Deck!
-    var deckStore: DeckStore!
     var newCardsLabel = UILabel()
     var repeatCardsLabel = UILabel()
     var timeLabel: UILabel!
-    var numberOfScheduledCardsTypes: [Int] {
-        return deck.whatCards
-    }
-    var totalNumberOfScheduledCards: Int {
-        return deck.deck.count
-    }
+    
     var numberOfExtraCards = [0, 0]
+    var maxExtraCards = [0,0]
     var totalNumberOfExtraCards: Int {
         return numberOfExtraCards[0] + numberOfExtraCards[1]
     }
@@ -41,73 +35,65 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     
     //MARK: Time counting
     
-    var totalTimeSpentInDeck: NSTimeInterval {
-        var time = NSTimeInterval()
-        for history in deckInDeckStore.history {
-            time+=history.time
+    var totalTimeSpentInDeck: TimeInterval {
+        var time = TimeInterval()
+        for card in deck.cards {
+            for answer in card.answers {
+                time+=answer.time
+            }
         }
         return time
     }
-    var averageTimeSpentPerDay: NSTimeInterval {
-        if deckInDeckStore.history.count != 0 {
-            return totalTimeSpentInDeck/NSTimeInterval(deckInDeckStore.history.count)
-        }
-        return 0
-    }
-    func expectedTime() -> NSTimeInterval {
-        var numberOfCards: Int {
-            if segmentedControl.selectedSegmentIndex == 0 {
-                return totalNumberOfScheduledCards
+    var averageTimePerAnswer: TimeInterval {
+        var answers = 0.0
+        for card in deck.cards {
+            for _ in card.answers {
+                answers+=1
             }
-            return totalNumberOfExtraCards
         }
-        if deckInDeckStore.numberOfRepeats == 0 || totalTimeSpentInDeck == 0 {
-            return Double(numberOfCards)*10
+        if answers == 0 { return 0 }
+        return totalTimeSpentInDeck/answers
+    }
+    func expectedTime() -> TimeInterval {
+        let time = averageTimePerAnswer == 0 ? 3 : averageTimePerAnswer
+        if segmentedControl.selectedSegmentIndex == 0 {
+            return time * Double(deck.cardsForToday.count)
         }
-        return totalTimeSpentInDeck/Double(deckInDeckStore.numberOfRepeats)*Double(numberOfCards)
+        return time * Double(totalNumberOfExtraCards)
     }
     
     
     //MARK: Actions
     
-    @IBAction func studyButton(sender: AnyObject) {
-        //If "Study" button was pressed when first tab was selected perform segue with already chosen cards
+    @IBAction func studyButton(_ sender: AnyObject) {
         if segmentedControl.selectedSegmentIndex == 0 {
-            self.performSegueWithIdentifier("ShowLearnViewController", sender: self)
-        //Otherwise find requested number of new cards and repeats and fetch them to new View Controller
+            self.performSegue(withIdentifier: "ShowLearnViewController", sender: self)
         } else {
-            //If no extra cards were picked just return
             guard numberOfExtraCards[0] > 0 || numberOfExtraCards[1] > 0 else {return}
-            //Shuffle a deck to randomize the cards
-            deck = Deck(name: deckInDeckStore.name)
-            for card in deckInDeckStore.deck {
-                deck.addCard(card)
-            }
-            deck.shuffle()
+            
             var newCardsToLearn = 0
             var cardsToRepeat = 0
-            for card in deckInDeckStore.deck {
-                if newCardsToLearn < numberOfExtraCards[0] && card.numberOfViews == 0{
-                    deck.addCard(card)
+            let shuffledDeck = deck.shuffle(array: deck.cards)
+            for card in shuffledDeck {
+                if newCardsToLearn < numberOfExtraCards[0] && card.status == .new {
+                    deck.extraCards.append(card)
                     newCardsToLearn+=1
-                } else if cardsToRepeat < numberOfExtraCards[1] && card.numberOfViews != 0 {
-                    deck.addCard(card)
+                } else if cardsToRepeat < numberOfExtraCards[1] && card.status != .new {
+                    deck.extraCards.append(card)
                     cardsToRepeat+=1
                 }
-                //If exact number of cards was found break the loop
                 if newCardsToLearn == numberOfExtraCards[0] && cardsToRepeat == numberOfExtraCards[1] {
                     break
                 }
             }
-            self.performSegueWithIdentifier("ShowLearnViewController", sender: self)
+            self.performSegue(withIdentifier: "ShowLearnViewController", sender: self)
         }
     }
-    @IBAction func segmentedControlUpdateView(sender: AnyObject) {
-        //Reload the data when tabs change
+    @IBAction func segmentedControlUpdateView(_ sender: AnyObject) {
         tableView.reloadData()
         chartView.setNeedsDisplay()
     }
-    func sliderChanged(sender: UISlider) {
+    func sliderChanged(_ sender: UISlider) {
         if sender.tag == 1 && newCardsLabel.text != String(Int(sender.value)) {
             newCardsLabel.text = String(Int(sender.value))
             numberOfExtraCards[0] = Int(sender.value)
@@ -122,93 +108,65 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     
     //MARK: - TableView methods
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch (indexPath as NSIndexPath).section {
         case 0:
             if segmentedControl.selectedSegmentIndex == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("numberOfCardsCell", forIndexPath: indexPath) as! CardsNumberCell
-                cell.newCards.text = String(numberOfScheduledCardsTypes[0])
-                cell.repeatingCards.text = String(numberOfScheduledCardsTypes[1])
-                cell.problematicCards.text = String(numberOfScheduledCardsTypes[2])
+                let cell = tableView.dequeueReusableCell(withIdentifier: "numberOfCardsCell", for: indexPath) as! CardsNumberCell
+                let scheduledCards = deck.whatCards(deck.cardsForToday)
+                cell.newCards.text = String(scheduledCards[0])
+                cell.repeatingCards.text = String(scheduledCards[1])
+                cell.problematicCards.text = String(scheduledCards[2])
                 return cell
             } else {
-                var new = 0
-                for card in deckInDeckStore.deck {
-                    if card.numberOfViews == 0 {
-                        new+=1
-                    }
-                }
-                let cell = tableView.dequeueReusableCellWithIdentifier("numberCell", forIndexPath: indexPath) as! SliderCell
-                cell.numberLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-                cell.numberLabel.textColor = UIColor.lightTextColor()
-                cell.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-                cell.titleLabel.textColor = UIColor.whiteColor()
-                cell.slider.addTarget(self, action: #selector(BeforeLearningViewController.sliderChanged(_:)), forControlEvents: .ValueChanged)
-                if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "numberCell", for: indexPath) as! SliderCell
+                cell.numberLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+                cell.numberLabel.textColor = UIColor.lightText
+                cell.titleLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+                cell.titleLabel.textColor = UIColor.white
+                cell.slider.addTarget(self, action: #selector(BeforeLearningViewController.sliderChanged(_:)), for: .valueChanged)
+                cell.slider.minimumValue = 0
+                if (indexPath as NSIndexPath).row == 0 {
                     cell.titleLabel?.text = "New cards to learn"
                     newCardsLabel = cell.numberLabel
                     cell.slider.tag = 1
-                    cell.slider.maximumValue = Float(new)
-                    cell.slider.minimumValue = 0
-                    let newCards = NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int
-                    if new == 0 {
-                        cell.slider.alpha = 0.7
-                        newCardsLabel.text = "0"
-                    } else if new >= newCards {
-                        cell.slider.value = Float(newCards)
-                        numberOfExtraCards[0] = newCards
-                        newCardsLabel.text = "\(newCards)"
-                    } else {
-                        cell.slider.value = Float(new)
-                        numberOfExtraCards[0] = new
-                        newCardsLabel.text = String(new)
-                    }
+                    cell.slider.maximumValue = Float(maxExtraCards[0])
+                    if maxExtraCards[0] == 0 { cell.slider.alpha = 0.7 }
+                    cell.slider.value = Float(numberOfExtraCards[0])
+                    newCardsLabel.text = String(numberOfExtraCards[0])
                 } else {
-                    let repeats = deckInDeckStore.deck.count-new
                     cell.titleLabel?.text = "Cards to repeat"
                     repeatCardsLabel = cell.numberLabel
                     cell.slider.tag = 2
-                    cell.slider.maximumValue = Float(repeats)
-                    cell.slider.minimumValue = 0
-                    if repeats == 0 {
-                        cell.slider.alpha = 0.7
-                        repeatCardsLabel.text = "0"
-                    } else if repeats >= 10 {
-                        cell.slider.value = 10
-                        numberOfExtraCards[1] = 10
-                        repeatCardsLabel.text = "10"
-                    } else {
-                        cell.slider.value = Float(repeats)
-                        numberOfExtraCards[1] = repeats
-                        repeatCardsLabel.text = String(repeats)
-                    }
+                    cell.slider.maximumValue = Float(maxExtraCards[1])
+                    if maxExtraCards[1] == 0 { cell.slider.alpha = 0.7 }
+                    cell.slider.value = Float(numberOfExtraCards[1])
+                    repeatCardsLabel.text = String(numberOfExtraCards[1])
                 }
                 return cell
             }
         case 1:
-            let cell = tableView.dequeueReusableCellWithIdentifier("chartViewCell", forIndexPath: indexPath) as! ChartViewCell
-            cell.chartView.deck = deckInDeckStore
-            cell.chartView.chartType = .Learn
-            cell.chartView.numberOfLines = 7
-            cell.chartView.cardsToLearn = segmentedControl.selectedSegmentIndex == 0 ? totalNumberOfScheduledCards : totalNumberOfExtraCards
+            let cell = tableView.dequeueReusableCell(withIdentifier: "chartViewCell", for: indexPath) as! ChartViewCell
+            cell.chartView.deck = deck
+            cell.chartView.chartType = .learn
+            cell.chartView.range = .week
+            cell.chartView.cardsToLearn = segmentedControl.selectedSegmentIndex == 0 ? deck.cardsForToday.count : totalNumberOfExtraCards
             chartView = cell.chartView
             return cell
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("textCell", forIndexPath: indexPath)
-            cell.textLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-            cell.detailTextLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-            cell.textLabel?.textColor = UIColor.whiteColor()
-            cell.detailTextLabel?.textColor = UIColor.lightTextColor()
-            switch indexPath.row {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath)
+            cell.textLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+            cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+            cell.textLabel?.textColor = UIColor.white
+            cell.detailTextLabel?.textColor = UIColor.lightText
+            switch (indexPath as NSIndexPath).row {
             case 0:
                 cell.textLabel?.text = "Expected time"
                 cell.detailTextLabel?.text = timeFormatter(expectedTime())
-                if segmentedControl.selectedSegmentIndex == 1 {
-                    timeLabel = cell.detailTextLabel
-                }
+                if segmentedControl.selectedSegmentIndex == 1 { timeLabel = cell.detailTextLabel }
             case 1:
-                cell.textLabel?.text = "Average time for this deck"
-                cell.detailTextLabel?.text = timeFormatter(averageTimeSpentPerDay)
+                cell.textLabel?.text = "Average time answer"
+                cell.detailTextLabel?.text = timeFormatter(averageTimePerAnswer)
             default:
                 cell.textLabel?.text = "Total time for this deck"
                 cell.detailTextLabel?.text = timeFormatter(totalTimeSpentInDeck)
@@ -216,7 +174,7 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             return cell
         }
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return segmentedControl.selectedSegmentIndex == 0 ? 1 : 2
@@ -226,14 +184,14 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
             return 3
         }
     }
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.0000001
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.section {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch (indexPath as NSIndexPath).section {
         case 0:
             return segmentedControl.selectedSegmentIndex == 0 ? 152 : 76
         case 1:
@@ -245,29 +203,28 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
     
     //MARK: Segues
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowLearnViewController" {
-            let learnViewController = segue.destinationViewController as! LearnViewController
+            let learnViewController = segue.destination as! LearnViewController
             learnViewController.deck = deck
-            learnViewController.deckInDeckStore = deckInDeckStore
         }
     }
     
     //MARK: - View customization
     
-    override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = true
-        UIView.animateWithDuration(0.2, animations: {
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+        UIView.animate(withDuration: 0.2, animations: {
             var center = button.center
             center.y += 100
             button.center = center
             button.alpha = 0
         })
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         //Reseting the navigation controller when leaving this view
-        self.tabBarController?.tabBar.hidden = false
-        UIView.animateWithDuration(0.2, animations: {
+        self.tabBarController?.tabBar.isHidden = false
+        UIView.animate(withDuration: 0.2, animations: {
             var center = button.center
             center.y -= 100
             button.center = center
@@ -275,24 +232,30 @@ class BeforeLearningViewController: UIViewController, UITableViewDelegate, UITab
         })
     }
     override func viewDidLoad() {
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = UIColor.clear
         self.title = deck.name
         
+        maxExtraCards[0] = deck.cards.filter({ $0.status == .new }).count
+        maxExtraCards[1] = deck.cards.count-maxExtraCards[0]
+        let newCards = UserDefaults.standard.object(forKey: "newCards") as! Int
+        numberOfExtraCards[0] = maxExtraCards[0] > newCards ? newCards : maxExtraCards[0]
+        numberOfExtraCards[1] = maxExtraCards[1] > 15 ? 15 : maxExtraCards[1]
+        
         //If there are no more cards scheduled for today show only second tab in segmentedControl
-        if  deck.deck.count == 0 {
-            segmentedControl.setEnabled(false, forSegmentAtIndex: 0)
+        if  deck.cardsForToday.count == 0 {
+            segmentedControl.setEnabled(false, forSegmentAt: 0)
             segmentedControl.selectedSegmentIndex = 1
         }
         
         let normalBlue = UIColor(red: 0, green: 0.6, blue: 1, alpha: 1)
         let lighterBlue = UIColor(red: 0, green: 0.8, blue: 1, alpha: 1)
         let gradient = CAGradientLayer()
-        gradient.colors = [normalBlue.CGColor, lighterBlue.CGColor]
+        gradient.colors = [normalBlue.cgColor, lighterBlue.cgColor]
         gradient.locations = [0.0 , 1.0]
         gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradient.endPoint = CGPoint(x: 0.0, y: 0.95)
         gradient.frame = self.view.bounds
-        self.view.layer.insertSublayer(gradient, atIndex: 0)
+        self.view.layer.insertSublayer(gradient, at: 0)
         studyButton.layer.cornerRadius = 5
     }
 }

@@ -15,6 +15,7 @@
 		5431631B1C95F6D5004D9D18 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5431631A1C95F6D5004D9D18 /* DecksViewController.swift */; };
 		5432AFDB1D6C46B7007600E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5432AFDD1D6C46B7007600E0 /* Main.storyboard */; };
 		546BC9FB1C8A2FB900B2C1AE /* LearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546BC9FA1C8A2FB900B2C1AE /* LearnViewController.swift */; };
+		54799A721DD776E8008898D6 /* Cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 54799A711DD776E8008898D6 /* Cards.png */; };
 		547DA1D61C9717FD00E68B12 /* AddDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DA1D51C9717FD00E68B12 /* AddDeckViewController.swift */; };
 		547DA1D81C9719C700E68B12 /* AddCardsDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DA1D71C9719C700E68B12 /* AddCardsDeckViewController.swift */; };
 		547DA20E1C974D7200E68B12 /* CardsInDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DA20D1C974D7200E68B12 /* CardsInDeckViewController.swift */; };
@@ -33,7 +34,6 @@
 		54D1A14C1D6DA53000C46F29 /* TodayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1461D6DA53000C46F29 /* TodayCell.swift */; };
 		54D1A1521D6DA55100C46F29 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A14E1D6DA55100C46F29 /* Card.swift */; };
 		54D1A1531D6DA55100C46F29 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A14F1D6DA55100C46F29 /* Deck.swift */; };
-		54D1A1541D6DA55100C46F29 /* DeckHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1501D6DA55100C46F29 /* DeckHistory.swift */; };
 		54D1A1551D6DA55100C46F29 /* DeckStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1511D6DA55100C46F29 /* DeckStore.swift */; };
 		54D1A1581D6DA56A00C46F29 /* BeforeLearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */; };
 		54D1A1591D6DA56A00C46F29 /* TodayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D1A1571D6DA56A00C46F29 /* TodayTableViewController.swift */; };
@@ -49,7 +49,10 @@
 		54D1A1701D6DA59000C46F29 /* tabBarIconToday@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1641D6DA59000C46F29 /* tabBarIconToday@3x.png */; };
 		54D1A1711D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1651D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png */; };
 		54D1A1721D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D1A1661D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png */; };
+		54D540D61DD77467008FECC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54D540D51DD77467008FECC4 /* LaunchScreen.storyboard */; };
+		54D7D4121DD3CB1200A6CD27 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7D4111DD3CB1200A6CD27 /* CardCell.swift */; };
 		54ED89671D1FEB6200E6CA10 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ED89661D1FEB6200E6CA10 /* Extensions.swift */; };
+		54F86E941DDCECB70043A385 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F86E931DDCECB70043A385 /* CloudKit.framework */; };
 		54F9DE5B1CDA3740005EBB3A /* ChangeDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F9DE5A1CDA3740005EBB3A /* ChangeDeckViewController.swift */; };
 		54F9DE5D1CDA6B19005EBB3A /* ChangeCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F9DE5C1CDA6B19005EBB3A /* ChangeCardViewController.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +68,7 @@
 		5431631A1C95F6D5004D9D18 /* DecksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
 		5432AFEF1D6C4FB7007600E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		546BC9FA1C8A2FB900B2C1AE /* LearnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnViewController.swift; sourceTree = "<group>"; };
+		54799A711DD776E8008898D6 /* Cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cards.png; sourceTree = "<group>"; };
 		547DA1D51C9717FD00E68B12 /* AddDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDeckViewController.swift; sourceTree = "<group>"; };
 		547DA1D71C9719C700E68B12 /* AddCardsDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardsDeckViewController.swift; sourceTree = "<group>"; };
 		547DA20D1C974D7200E68B12 /* CardsInDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsInDeckViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 		54A6F7491CA4018F00D3629B /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		54B277AB1CA982FC0028725E /* addButton128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addButton128@2x.png"; sourceTree = "<group>"; };
 		54B277AD1CA9A8510028725E /* addButton128Dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addButton128Dark@2x.png"; sourceTree = "<group>"; };
+		54CB55DD1DD8E106006C86D9 /* Vocabuildary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vocabuildary.entitlements; sourceTree = "<group>"; };
 		54D1A13E1D6DA4E300C46F29 /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		54D1A1411D6DA53000C46F29 /* CardsNumberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsNumberCell.swift; sourceTree = "<group>"; };
 		54D1A1421D6DA53000C46F29 /* ChartViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewCell.swift; sourceTree = "<group>"; };
@@ -83,7 +88,6 @@
 		54D1A1461D6DA53000C46F29 /* TodayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayCell.swift; sourceTree = "<group>"; };
 		54D1A14E1D6DA55100C46F29 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		54D1A14F1D6DA55100C46F29 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
-		54D1A1501D6DA55100C46F29 /* DeckHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckHistory.swift; sourceTree = "<group>"; };
 		54D1A1511D6DA55100C46F29 /* DeckStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckStore.swift; sourceTree = "<group>"; };
 		54D1A1561D6DA56A00C46F29 /* BeforeLearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeforeLearningViewController.swift; sourceTree = "<group>"; };
 		54D1A1571D6DA56A00C46F29 /* TodayTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayTableViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +103,10 @@
 		54D1A1641D6DA59000C46F29 /* tabBarIconToday@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconToday@3x.png"; sourceTree = "<group>"; };
 		54D1A1651D6DA59000C46F29 /* tabBarIconTodayFilled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconTodayFilled@2x.png"; sourceTree = "<group>"; };
 		54D1A1661D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarIconTodayFilled@3x.png"; sourceTree = "<group>"; };
+		54D540D51DD77467008FECC4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../LaunchScreen.storyboard; sourceTree = "<group>"; };
+		54D7D4111DD3CB1200A6CD27 /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardCell.swift; path = ../CardCell.swift; sourceTree = "<group>"; };
 		54ED89661D1FEB6200E6CA10 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		54F86E931DDCECB70043A385 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		54F9DE5A1CDA3740005EBB3A /* ChangeDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeDeckViewController.swift; sourceTree = "<group>"; };
 		54F9DE5C1CDA6B19005EBB3A /* ChangeCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCardViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54F86E941DDCECB70043A385 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +128,7 @@
 			children = (
 				5420A72F1C84B6F600E44523 /* Vocabuildary */,
 				5420A72E1C84B6F600E44523 /* Products */,
+				54CB55DE1DD8E10C006C86D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +143,7 @@
 		5420A72F1C84B6F600E44523 /* Vocabuildary */ = {
 			isa = PBXGroup;
 			children = (
+				54CB55DD1DD8E106006C86D9 /* Vocabuildary.entitlements */,
 				54ED89661D1FEB6200E6CA10 /* Extensions.swift */,
 				54D1A13E1D6DA4E300C46F29 /* GlobalVariables.swift */,
 				54D1A14D1D6DA55100C46F29 /* Model */,
@@ -147,6 +157,8 @@
 				545DEF051CC4BBD10072494E /* Statistics */,
 				545DEF071CC4BBF30072494E /* Settings */,
 				5432AFDD1D6C46B7007600E0 /* Main.storyboard */,
+				54D540D51DD77467008FECC4 /* LaunchScreen.storyboard */,
+				54799A711DD776E8008898D6 /* Cards.png */,
 				5420A7371C84B6F600E44523 /* Assets.xcassets */,
 				54D1A15A1D6DA59000C46F29 /* Icons */,
 				547DA1F11C97315A00E68B12 /* tabBarIcons */,
@@ -213,6 +225,14 @@
 			name = tabBarIcons;
 			sourceTree = "<group>";
 		};
+		54CB55DE1DD8E10C006C86D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				54F86E931DDCECB70043A385 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		54D1A1401D6DA53000C46F29 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +242,7 @@
 				54D1A1441D6DA53000C46F29 /* SliderCell.swift */,
 				54D1A1451D6DA53000C46F29 /* SwitchCell.swift */,
 				54D1A1461D6DA53000C46F29 /* TodayCell.swift */,
+				54D7D4111DD3CB1200A6CD27 /* CardCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -231,7 +252,6 @@
 			children = (
 				54D1A14E1D6DA55100C46F29 /* Card.swift */,
 				54D1A14F1D6DA55100C46F29 /* Deck.swift */,
-				54D1A1501D6DA55100C46F29 /* DeckHistory.swift */,
 				54D1A1511D6DA55100C46F29 /* DeckStore.swift */,
 			);
 			path = Model;
@@ -283,12 +303,22 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Maciej Kowalski";
 				TargetAttributes = {
 					5420A72C1C84B6F600E44523 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 942A7H28XF;
+						DevelopmentTeam = PPDCKWAQEB;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -318,8 +348,10 @@
 			files = (
 				54D1A1721D6DA59000C46F29 /* tabBarIconTodayFilled@3x.png in Resources */,
 				54D1A1691D6DA59000C46F29 /* tabBarIconDecksFilled@2x.png in Resources */,
+				54D540D61DD77467008FECC4 /* LaunchScreen.storyboard in Resources */,
 				54D1A16B1D6DA59000C46F29 /* tabBarIconSettings@2x.png in Resources */,
 				54D1A16D1D6DA59000C46F29 /* tabBarIconSettingsFilled@2x.png in Resources */,
+				54799A721DD776E8008898D6 /* Cards.png in Resources */,
 				54D1A1701D6DA59000C46F29 /* tabBarIconToday@3x.png in Resources */,
 				54D1A16C1D6DA59000C46F29 /* tabBarIconSettings@3x.png in Resources */,
 				54D1A16F1D6DA59000C46F29 /* tabBarIconToday@2x.png in Resources */,
@@ -347,6 +379,7 @@
 				54D1A1581D6DA56A00C46F29 /* BeforeLearningViewController.swift in Sources */,
 				54A6F74A1CA4018F00D3629B /* TabBarController.swift in Sources */,
 				54D1A1491D6DA53000C46F29 /* EnterCardCell.swift in Sources */,
+				54D7D4121DD3CB1200A6CD27 /* CardCell.swift in Sources */,
 				54F9DE5B1CDA3740005EBB3A /* ChangeDeckViewController.swift in Sources */,
 				54D1A1521D6DA55100C46F29 /* Card.swift in Sources */,
 				54A473F01CB7822400A90429 /* ChartView.swift in Sources */,
@@ -361,7 +394,6 @@
 				54D1A1591D6DA56A00C46F29 /* TodayTableViewController.swift in Sources */,
 				54D1A1481D6DA53000C46F29 /* ChartViewCell.swift in Sources */,
 				547DA1D81C9719C700E68B12 /* AddCardsDeckViewController.swift in Sources */,
-				54D1A1541D6DA55100C46F29 /* DeckHistory.swift in Sources */,
 				54D1A14A1D6DA53000C46F29 /* SliderCell.swift in Sources */,
 				5429A09B1C95B3FD00A832D6 /* SettingsViewController.swift in Sources */,
 				54D1A1471D6DA53000C46F29 /* CardsNumberCell.swift in Sources */,
@@ -392,6 +424,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -401,8 +434,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -436,6 +471,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -445,8 +481,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -465,6 +503,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -473,12 +512,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Vocabuildary/Vocabuildary.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PPDCKWAQEB;
 				INFOPLIST_FILE = Vocabuildary/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.maciejkowalski.Vocabuildary;
+				PRODUCT_BUNDLE_IDENTIFIER = com.maciejkowalski.vocabuildaryapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -486,12 +531,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Vocabuildary/Vocabuildary.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PPDCKWAQEB;
 				INFOPLIST_FILE = Vocabuildary/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.maciejkowalski.Vocabuildary;
+				PRODUCT_BUNDLE_IDENTIFIER = com.maciejkowalski.vocabuildaryapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

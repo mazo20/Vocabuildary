@@ -17,125 +17,118 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     
     @IBOutlet var editButtonOutlet: UIBarButtonItem!
     
-    func whatDeck(index: Int) -> Deck {
-        if searchController.active && searchController.searchBar.text != "" {
+    func whatDeck(_ index: Int) -> Deck {
+        if searchController.isActive && searchController.searchBar.text != "" {
             return filteredDecks[index]
         }
-        return deckStore.deckStore[index]
+        return deckStore.decks[index]
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.active && searchController.searchBar.text != "" {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.isActive && searchController.searchBar.text != "" {
             return filteredDecks.count
         }
-        return deckStore.deckStore.count
+        return deckStore.decks.count
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("DeckCell", forIndexPath: indexPath) as! TodayCell
-        let deck = whatDeck(indexPath.row)
-        cell.deckName.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "DeckCell", for: indexPath) as! TodayCell
+        let deck = whatDeck((indexPath as NSIndexPath).row)
+        cell.deckName.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         cell.deckName.text = deck.name
-        let cards = deck.whatCards
+        let cards = deck.whatCards(deck.cards)
         cell.newCards.text = String(cards[0])
         cell.repeatingCards.text = String(cards[1])
         cell.problematicCards.text = String(cards[2])
-        cell.accessoryType = .DisclosureIndicator
+        cell.accessoryType = .disclosureIndicator
 
         return cell
     }
-    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if searchController.active && searchController.searchBar.text != "" {
-            return nil
-        }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        guard !searchController.isActive || searchController.searchBar.text == "" else { return nil}
         let cards = deckStore.cards
-        return "\(cards[0]) cards overall, \(cards[1]) to study, \(cards[2]) not yet shown, \(cards[3]) learned"
+        return "\(cards[0]) cards overall: \(cards[1]) in progress, \(cards[2]) new, \(cards[3]) learned"
     }
-    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        if !searchController.active || searchController.searchBar.text == "" {
-            deckStore.moveDeckAtIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if !searchController.isActive || searchController.searchBar.text == "" {
+            deckStore.moveDeckAtIndex((sourceIndexPath as NSIndexPath).row, toIndex: (destinationIndexPath as NSIndexPath).row)
         }
     }
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         //If the table view is asking to commit a delete command...
-        if editingStyle == .Delete {
-            let deck = whatDeck(indexPath.row)
+        if editingStyle == .delete {
+            let deck = whatDeck((indexPath as NSIndexPath).row)
             let alertTitle = "Delete '\(deck.name)'?"
             let alertMessage = "Are you sure you want to delete this deck and all its cards?"
-            let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .ActionSheet)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: { (action) -> Void in
-                //Remove the item from the store
+            let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.deckStore.removeDeck(deck)
-                //Also remove that row
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 tableView.beginUpdates()
-                tableView.footerViewForSection(0)?.textLabel?.text = self.tableView(tableView, titleForFooterInSection: 0)
+                tableView.footerView(forSection: 0)?.textLabel?.text = self.tableView(tableView, titleForFooterInSection: 0)
                 tableView.endUpdates()
             })
             alertController.addAction(cancelAction)
             alertController.addAction(deleteAction)
-            //Present the alert controller
-            presentViewController(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue(),{
-            if tableView.editing {
-                self.performSegueWithIdentifier("ChangeDeck", sender: self)
-            } else {
-                self.performSegueWithIdentifier("CardsInDeckViewController", sender: self)
-            }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async(execute: {
+            let identifier = tableView.isEditing ? "ChangeDeck" : "CardsInDeckViewController"
+            self.performSegue(withIdentifier: identifier, sender: self)
         })
     }
-    @IBAction func editButton(sender: AnyObject) {
-        if tableView.editing == true {
-            tableView.setEditing(false, animated: true)
-            editButtonOutlet.title = "Edit"
-        } else {
-            tableView.setEditing(true, animated: true)
-            editButtonOutlet.title = "Done"
-        }
+    @IBAction func editButton(_ sender: AnyObject) {
+        editButtonOutlet.title = tableView.isEditing ? "Edit" : "Done"
+        tableView.setEditing(!tableView.isEditing, animated: true)
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ChangeDeck" {
             var index: Int {
-                if let row = tableView.indexPathForSelectedRow?.row {
+                if let row = (tableView.indexPathForSelectedRow as NSIndexPath?)?.row {
                     return row
                 }
                 return deckToEdit
             }
-            let navController = segue.destinationViewController as! UINavigationController
+            
+            let navController = segue.destination as! UINavigationController
             let changeDeckViewController = navController.topViewController as! ChangeDeckViewController
             changeDeckViewController.deck = whatDeck(index)
             changeDeckViewController.deckStore = deckStore
         } else {
-            if let row = tableView.indexPathForSelectedRow?.row {
+            if let row = (tableView.indexPathForSelectedRow as NSIndexPath?)?.row {
                 //Get the item associated with this row and pass it along
-                let cardsInDeckViewController = segue.destinationViewController as! CardsInDeckViewController
+                let cardsInDeckViewController = segue.destination as! CardsInDeckViewController
                 cardsInDeckViewController.deck = whatDeck(row)
                 cardsInDeckViewController.deckStore = deckStore
             }
         }
     }
     
-    @IBAction func searchButton(sender: AnyObject) {
+    @IBAction func searchButton(_ sender: AnyObject) {
         searchController.searchBar.becomeFirstResponder()
     }
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = tableView.indexPathForRowAtPoint(location) else {return nil}
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {return nil}
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location),
+            let cell = tableView.cellForRow(at: indexPath),
+            let cardsInDeckViewController = storyboard?.instantiateViewController(withIdentifier: "CardsInDeckViewController") as? CardsInDeckViewController else {return nil}
         
-        guard let cardsInDeckViewController = storyboard?.instantiateViewControllerWithIdentifier("CardsInDeckViewController") as? CardsInDeckViewController else {return nil}
-        cardsInDeckViewController.deck = whatDeck(indexPath.row)
+        cardsInDeckViewController.deck = whatDeck((indexPath as NSIndexPath).row)
         cardsInDeckViewController.deckStore = deckStore
         previewingContext.sourceRect = cell.frame
-        deckToEdit = indexPath.row
+        deckToEdit = (indexPath as NSIndexPath).row
         
         return cardsInDeckViewController
     }
     
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-        showViewController(viewControllerToCommit, sender: self)
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
     
     //MARK: 3DTouch preview actions
@@ -143,26 +136,29 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
     func reloadTable() {
         tableView.reloadData()
     }
+    
     func editDeck() {
-        dispatch_async(dispatch_get_main_queue(),{
-            self.performSegueWithIdentifier("ChangeDeck", sender: self)
+        DispatchQueue.main.async(execute: {
+            self.performSegue(withIdentifier: "ChangeDeck", sender: self)
         })
     }
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredDecks = deckStore.deckStore.filter { deck in
-            return deck.name.lowercaseString.containsString(searchText.lowercaseString)
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredDecks = deckStore.decks.filter { deck in
+            return deck.name.lowercased().contains(searchText.lowercased())
         }
         tableView.reloadData()
     }
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    
+    func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
     
     //MARK: - View customization
     
     override func viewDidLoad() {
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: view)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: view)
         }
         tableView.allowsSelectionDuringEditing = true
         
@@ -173,29 +169,28 @@ class DecksViewController: UITableViewController, UISearchControllerDelegate, UI
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchBar.translucent = false
+        searchController.searchBar.isTranslucent = false
         searchController.loadView()
         
         searchController.searchBar.layer.borderWidth = 1;
-        searchController.searchBar.layer.borderColor = blueThemeColor().CGColor
-        
-        let lineView = UIView(frame: CGRectMake(0,(self.navigationController?.navigationBar.frame.size.height)!,self.view.frame.size.width,1))
-        lineView.backgroundColor = blueThemeColor()
-        self.navigationController?.navigationBar.addSubview(lineView)
+        searchController.searchBar.layer.borderColor = blueThemeColor().cgColor
         
         let blueView = UIView()
-        let blueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        let blueRect = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         blueView.frame = blueRect
-        blueView.center = CGPointMake(self.view.frame.size.width/2,-self.view.frame.size.height/2)
+        blueView.center = CGPoint(x: self.view.frame.size.width/2,y: -self.view.frame.size.height/2)
         blueView.backgroundColor = blueThemeColor()
         self.view.addSubview(blueView)
     }
-    override func viewDidAppear(animated: Bool) {
+    
+    override func viewDidAppear(_ animated: Bool) {
         tableView.reloadData()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DecksViewController.reloadTable), name: "reloadTable", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DecksViewController.editDeck), name: "editDeck", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DecksViewController.reloadTable), name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DecksViewController.editDeck), name: NSNotification.Name(rawValue: "editDeck"), object: nil)
     }
-    override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
+    
 }

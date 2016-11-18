@@ -8,22 +8,26 @@
 
 import UIKit
 
-@IBDesignable class ChartView: UIView {
+@IBDesignable class ChartView: UIView, TimeFormatable {
     enum type {
-        case Cards
-        case Answers
-        case Time
-        case Learn
+        case cards
+        case answers
+        case time
+        case learn
     }
-    var lineHeights = [Int]()
+    var values = [Int]()
     var maxValue = 0
-    var deck: Deck!
-    var deckStore: DeckStore!
+    var deck: Deck?
+    var deckStore: DeckStore?
     var cardsToLearn = 0
     var chartType: type!
-    var numberOfLines: Int!
+    var numberOfLines: Int {
+        if chartType == .answers { return 3 }
+        return range.rawValue
+    }
+    var range: timeRange!
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         clearView()
         self.clipsToBounds = true
         
@@ -32,60 +36,57 @@ import UIKit
         let darkYellow = UIColor(red: 1, green: 0.737, blue: 0, alpha: 1)
         
         let gradient = CAGradientLayer()
-        gradient.colors = [color2.CGColor, color1.CGColor]
+        gradient.colors = [color2.cgColor, color1.cgColor]
         gradient.locations = [0.0 , 1.0]
         gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradient.endPoint = CGPoint(x: 0.0, y: 1.0)
         gradient.frame = self.bounds
-        if chartType != .Learn {
-            self.layer.insertSublayer(gradient, atIndex: 0)
-        }
+        if chartType != .learn { self.layer.insertSublayer(gradient, at: 0) }
         let path = UIBezierPath()
-        path.moveToPoint(CGPointMake(self.bounds.size.width/13-15, self.frame.size.height-25))
-        path.addLineToPoint(CGPointMake(self.bounds.size.width/13*12+15, self.frame.size.height-25))
+        path.move(to: CGPoint(x: self.bounds.size.width/13-15, y: self.frame.size.height-25))
+        path.addLine(to: CGPoint(x: self.bounds.size.width/13*12+15, y: self.frame.size.height-25))
         let layer = CAShapeLayer()
         layer.frame = self.bounds
-        layer.path = path.CGPath
-        layer.strokeColor = darkYellow.CGColor
+        layer.path = path.cgPath
+        layer.strokeColor = darkYellow.cgColor
         layer.lineWidth = 1
         layer.lineCap = kCALineCapRound
         layer.lineJoin = kCALineJoinBevel
-        self.layer.insertSublayer(layer, atIndex: 1)
+        self.layer.insertSublayer(layer, at: 1)
         let path1 = UIBezierPath()
-        path1.moveToPoint(CGPointMake(self.bounds.size.width/13-15, self.bounds.origin.y+50))
-        path1.addLineToPoint(CGPointMake(self.bounds.size.width/13*12+15, self.bounds.origin.y+50))
+        path1.move(to: CGPoint(x: self.bounds.size.width/13-15, y: self.bounds.origin.y+50))
+        path1.addLine(to: CGPoint(x: self.bounds.size.width/13*12+15, y: self.bounds.origin.y+50))
         let layer1 = CAShapeLayer()
         layer1.frame = self.bounds
-        layer1.path = path1.CGPath
-        layer1.strokeColor = darkYellow.CGColor
+        layer1.path = path1.cgPath
+        layer1.strokeColor = darkYellow.cgColor
         layer1.lineWidth = 1
         layer1.lineCap = kCALineCapRound
         layer1.lineJoin = kCALineJoinBevel
-        self.layer.insertSublayer(layer1, atIndex: 1)
+        self.layer.insertSublayer(layer1, at: 1)
+        
         
         lines()
         scaleLabels(maxValue)
         
-        let nameLabel = UILabel(frame: CGRectMake(self.bounds.size.width/13-15, self.bounds.origin.y+10, 200, 20))
-        nameLabel.font = UIFont.systemFontOfSize(20, weight: UIFontWeightLight)
-        nameLabel.textColor = UIColor.whiteColor()
-        nameLabel.textAlignment = .Left
-        let averageLabel = UILabel(frame: CGRectMake(self.bounds.size.width/13-15, self.bounds.origin.y+30, 150, 20))
-        averageLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
-        averageLabel.textColor = UIColor.whiteColor()
-        averageLabel.textAlignment = .Left
-        let valueLabel = UILabel(frame: CGRectMake(self.bounds.size.width/13*12-185, self.bounds.origin.y+10, 200, 20))
-        valueLabel.font = UIFont.systemFontOfSize(20, weight: UIFontWeightLight)
-        valueLabel.textColor = UIColor.whiteColor()
-        valueLabel.textAlignment = .Right
+        let nameLabel = UILabel(frame: CGRect(x: self.bounds.size.width/13-15, y: self.bounds.origin.y+10, width: 200, height: 20))
+        nameLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
+        nameLabel.textColor = UIColor.white
+        nameLabel.textAlignment = .left
+        let averageLabel = UILabel(frame: CGRect(x: self.bounds.size.width/13-15, y: self.bounds.origin.y+30, width: 150, height: 20))
+        averageLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightLight)
+        averageLabel.textColor = UIColor.white
+        averageLabel.textAlignment = .left
+        let valueLabel = UILabel(frame: CGRect(x: self.bounds.size.width/13*12-185, y: self.bounds.origin.y+10, width: 200, height: 20))
+        valueLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
+        valueLabel.textColor = UIColor.white
+        valueLabel.textAlignment = .right
         
-        var all = 0
-        for value in lineHeights {
-            all+=value
-        }
+        //This line adds all elements of a array
+        let all = values.reduce(0, +)
         let average = all/numberOfLines
         
-        if chartType == .Cards {
+        if chartType == .cards {
             nameLabel.text = "Reviews"
             valueLabel.text = "\(all) reviews"
             if numberOfLines == 12 {
@@ -93,270 +94,219 @@ import UIKit
             } else {
                 averageLabel.text = "Daily average: \(average)"
             }
-        } else if chartType == .Answers {
-            nameLabel.text = NSLocalizedString("answers", comment: "answers - title of a chart")
+        } else if chartType == .answers {
+            nameLabel.text = "Answers"
             if all == 0 {
                 valueLabel.text = "0% easy"
                 averageLabel.text = "0% repeats"
             } else {
-                valueLabel.text = "\(Int(Float(lineHeights[2])/Float(all)*100))% easy"
-                averageLabel.text = "\(Int(Float(lineHeights[0])/Float(all)*100))% repeats"
+                valueLabel.text = "\(Int(Float(values[2])/Float(all)*100))% easy"
+                averageLabel.text = "\(Int(Float(values[0])/Float(all)*100))% repeats"
             }
-        } else if chartType == .Time {
+        } else if chartType == .time {
             nameLabel.text = "Time"
-            valueLabel.text = timeFormatter(NSTimeInterval(all))
-            averageLabel.text = "Daily average: " + timeFormatter(NSTimeInterval(average))
+            valueLabel.text = timeFormatter(TimeInterval(all))
+            averageLabel.text = "Daily average: " + timeFormatter(TimeInterval(average))
             if numberOfLines == 12 {
-                averageLabel.text = "Monthly average: " + timeFormatter(NSTimeInterval(average))
+                averageLabel.text = "Monthly average: " + timeFormatter(TimeInterval(average))
             } else {
-                averageLabel.text = "Daily average: " + timeFormatter(NSTimeInterval(average))
+                averageLabel.text = "Daily average: " + timeFormatter(TimeInterval(average))
             }
-        } else if chartType == .Learn {
+        } else if chartType == .learn {
             nameLabel.text = "Today"
-            valueLabel.text = "\(lineHeights[numberOfLines-1]+cardsToLearn) cards"
+            valueLabel.text = "\(values[numberOfLines-1]+cardsToLearn) cards"
             averageLabel.text = "Daily average: \(average)"
         }
         self.addSubview(nameLabel)
         self.addSubview(averageLabel)
         self.addSubview(valueLabel)
     }
-    func lineHeightsData() {
-        lineHeights = [Int]()
-        for _ in 0...numberOfLines-1 {
-            lineHeights.append(0)
-        }
-        var date = NSDate()
-        if numberOfLines == 12 {
-            date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Month, value: -12, toDate: NSDate(), options: NSCalendarOptions.init(rawValue: 0))!
-            for i in 0...11 {
-                date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Month, value: 1, toDate: date, options: NSCalendarOptions.init(rawValue: 0))!
-                var dateString = stringFromDate(date)
-                dateString = (dateString as NSString).substringToIndex(7)
-                if let deck = deck {
-                    for history in deck.history {
-                        if history.date.containsString(dateString) {
-                            lineValuesForHistory(history, i: i)
-                        }
-                    }
-                } else {
-                    for deck in deckStore.deckStore {
-                        for history in deck.history {
-                            if history.date.containsString(dateString) {
-                                lineValuesForHistory(history, i: i)
-                            }
-                        }
-                    }
-                }
+    
+    func getAllAnswers() {
+        values = chartType == .answers ? [0,0,0] : [Int]()
+        var value: [Int]
+        let type = numberOfLines != 12 ? NSCalendar.Unit.day : NSCalendar.Unit.month
+        let granularity = type == .day ? Calendar.Component.day : Calendar.Component.month
+        var date = (Calendar.current as NSCalendar).date(byAdding: type, value: -numberOfLines, to: Date())!
+        for _ in 0..<numberOfLines {
+            date = (Calendar.current as NSCalendar).date(byAdding: type, value: 1, to: date)!
+            if let _ = deck {
+                value = deckAnswersForDate(deck: deck!, date: date, type: granularity)
+            } else {
+                value = allAnswersForDate(deckStore: deckStore!, date: date, type: granularity)
             }
-        } else {
-            date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: -numberOfLines, toDate: NSDate(), options: NSCalendarOptions.init(rawValue: 0))!
-            for i in 0...numberOfLines-1 {
-                date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: 1, toDate: date, options: NSCalendarOptions.init(rawValue: 0))!
-                if let deck = deck {
-                    if let history = deck.historyForDate(stringFromDate(date)) {
-                        lineValuesForHistory(history, i: i)
-                    }
-                } else {
-                    for deck in deckStore.deckStore {
-                        if let history = deck.historyForDate(stringFromDate(date)) {
-                            lineValuesForHistory(history, i: i)
-                        }
-                    }
+            if chartType == .answers {
+                for i in 0..<3 {
+                    values[i]+=value[i]
                 }
-                
-            }
-        }
-        maxValue = lineHeights.maxElement()!
-        if chartType == .Learn {
-            if lineHeights[6]+cardsToLearn > maxValue {
-                maxValue = lineHeights[6]+cardsToLearn
+            } else {
+                values.append(value[0])
             }
         }
     }
-    func lineValuesForHistory(history: DeckHistory, i: Int) {
-        if chartType == .Cards || chartType == .Learn {
-            lineHeights[i]+=history.numberOfCards
-        } else if chartType == .Time {
-            lineHeights[i]+=Int(history.time)
-        } else if chartType == .Answers {
-            lineHeights[0]+=history.answers[0]
-            lineHeights[1]+=history.answers[1]
-            lineHeights[2]+=history.answers[2]
-        }
-    }
-    func lines() {
-        lineHeightsData()
-        if chartType == .Answers {
-            for i in 0...6 {
-                if i%2==1 {
-                    let path = UIBezierPath()
-                    var lineHeight:CGFloat = 0.0
-                    let startPoint = self.bounds.size.width/13
-                    var k: CGFloat
-                    lineHeight = 0.0
-                    if maxValue != 0 {
-                        k = CGFloat(lineHeights[i/2])/CGFloat(maxValue)
-                        lineHeight = (self.frame.size.height - self.bounds.origin.y - 100)*k
-                    }
-                    path.moveToPoint(CGPointMake(startPoint + startPoint*10/CGFloat(6)*CGFloat(i), self.bounds.size.height-32))
-                    path.addLineToPoint(CGPointMake(startPoint + startPoint*10/CGFloat(6)*CGFloat(i), self.bounds.size.height-32 - lineHeight))
-                    let layer = CAShapeLayer()
-                    layer.frame = self.bounds
-                    layer.path = path.CGPath
-                    let dateLabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
-                    layer.lineWidth = 10
-                    layer.lineCap = kCALineCapRound
-                    layer.lineJoin = kCALineJoinBevel
-                    switch i/2 {
-                    case 0:
-                        layer.strokeColor = UIColor(red: 1, green: 0.2, blue: 0, alpha: 1).CGColor
-                        dateLabel.text = "Repeat"
-                    case 1:
-                        layer.strokeColor = UIColor(red: 1, green: 0.737, blue: 0, alpha: 1).CGColor
-                        dateLabel.text = "Hard"
-                    default:
-                        layer.strokeColor = UIColor(red: 0.3, green: 0.8, blue: 0, alpha: 1).CGColor
-                        dateLabel.text = "Easy"
-                    }
-                    self.layer.insertSublayer(layer, atIndex: 1)
-                    let pathAnimation = CABasicAnimation(keyPath: "strokeEnd")
-                    pathAnimation.duration = 1
-                    pathAnimation.fromValue = 0
-                    pathAnimation.toValue = 1
-                    layer.addAnimation(pathAnimation, forKey: "strokeEnd")
-                    dateLabel.font = UIFont.systemFontOfSize(10, weight: UIFontWeightLight)
-                    dateLabel.textColor = UIColor.whiteColor()
-                    dateLabel.textAlignment = .Center
-                    dateLabel.center = CGPointMake(startPoint + startPoint*10/CGFloat(6)*CGFloat(i), self.frame.size.height-15)
-                    self.addSubview(dateLabel)
+    
+    func cardAnswersForDate(card: Card, date: Date, type: Calendar.Component) -> [Int] {
+        var numberOfAnswers = chartType == .answers ? [0,0,0] : [0]
+        for answer in card.answers {
+            if NSCalendar.current.compare(date, to: answer.date, toGranularity: type) == .orderedSame {
+                if chartType == .time {
+                    numberOfAnswers[0]+=Int(answer.time)
+                } else if chartType == .answers {
+                    numberOfAnswers[answer.value]+=1
+                } else {
+                    numberOfAnswers[0]+=1
+                    break
                 }
             }
-        } else {
-            var lastDay = 0
-            for i in 0...numberOfLines-1 {
-                let path = UIBezierPath()
-                var lineHeight:CGFloat = 0.0
-                let startPoint = self.bounds.size.width/13
-                var k: CGFloat
-                var date = NSDate()
-                lineHeight = 0.0
-                if maxValue != 0 {
-                    k = CGFloat(lineHeights[i])/CGFloat(maxValue)
-                    lineHeight = (self.frame.size.height - self.bounds.origin.y - 95)*k
-                }
-                path.moveToPoint(CGPointMake(startPoint + startPoint*10/CGFloat(numberOfLines-1)*CGFloat(i), self.bounds.size.height-30))
-                path.addLineToPoint(CGPointMake(startPoint + startPoint*10/CGFloat(numberOfLines-1)*CGFloat(i), self.bounds.size.height-30 - lineHeight))
-                let layer = CAShapeLayer()
-                layer.frame = self.bounds
-                layer.path = path.CGPath
-                layer.lineWidth = 5
-                layer.strokeColor = UIColor(red: 1, green: 0.737, blue: 0, alpha: 1).CGColor
-                layer.lineCap = kCALineCapRound
-                layer.lineJoin = kCALineJoinBevel
-                self.layer.insertSublayer(layer, atIndex: 1)
-                let pathAnimation = CABasicAnimation(keyPath: "strokeEnd")
-                pathAnimation.duration = 1
-                pathAnimation.fromValue = 0
-                pathAnimation.toValue = 1
-                if chartType != .Learn {
-                    layer.addAnimation(pathAnimation, forKey: "strokeEnd")
-                }
-                let dateLabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
-                dateLabel.font = UIFont.systemFontOfSize(10, weight: UIFontWeightLight)
-                dateLabel.textColor = UIColor.whiteColor()
-                dateLabel.textAlignment = .Center
-                dateLabel.center = CGPointMake(startPoint + startPoint*10/CGFloat(numberOfLines-1)*CGFloat(i), self.frame.size.height-15)
-                // Adding dates under the chart
-                var text = ""
-                if numberOfLines == 12 {
-                    if i%3==1 {
-                        date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Month, value: -11+i, toDate: NSDate(), options: NSCalendarOptions.init(rawValue: 0))!
-                        (text, lastDay) = dateShortener(date, valueType: "month", lastDay: lastDay)
-                    }
-                } else if numberOfLines > 28 {
-                    date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: -numberOfLines+1+i, toDate: NSDate(), options: NSCalendarOptions.init(rawValue: 0))!
-                    if i%4==1 {
-                        (text, lastDay) = dateShortener(date, valueType: "day", lastDay: lastDay)
-                    }
-                } else {
-                    date = NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: -numberOfLines+1+i, toDate: NSDate(), options: NSCalendarOptions.init(rawValue: 0))!
-                    (text, lastDay) = dateShortener(date, valueType: "day", lastDay: lastDay)
-                }
-                dateLabel.text = text
+        }
+        return numberOfAnswers
+    }
+    
+    func deckAnswersForDate(deck: Deck, date: Date, type: Calendar.Component) -> [Int] {
+        var numberOfAnswers = chartType == .answers ? [0,0,0] : [0]
+        for card in deck.cards {
+            for i in 0..<numberOfAnswers.count {
+                numberOfAnswers[i]+=cardAnswersForDate(card: card, date: date, type: type)[i]
+            }
+        }
+        return numberOfAnswers
+    }
+    
+    func allAnswersForDate(deckStore: DeckStore, date: Date, type: Calendar.Component) -> [Int] {
+        var numberOfAnswers = chartType == .answers ? [0,0,0] : [0]
+        for deck in deckStore.decks {
+            for i in 0..<numberOfAnswers.count {
+                numberOfAnswers[i]+=deckAnswersForDate(deck: deck, date: date, type: type)[i]
+            }
+        }
+        return numberOfAnswers
+    }
+
+    func createPath(forLine i: Int, value: Int, maxValue: Int, chartType: type) -> UIBezierPath {
+        let path = UIBezierPath()
+        var point = CGPoint(x: lineStartPoint(line: i, chartType: chartType), y: self.bounds.size.height-32)
+        path.move(to: point)
+        point.y-=lineHeight(value: value, maxValue: maxValue)
+        path.addLine(to: point)
+        return path
+    }
+    
+    func lineStartPoint(line: Int, chartType: type) -> CGFloat {
+        let startPoint = self.bounds.size.width/13
+        let i = chartType == .answers ? line*2+1 : line
+        let max = chartType == .answers ? 6 : numberOfLines-1
+        return startPoint + startPoint*10/CGFloat(max)*CGFloat(i)
+    }
+    
+    func lineHeight(value: Int, maxValue: Int) -> CGFloat {
+        if maxValue == 0 { return 0 }
+        return (self.frame.size.height - self.bounds.origin.y - 100) * CGFloat(value)/CGFloat(maxValue)
+    }
+    
+    func drawLine(forLine line: Int, path: UIBezierPath, color: UIColor, width: CGFloat, atLayer: UInt32) {
+        let layer = CAShapeLayer()
+        layer.frame = self.bounds
+        layer.path = path.cgPath
+        layer.strokeColor = color.cgColor
+        layer.lineWidth = width
+        layer.lineCap = kCALineCapRound
+        layer.lineJoin = kCALineJoinBevel
+        self.layer.insertSublayer(layer, at: atLayer)
+    }
+    
+    func addDateLabel(forLine i: Int, chartType: type) {
+        let dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 80, height: 30))
+        dateLabel.center = CGPoint(x: lineStartPoint(line: i, chartType: chartType), y: self.frame.size.height-15)
+        dateLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFontWeightLight)
+        dateLabel.textColor = UIColor.white
+        dateLabel.textAlignment = .center
+        if chartType == .answers {
+            switch i {
+            case 0: dateLabel.text = "Repeat"
+            case 1: dateLabel.text = "Hard"
+            default: dateLabel.text = "Easy"
+            }
+            self.addSubview(dateLabel)
+        } else if range == .year {
+            if i%3==1 {
+                let date = (Calendar.current as NSCalendar).date(byAdding: NSCalendar.Unit.month, value: -numberOfLines+i+1, to: Date())!
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM.yy"
+                dateLabel.text = dateFormatter.string(from: date)
                 self.addSubview(dateLabel)
-                if chartType == .Learn && i == 6 {
-                    let layer2 = CAShapeLayer()
-                    let path1 = UIBezierPath()
-                    path1.moveToPoint(CGPointMake(startPoint + startPoint*10, self.bounds.size.height-30 - lineHeight))
-                    if maxValue != 0 {
-                        k = CGFloat(lineHeights[i]+cardsToLearn)/CGFloat(maxValue)
-                        lineHeight = (self.frame.size.height - self.bounds.origin.y - 95)*k
-                    }
-                    path1.addLineToPoint(CGPointMake(startPoint + startPoint*10, self.bounds.size.height-30 - lineHeight))
-                    layer2.frame = self.bounds
-                    layer2.path = path1.CGPath
-                    layer2.strokeColor = UIColor(red: 0, green: 0.6, blue: 0.2, alpha: 1).CGColor
-                    layer2.lineWidth = 5
-                    layer2.lineCap = kCALineCapRound
-                    layer2.lineJoin = kCALineJoinBevel
-                    self.layer.insertSublayer(layer2, atIndex: 1)
-                }
             }
-        }
-    }
-    func dateShortener(date: NSDate, valueType: String, lastDay: Int) -> (String, Int) {
-        let month = NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: date).month
-        var dateLabel = ""
-        var newLastDay = lastDay
-        let countryCode = locale.objectForKey(NSLocaleCountryCode) as! String
-        if valueType == "day" {
-            let day = NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date).day
-            if day > lastDay {
-                dateLabel = dateComponentFormatter(day)
-                newLastDay = day
-            } else {
-                if countryCode == "US" {
-                    dateLabel = dateComponentFormatter(month) + "/" + dateComponentFormatter(day)
-                } else {
-                    dateLabel = dateComponentFormatter(day) + "." + dateComponentFormatter(month)
-                }
-                newLastDay = 0
+        } else if range == .month {
+            if i%4==1 {
+                let date = (Calendar.current as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: -numberOfLines+i+1, to: Date())!
+                let dateFormatter = DateFormatter()
+                if Locale.current.languageCode == "en-US" { dateFormatter.dateFormat = "MM/dd" }
+                dateFormatter.dateFormat = "dd.MM"
+                dateLabel.text = dateFormatter.string(from: date)
+                self.addSubview(dateLabel)
             }
         } else {
-            let year = NSCalendar.currentCalendar().components(NSCalendarUnit.Year, fromDate: date).year
-            if countryCode == "US" {
-                dateLabel = dateComponentFormatter(month) + "/" + dateComponentFormatter(year)
-            } else {
-                dateLabel = dateComponentFormatter(month) + "." + dateComponentFormatter(year)
-            }
+            let date = (Calendar.current as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: -numberOfLines+i+1, to: Date())!
+            let dateFormatter = DateFormatter()
+            if Locale.current.languageCode == "en-US" { dateFormatter.dateFormat = "MM/dd" }
+            dateFormatter.dateFormat = "dd.MM"
+            dateLabel.text = dateFormatter.string(from: date)
+            self.addSubview(dateLabel)
         }
-        return (dateLabel, newLastDay)
+        
     }
-    func scaleLabels(max: Int) {
-        let scaleLabel1 = UILabel(frame: CGRectMake(self.bounds.size.width/13*12-35, self.bounds.origin.y+50, 50, 20))
-        scaleLabel1.text = "\(max)"
-        if chartType == .Time{
-            scaleLabel1.text = timeFormatter(NSTimeInterval(max))
+    
+    func lines() {
+        getAllAnswers()
+        maxValue = values.max()!
+        if chartType == .learn {
+            let value = values[6]+cardsToLearn
+            if value > maxValue { maxValue = value }
+            let path = createPath(forLine: 6, value: value, maxValue: maxValue, chartType: chartType)
+            drawLine(forLine: 6, path: path, color: UIColor(red: 0, green: 0.6, blue: 0.2, alpha: 1), width: 5, atLayer: 1)
         }
-        scaleLabel1.font = UIFont.systemFontOfSize(9, weight: UIFontWeightLight)
-        scaleLabel1.textColor = UIColor.whiteColor()
-        scaleLabel1.textAlignment = .Right
-        self.addSubview(scaleLabel1)
-        let scaleLabel2 = UILabel(frame: CGRectMake(self.bounds.size.width/13*12-35, (self.bounds.origin.y+50+self.frame.size.height-45)/2, 50, 20))
-        scaleLabel2.text = "\(max/2)"
-        if chartType == .Time{
-            scaleLabel2.text = timeFormatter(NSTimeInterval(max/2))
+        
+        for i in 0..<numberOfLines {
+            let path = createPath(forLine: i, value: values[i], maxValue: maxValue, chartType: chartType)
+            let color: UIColor
+            let dateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 80, height: 30))
+            dateLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFontWeightLight)
+            dateLabel.textColor = UIColor.white
+            dateLabel.textAlignment = .center
+            dateLabel.center = CGPoint(x: lineStartPoint(line: i, chartType: chartType), y: self.frame.size.height-15)
+            
+            if chartType == .answers && i == 0 {
+                color = UIColor(red: 1, green: 0.2, blue: 0, alpha: 1)
+            } else if chartType == .answers && i == 2 {
+                color = UIColor(red: 0.3, green: 0.8, blue: 0, alpha: 1)
+            } else {
+                color = UIColor(red: 1, green: 0.737, blue: 0, alpha: 1)
+            }
+            let width: CGFloat = chartType == .answers ? 10 : 5
+            drawLine(forLine: i, path: path, color: color, width: width, atLayer: 2)
+            addDateLabel(forLine: i, chartType: chartType)
         }
-        scaleLabel2.font = UIFont.systemFontOfSize(9, weight: UIFontWeightLight)
-        scaleLabel2.textColor = UIColor.whiteColor()
-        scaleLabel2.textAlignment = .Right
-        self.addSubview(scaleLabel2)
-        let scaleLabel3 = UILabel(frame: CGRectMake(self.bounds.size.width/13*12-35, self.frame.size.height-45, 50, 20))
-        scaleLabel3.text = "0"
-        scaleLabel3.font = UIFont.systemFontOfSize(9, weight: UIFontWeightLight)
-        scaleLabel3.textColor = UIColor.whiteColor()
-        scaleLabel3.textAlignment = .Right
-        self.addSubview(scaleLabel3)
+    }
+    
+    func scaleLabels(_ max: Int) {
+        var y = self.bounds.origin.y+50
+        var text = chartType == .time ? timeFormatter(TimeInterval(max)) : "\(max)"
+        addScaleLabel(y: y, text: text)
+        
+        y = (self.bounds.origin.y+50+self.frame.size.height-45)/2.0
+        text = chartType == .time ? timeFormatter(TimeInterval(max/2)) : "\(max/2)"
+        addScaleLabel(y: y, text: text)
+        
+        y = self.frame.size.height-45
+        text = "0"
+        addScaleLabel(y: y, text: text)
+    }
+    func addScaleLabel(y: CGFloat, text: String) {
+        let label = UILabel(frame: CGRect(x: self.bounds.size.width/13*12-35, y: y, width: 50, height: 20))
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 9, weight: UIFontWeightLight)
+        label.textColor = UIColor.white
+        label.textAlignment = .right
+        self.addSubview(label)
     }
     func clearView() {
         for subview in self.subviews {

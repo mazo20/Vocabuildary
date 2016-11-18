@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating  {
+class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     
     var deck: Deck!
     var filteredCards = Deck(name: "")
@@ -19,50 +19,60 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
     @IBOutlet var searchButton: UIBarButtonItem!
     
     func whatDeck() -> Deck {
-        if searchController.active && searchController.searchBar.text != "" {
+        if searchController.isActive && searchController.searchBar.text != "" {
             return filteredCards
         }
         return self.deck
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return whatDeck().deck.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return whatDeck().cards.count
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("CardsInDeckCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "CardsInDeckCell", for: indexPath) as! CardCell
         let deck = whatDeck()
-        cell.accessoryType = .DisclosureIndicator
-        cell.textLabel?.text = deck.deck[indexPath.row].frontCard + " - " + deck.deck[indexPath.row].backCard
+        let card = deck.cards[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.text = card.frontCard + " - " + card.backCard
+        let color: UIColor
+        switch card.status {
+        case .new: color = UIColor(red: 0.2, green: 0.6, blue: 0, alpha: 1)
+        case .easy: color = blueThemeColor()
+        case .hard: color = UIColor(red: 1, green: 0.2, blue: 0, alpha: 1)
+        default: color = UIColor.black
+        }
+        cell.statusDot.backgroundColor = color
+        cell.statusDot.layer.cornerRadius = 2
         return cell
     }
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 36
     }
-    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        whatDeck().moveDeckAtIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        whatDeck().moveCardAtIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            let card = whatDeck().deck[indexPath.row]
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let card = whatDeck().cards[(indexPath as NSIndexPath).row]
             
             let alertTitle = "Delete '\(card.frontCard) - \(card.backCard)'?"
             let alertMessage = "Are you sure you want to delete this card?"
-            let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .ActionSheet)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: { (action) -> Void in
+            let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 //Remove the item from the store
                 self.deck.removeCard(card)
                 //Also remove that row
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alertController.addAction(cancelAction)
             alertController.addAction(deleteAction)
             
-            presentViewController(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
     }
-    @IBAction func editButton(sender: AnyObject) {
-        if tableView.editing == true {
+    @IBAction func editButton(_ sender: AnyObject) {
+        if tableView.isEditing == true {
             tableView.setEditing(false, animated: true)
             editButtonOutlet.title = "Edit"
         } else {
@@ -70,54 +80,47 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
             editButtonOutlet.title = "Done"
         }
     }
-    override func previewActionItems() -> [UIPreviewActionItem] {
-        let deleteAction = UIPreviewAction(title: "Delete", style: .Destructive, handler: { (action, viewController) -> Void in
+    override var previewActionItems : [UIPreviewActionItem] {
+        let deleteAction = UIPreviewAction(title: "Delete", style: .destructive, handler: { (action, viewController) -> Void in
             //Remove the deck from the store
             self.deckStore.removeDeck(self.deck)
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "reloadTable", object: nil))
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadTable"), object: nil))
         })
-        let editAction = UIPreviewAction(title: "Edit", style: .Default) { (action, viewController) -> Void in
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "editDeck", object: nil))
+        let editAction = UIPreviewAction(title: "Edit", style: .default) { (action, viewController) -> Void in
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "editDeck"), object: nil))
         }
-        let cancelAction = UIPreviewAction(title: "Cancel", style: .Default, handler: { (action, viewController) -> Void in
-        })
-        let groupDeleteAction = UIPreviewActionGroup(title: "Delete", style: .Destructive, actions: [deleteAction,cancelAction])
+        let cancelAction = UIPreviewAction(title: "Cancel", style: .default, handler: { (action, viewController) -> Void in })
+        let groupDeleteAction = UIPreviewActionGroup(title: "Delete", style: .destructive, actions: [deleteAction,cancelAction])
         return [editAction, groupDeleteAction]
     }
-    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if searchController.active && searchController.searchBar.text != "" {
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if searchController.isActive && searchController.searchBar.text != "" {
             return nil
         }
-        var cards = 0
-        var notShown = 0
-        var learned = 0
-        for card in deck.deck {
-            let d = card.days.count
-            cards+=1
-            if card.numberOfViews == 0 {
-                notShown+=1
-            }
-            if d>1 {
-                if card.days[d-1]-card.days[d-2] > 60 {
-                    learned+=1
-                }
+        var cardType = [0, 0, 0, 0]
+        for card in deck.cards {
+            switch card.status {
+            case .easy, .hard: cardType[1]+=1
+            case .new: cardType[2]+=1
+            case .learned: cardType[3]+=1
             }
         }
-        return "\(cards) cards overall, \(cards-notShown-learned) to study, \(notShown) not yet shown, \(learned) learned"
+        cardType[0] = cardType[1] + cardType[2] + cardType[3]
+        return "\(cardType[0]) cards overall: \(cardType[1]) in progress, \(cardType[2]) new, \(cardType[3]) learned"
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue(),{
-            self.performSegueWithIdentifier("ChangeCard", sender: self)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async(execute: {
+            self.performSegue(withIdentifier: "ChangeCard", sender: self)
         })
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ChangeCard" {
-            if let row = tableView.indexPathForSelectedRow?.row {
-                let navController = segue.destinationViewController as! UINavigationController
+            if let row = (tableView.indexPathForSelectedRow as NSIndexPath?)?.row {
+                let navController = segue.destination as! UINavigationController
                 let changeCardViewController = navController.topViewController as! ChangeCardViewController
                 let deck = whatDeck()
                 changeCardViewController.deck = deck
-                changeCardViewController.card = deck.deck[row]
+                changeCardViewController.card = deck.cards[row]
             }
         }
     }
@@ -130,33 +133,33 @@ class CardsInDeckViewController: UITableViewController, UISearchBarDelegate, UIS
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         definesPresentationContext = true
-        searchController.searchBar.translucent = false
+        searchController.searchBar.isTranslucent = false
         searchController.loadView()
         
         let blueView = UIView()
-        let blueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        let blueRect = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         blueView.frame = blueRect
-        blueView.center = CGPointMake(self.view.frame.size.width/2,-self.view.frame.size.height/2)
+        blueView.center = CGPoint(x: self.view.frame.size.width/2,y: -self.view.frame.size.height/2)
         blueView.backgroundColor = blueThemeColor()
         self.view.addSubview(blueView)
         
         searchController.searchBar.layer.borderWidth = 1
-        searchController.searchBar.layer.borderColor = blueThemeColor().CGColor
+        searchController.searchBar.layer.borderColor = blueThemeColor().cgColor
     }
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredCards.deck = deck.deck.filter { card in
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredCards.cards = deck.cards.filter { card in
             let text = card.frontCard + " - " + card.backCard
-            return text.lowercaseString.containsString(searchText.lowercaseString)
+            return text.lowercased().contains(searchText.lowercased())
         }
         tableView.reloadData()
     }
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         tableView.reloadData()
     }
-    @IBAction func searchButton(sender: AnyObject) {
+    @IBAction func searchButton(_ sender: AnyObject) {
         searchController.searchBar.becomeFirstResponder()
     }
     deinit {

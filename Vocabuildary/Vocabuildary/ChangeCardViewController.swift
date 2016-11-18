@@ -8,116 +8,78 @@
 
 import UIKit
 
-class ChangeCardViewController: UITableViewController, UITextFieldDelegate {
+class ChangeCardViewController: UITableViewController, UITextFieldDelegate, CorrectText {
     
-    var deck: Deck!
+    internal var deckStore: DeckStore!
+    var deck: Deck?
     var card: Card!
     var frontCardTextField = UITextField()
     var backCardTextField = UITextField()
     var reversedSwitchCard = UISwitch()
-    @IBAction func cancelBarButton(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    
+    @IBAction func cancelBarButton(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
-    @IBAction func doneBarButton(sender: AnyObject) {
-        if let front = frontCardTextField.text, let back = backCardTextField.text {
-            if front == "" {
-                cellInSection(0).bottomLine.backgroundColor = UIColor.redColor()
-            } else if back == "" {
-                cellInSection(1).bottomLine.backgroundColor = UIColor.redColor()
-            } else {
-                if front.caseInsensitiveCompare(card.frontCard) == .OrderedSame && back.caseInsensitiveCompare(card.backCard) == .OrderedSame{
-                    self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
-                    self.cellInSection(1).bottomLine.backgroundColor = UIColor.greenColor()
-                    card.isReversed = reversedSwitchCard.on
-                    UIView.animateWithDuration(0.3, animations: {
-                        self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                        self.cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
-                        }, completion: { finished in
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                    })
-                } else if front.caseInsensitiveCompare(card.frontCard) == .OrderedSame && back == "" {
-                    self.cellInSection(1).bottomLine.backgroundColor = UIColor.redColor()
-                } else {
-                    for card in deck.deck {
-                        if frontCardTextField.text?.caseInsensitiveCompare(card.frontCard) == .OrderedSame {
-                            cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
-                            return
-                        }
-                    }
-                    card.frontCard = frontCardTextField.text!
-                    card.backCard = backCardTextField.text!
-                    card.isReversed = reversedSwitchCard.on
-                    self.cellInSection(0).bottomLine.backgroundColor = UIColor.greenColor()
-                    UIView.animateWithDuration(0.3, animations: {
-                        self.cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                        }, completion: nil)
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-            }
+    
+    func animateGreenLineInCell(forSection section: Int) {
+        self.cellInSection(section).bottomLine.backgroundColor = UIColor.green
+        UIView.animate(withDuration: 0.7, animations: {
+            self.cellInSection(section).bottomLine.backgroundColor = UIColor.clear
+        }, completion: nil)
+    }
+    
+    func cellInSection(_ section: Int) -> EnterCardCell {
+        let indexPath = IndexPath(row: 0, section: section)
+        return tableView.cellForRow(at: indexPath) as! EnterCardCell
+    }
+    
+    func checkCardTextField() {
+        let frontText = checkForText(inTextField: frontCardTextField, forSection: 0)
+        let backText = checkForText(inTextField: backCardTextField, forSection: 1)
+        guard let front = frontText, let _ = backText else { return }
+        if hasSameCard(name: front) && front.caseInsensitiveCompare(card.frontCard) != .orderedSame {
+            cellInSection(0).bottomLine.backgroundColor = UIColor.yellow
+            return
         }
     }
-    func textFieldDidEndEditing(textField: UITextField) {
-        if textField.tag == 1 {
-            if textField.text == "" {
-                cellInSection(0).bottomLine.backgroundColor = UIColor.redColor()
-                return
-            }
-            if textField.text?.caseInsensitiveCompare(card.frontCard) == .OrderedSame {
-                cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                return
-            }
-            for card in deck.deck {
-                if textField.text?.caseInsensitiveCompare(card.frontCard) == .OrderedSame {
-                    cellInSection(0).bottomLine.backgroundColor = UIColor.orangeColor()
-                    return
-                } else {
-                    cellInSection(0).bottomLine.backgroundColor = UIColor.clearColor()
-                }
-            }
-        } else {
-            if textField.text != "" {
-                cellInSection(1).bottomLine.backgroundColor = UIColor.clearColor()
-            } else {
-                cellInSection(1).bottomLine.backgroundColor = UIColor.redColor()
-            }
+    
+    @IBAction func doneBarButton(_ sender: AnyObject) {
+        checkCardTextField()
+        if cellInSection(0).bottomLine.backgroundColor == UIColor.clear && cellInSection(1).bottomLine.backgroundColor == UIColor.clear {
+            card.frontCard = frontCardTextField.text!
+            card.isReversed = reversedSwitchCard.isOn
+            animateGreenLineInCell(forSection: 0)
+            self.dismiss(animated: true, completion: nil)
         }
-        
     }
-    func cellInSection(section: Int) -> EnterCardCell {
-        let indexPath = NSIndexPath(forRow: 0, inSection: section)
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! EnterCardCell
-        return cell
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        checkCardTextField()
     }
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 || indexPath.section == 1{
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChangeCardCell", forIndexPath: indexPath) as! EnterCardCell
-            cell.textField.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0 || (indexPath as NSIndexPath).section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ChangeCardCell", for: indexPath) as! EnterCardCell
+            cell.textField.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
             cell.textField.delegate = self
-            if indexPath.section == 0 {
-                cell.textField.tag = 1
-                cell.textField.text = card.frontCard
-                dispatch_async(dispatch_get_main_queue(),{
-                    cell.textField.becomeFirstResponder()
-                })
+            if (indexPath as NSIndexPath).section == 0 {
+                cell.textField.text = frontCardTextField.text
                 frontCardTextField = cell.textField
-                return cell
             } else {
-                cell.textField.tag = 2
-                cell.textField.text = card.backCard
+                cell.textField.text = backCardTextField.text
                 backCardTextField = cell.textField
             }
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
-            cell.settingsLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
+            cell.settingsLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
             if indexPath.row == 0 {
-                cell.switchButton.on = card.isReversed
+                cell.switchButton.isOn = card.isReversed
                 reversedSwitchCard = cell.switchButton
                 cell.settingsLabel.text = "Normal and reversed"
             } else {
@@ -126,24 +88,34 @@ class ChangeCardViewController: UITableViewController, UITextFieldDelegate {
             return cell
         }
     }
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Front card"
-        } else if section == 1 {
-            return "Back card"
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0: return "Front card"
+        case 1: return "Back card"
+        case 2: return "Settings"
+        default: return nil
         }
-        return "Settings"
     }
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return heightForFooterInSection
     }
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return heightForHeaderInSection
     }
     override func viewDidLoad() {
-        self.title = deck.name
+        self.title = deck!.name
+        frontCardTextField.text = card.frontCard
+        backCardTextField.text = card.backCard
+        tableView.reloadData()
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
+        self.view.endEditing(true)
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    @IBAction func backgroundTapped(_ sender: AnyObject) {
         self.view.endEditing(true)
     }
 }

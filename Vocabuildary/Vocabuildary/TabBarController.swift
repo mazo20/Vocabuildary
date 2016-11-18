@@ -12,33 +12,33 @@ class TabBarController: UITabBarController {
     
     var deckStore: DeckStore!
     
-    override func viewWillAppear(animated: Bool) {
-        let image = UIImage(imageLiteral: "addButton128Dark")
-        button.bounds = CGRectMake(0, 0, image.size.width, image.size.height)
-        button.setImage(image, forState: .Normal)
+    override func viewWillAppear(_ animated: Bool) {
+        let image = UIImage(imageLiteralResourceName: "addButton128Dark")
+        button.bounds = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+        button.setImage(image, for: UIControlState())
         var center = self.tabBar.center
         center.y -= 8
         button.center = center
-        button.addTarget(self, action: #selector(TabBarController.addButton(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(TabBarController.addButton(_:)), for: .touchUpInside)
         self.view.addSubview(button)
         
-        let tabBarVisualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+        let tabBarVisualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         self.tabBar.backgroundImage = UIImage()
         let bounds = self.tabBar.bounds as CGRect!
-        tabBarVisualEffect.frame = bounds
+        tabBarVisualEffect.frame = bounds!
         self.tabBar.addSubview(tabBarVisualEffect)
-        self.tabBar.sendSubviewToBack(tabBarVisualEffect)
+        self.tabBar.sendSubview(toBack: tabBarVisualEffect)
     }
-    func addButton(sender: AnyObject) {
+    func addButton(_ sender: AnyObject) {
         self.selectedViewController?.loadViewIfNeeded()
-        self.performSegueWithIdentifier("addCardsOrDecks", sender: nil)
+        self.performSegue(withIdentifier: "addCardsOrDecks", sender: nil)
     }
     override func viewWillLayoutSubviews() {
-        view.bringSubviewToFront(button)
+        view.bringSubview(toFront: button)
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addCardsOrDecks" {
-            let navController = segue.destinationViewController as! UINavigationController
+            let navController = segue.destination as! UINavigationController
             let viewController = navController.topViewController as! AddDeckViewController
             viewController.deckStore = self.deckStore
         }

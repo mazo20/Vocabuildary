@@ -11,36 +11,36 @@ import UIKit
 class NewCardsPerDeckViewController: UITableViewController {
     
     var newCards: Int!
-    private let cards = [1, 3, 5, 10, 15, 20, 30, 50, 100]
+    fileprivate let cards = [1, 3, 5, 10, 15, 20, 30, 50, 100]
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("NewCards", forIndexPath: indexPath)
-        cell.accessoryType = .None
-        switch indexPath.row {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NewCards", for: indexPath)
+        cell.accessoryType = .none
+        switch (indexPath as NSIndexPath).row {
         case 0:
-            cell.textLabel?.text = "\(cards[indexPath.row]) card"
+            cell.textLabel?.text = "\(cards[(indexPath as NSIndexPath).row]) card"
         default:
-            cell.textLabel?.text = "\(cards[indexPath.row]) cards"
+            cell.textLabel?.text = "\(cards[(indexPath as NSIndexPath).row]) cards"
         }
-        if indexPath.row == cards.indexOf(newCards) {
-            cell.accessoryType = .Checkmark
+        if (indexPath as NSIndexPath).row == cards.index(of: newCards) {
+            cell.accessoryType = .checkmark
         }
         return cell
     }
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "New cards per deck per day"
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        newCards = cards[indexPath.row]
-        NSUserDefaults.standardUserDefaults().setObject(newCards, forKey: "newCards")
-        NSUserDefaults.standardUserDefaults().synchronize()
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        newCards = cards[(indexPath as NSIndexPath).row]
+        UserDefaults.standard.set(newCards, forKey: "newCards")
+        UserDefaults.standard.synchronize()
         tableView.reloadData()
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cards.count
     }
     override func viewDidLoad() {
-        newCards = NSUserDefaults.standardUserDefaults().objectForKey("newCards") as! Int
+        newCards = UserDefaults.standard.object(forKey: "newCards") as! Int
         tableView.tintColor = blueThemeColor()
     }
     

@@ -8,10 +8,21 @@
 
 import UIKit
 
-class StatisticsViewController: UIViewController, SendDataDelegate {
+class StatisticsViewController: UIViewController, SendDeckDelegate {
     
     var deckStore: DeckStore!
-    var deckToShowStatistics = -1
+    var deck: Deck?
+    
+    var range: timeRange {
+        switch segmentedControll.selectedSegmentIndex {
+        case 0:
+            return .week
+        case 1:
+            return .month
+        default:
+            return .year
+        }
+    }
     
     let chartView = ChartView()
     let chartView1 = ChartView()
@@ -31,13 +42,13 @@ class StatisticsViewController: UIViewController, SendDataDelegate {
         }
     }
     
-    func sendData(data: Int) {
-        deckToShowStatistics = data
-        if deckToShowStatistics != -1 {
-            chartView.deck = deckStore.deckStore[deckToShowStatistics]
-            chartView1.deck = deckStore.deckStore[deckToShowStatistics]
-            chartView2.deck = deckStore.deckStore[deckToShowStatistics]
-            self.title = deckStore.deckStore[deckToShowStatistics].name
+    func sendDeck(_ deck: Deck?) {
+        self.deck = deck
+        if let deck = deck {
+            chartView.deck = deck
+            chartView1.deck = deck
+            chartView2.deck = deck
+            self.title = deck.name
         } else {
             chartView.deck = nil
             chartView1.deck = nil
@@ -49,40 +60,40 @@ class StatisticsViewController: UIViewController, SendDataDelegate {
         chartView2.setNeedsDisplay()
     }
     
-    @IBAction func segmentedControlChanged(sender: AnyObject) {
-        chartView.numberOfLines = numberOfLines
+    @IBAction func segmentedControlChanged(_ sender: AnyObject) {
+        chartView.range = range
         chartView.setNeedsDisplay()
-        chartView1.numberOfLines = numberOfLines
+        chartView1.range = range
         chartView1.setNeedsDisplay()
-        chartView2.numberOfLines = numberOfLines
+        chartView2.range = range
         chartView2.setNeedsDisplay()
     }
     
     func drawChart() {
         let x:CGFloat = self.view.bounds.size.width-16
         let y:CGFloat = (self.view.bounds.size.width-16)/self.view.bounds.size.height*self.view.bounds.size.width
-        let frame = CGRectMake(0, 0, x, y)
+        let frame = CGRect(x: 0, y: 0, width: x, height: y)
         chartView.frame = frame
         chartView.layer.cornerRadius = 7
-        chartView.chartType = .Cards
+        chartView.chartType = .cards
         chartView.deckStore = deckStore
         chartView.center = self.view.center
         chartView.center.y = self.view.frame.origin.y + y/2 + 5
-        chartView.numberOfLines = numberOfLines
+        chartView.range = range
         chartView1.frame = frame
         chartView1.layer.cornerRadius = 7
-        chartView1.chartType = .Time
+        chartView1.chartType = .time
         chartView1.deckStore = deckStore
         chartView1.center = self.view.center
         chartView1.center.y = self.view.frame.origin.y + y/2*3 + 10
-        chartView1.numberOfLines = numberOfLines
+        chartView1.range = range
         chartView2.frame = frame
         chartView2.layer.cornerRadius = 7
-        chartView2.chartType = .Answers
+        chartView2.chartType = .answers
         chartView2.deckStore = deckStore
         chartView2.center = self.view.center
         chartView2.center.y = self.view.frame.origin.y + y/2*5 + 15
-        chartView2.numberOfLines = numberOfLines
+        chartView2.range = range
         
         scrollView.addSubview(chartView)
         scrollView.addSubview(chartView1)
@@ -90,34 +101,31 @@ class StatisticsViewController: UIViewController, SendDataDelegate {
     }
     
     override func viewDidLoad() {
-        let rect = CGRectMake(0, segmentedControll.frame.size.height + 16, view.frame.size.width, view.frame.size.height-segmentedControll.frame.size.height-16)
+        let rect = CGRect(x: 0, y: segmentedControll.frame.size.height + 16, width: view.frame.size.width, height: view.frame.size.height-segmentedControll.frame.size.height-16)
         scrollView = UIScrollView(frame: rect)
-        scrollView.backgroundColor = UIColor.whiteColor()
-        scrollView.contentSize = CGSizeMake(self.view.frame.width, ((self.view.bounds.size.width-16)/self.view.bounds.size.height*self.view.bounds.size.width)*3 + 20 + self.tabBarController!.tabBar.bounds.size.height)
-        scrollView.autoresizingMask = [.FlexibleWidth , .FlexibleHeight]
+        scrollView.backgroundColor = UIColor.white
+        let width = self.view.frame.width
+        scrollView.contentSize = CGSize(width: width, height: ((width-16)/self.view.bounds.size.height*width)*3 + 20 + self.tabBarController!.tabBar.bounds.size.height)
+        scrollView.autoresizingMask = [.flexibleWidth , .flexibleHeight]
         view.addSubview(scrollView)
         
         let tabBar = self.tabBarController as! TabBarController
         self.deckStore = tabBar.deckStore
         
-        let lineView = UIView(frame: CGRectMake(0,(self.navigationController?.navigationBar.frame.size.height)!,self.view.frame.size.width,1))
-        lineView.backgroundColor = UIColor(red: 0, green: 0.6, blue: 1, alpha: 1)
-        self.navigationController?.navigationBar.addSubview(lineView)
-        
         drawChart()
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let navController = segue.destinationViewController as! UINavigationController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navController = segue.destination as! UINavigationController
         let viewController = navController.topViewController as! StatisticsDeckViewController
         viewController.deckStore = self.deckStore
         viewController.delegate = self
     }
-    override func viewWillAppear(animated: Bool) {
-        if deckToShowStatistics != -1 {
-            chartView.deck = deckStore.deckStore[deckToShowStatistics]
-            chartView1.deck = deckStore.deckStore[deckToShowStatistics]
-            chartView2.deck = deckStore.deckStore[deckToShowStatistics]
-            self.title = deckStore.deckStore[deckToShowStatistics].name
+    override func viewWillAppear(_ animated: Bool) {
+        if let deck = deck {
+            chartView.deck = deck
+            chartView1.deck = deck
+            chartView2.deck = deck
+            self.title = deck.name
         } else {
             chartView.deck = nil
             chartView1.deck = nil

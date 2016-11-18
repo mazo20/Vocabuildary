@@ -10,30 +10,30 @@ import UIKit
 
 class SettingsAboutViewController: UITableViewController {
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("About", forIndexPath: indexPath)
-        cell.textLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        cell.detailTextLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        switch indexPath.row {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "About", for: indexPath)
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        switch (indexPath as NSIndexPath).row {
         case 0:
             cell.textLabel?.text = "Version"
-            cell.detailTextLabel?.text = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String
+            cell.detailTextLabel?.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         case 1:
             cell.textLabel?.text = "Build"
-            cell.detailTextLabel?.text = "341.0"
+            cell.detailTextLabel?.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
         default:
             cell.textLabel?.text = "Developed by"
             cell.detailTextLabel?.text = "Maciej Kowalski"
         }
         return cell
     }
-    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return "Vocabuildary 2016"
     }
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "About"
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
 }

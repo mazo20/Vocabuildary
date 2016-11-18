@@ -9,34 +9,34 @@
 import UIKit
 
 class StatisticsDeckViewController: UITableViewController {
-    var delegate: SendDataDelegate!
+    var delegate: SendDeckDelegate!
     var deckStore: DeckStore!
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return deckStore.deckStore.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return deckStore.decks.count
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("DeckCell", forIndexPath: indexPath)
-        cell.textLabel?.text = deckStore.deckStore[indexPath.row].name
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DeckCell", for: indexPath)
+        cell.textLabel?.text = deckStore.decks[indexPath.row].name
         return cell
     }
-    @IBAction func showAllDecks(sender: AnyObject) {
-        self.delegate.sendData(-1)
+    @IBAction func showAllDecks(_ sender: AnyObject) {
+        self.delegate.sendDeck(nil)
         dismissViewController()
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate.sendData(indexPath.row)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.delegate.sendDeck(deckStore.decks[indexPath.row])
         dismissViewController()
     }
-    @IBAction func cancelBarButton(sender: AnyObject) {
+    @IBAction func cancelBarButton(_ sender: AnyObject) {
         dismissViewController()
     }
     func dismissViewController() {
-        dispatch_async(dispatch_get_main_queue(),{
-            self.dismissViewControllerAnimated(true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            self.dismiss(animated: true, completion: nil)
         })
     }
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Choose deck to show statistics"
     }
 }
